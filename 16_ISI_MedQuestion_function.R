@@ -56,7 +56,7 @@ isimed_score <- function(x)
       completeness_isimed <- "complete"} else{}
   }else{completeness_isimed<-NA}
   
-  if(!(is.na(data_complete_isimed))){
+  if(!(is.na(meds))){
     if(meds==0){
       completeness_isimed <- "complete"} else{}
   }else{completeness_isimed<-NA}

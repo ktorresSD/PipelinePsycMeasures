@@ -349,15 +349,84 @@ datalec_scored$CritA<-
   datalec_scored$anyother_LEARNED|
   datalec_scored$anyother_PART
 
+#varibales to check
+list1<- 
+  c("assessment_id", "natdis_HAPPENED",
+  "natdis_WITNESSED",
+  "natdis_LEARNED",
+  "natdis_PART",
+  "fire_HAPPENED",
+  "fire_WITNESSED",
+  "fire_LEARNED",
+  "fire_PART",
+  "accid_HAPPENED",
+  "accid_WITNESSED",
+  "accid_LEARNED",
+  "accid_PART",
+  "seriousacc_HAPPENED",
+  "seriousacc_WITNESSED",
+  "seriousacc_LEARNED",
+  "seriousacc_PART",
+  "expos_HAPPENED",
+  "expos_WITNESSED",
+  "expos_LEARNED",
+  "expos_PART",
+  "physass_HAPPENED",
+  "physass_WITNESSED",
+  "physass_LEARNED",
+  "physass_PART",
+  "assweap_HAPPENED",
+  "assweap_WITNESSED",
+  "assweap_LEARNED",
+  "assweap_PART",
+  "sexass_HAPPENED",
+  "sexass_WITNESSED",
+  "sexass_LEARNED",
+  "sexass_PART",
+  "otherunw_HAPPENED",
+  "otherunw_WITNESSED",
+  "otherunw_LEARNED",
+  "otherunw_PART",
+  "combat_HAPPENED",
+  "combat_WITNESSED",
+  "combat_LEARNED",
+  "combat_PART",
+  "captiv_HAPPENED",
+  "captiv_WITNESSED",
+  "captiv_LEARNED",
+  "captiv_PART",
+  "lifethreat_HAPPENED",
+  "lifethreat_WITNESSED",
+  "lifethreat_LEARNED",
+  "lifethreat_PART",
+  "severehum_HAPPENED",
+  "severehum_WITNESSED",
+  "severehum_LEARNED",
+  "severehum_PART",
+  "suddviol_HAPPENED",
+  "suddviol_WITNESSED",
+  "suddviol_LEARNED",
+  "suddviol_PART",
+  "suddacci_HAPPENED",
+  "suddacci_WITNESSED",
+  "suddacci_LEARNED",
+  "suddacci_PART",
+  "seriousinj_HAPPENED",
+  "seriousinj_WITNESSED",
+  "seriousinj_LEARNED",
+  "seriousinj_PART",
+  "anyother_HAPPENED",
+  "anyother_WITNESSED",
+  "anyother_LEARNED",
+  "anyother_PART") 
+
   #check if any are a 1
   # rowSums("1" == list1) > 0
   
   #df$q1_smoke_drink = df$question1 | df$smoker | df$drinker
-   
 newdata <- datalec_scored[, list1]
 datalec_scored$CritA2<-as.numeric(apply(newdata[2:69], 1, function(x) any(x == 1)))
-   
-   #grepl("1", newdata[2:69])
+  
   
 
 detach(datalec_scored)

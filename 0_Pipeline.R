@@ -60,7 +60,7 @@ source("18_LEC5_PCL5_function.r")
 source("19_MST2016_function.r") 
 source("20_PCL5_lifetime_function.r")
 source("21_PCL5_current_function.r") 
-source("22_PHQ15_function.r")                     #WILL DO LATER
+source("22_PHQ15_function.r")                    
 source("23_PHQ9_function.r")      
 source("24_PANAS_function.r")             
 source("25_PROMIS_pain_intensity_function.r")        
@@ -91,8 +91,8 @@ c13<- exposures(dat0, exportdate)
 c14<- gad(dat0, exportdate)
 c15<- isi(dat0, exportdate) 
 c16<- isi2(dat0, exportdate) 
-#leclife(dat0, exportdate)     #OLD version of LEC
-c17<- leclife2(dat0, exportdate) 
+c171<- leclife(dat0, exportdate)     #OLD version of LEC
+c172<- leclife2(dat0, exportdate)     #NEW version of LEC
 c18<- lecpcl(dat0, exportdate) 
 c19<- mst(dat0, exportdate)
 c20<- pcllife(dat0, exportdate)
@@ -108,11 +108,23 @@ c29<-tinnitus(dat0, exportdate)
 #treathist(dat0, exportdate)             # ----- WILL DO LATER
 c31<- whodas(dat0, exportdate)
 
+#combine old and new LEC
+lecboth <- merge(c171, c172, by=c("assessment_id"), all = TRUE)
+#check both old and new LEC completeness
+for(i in 1:162){
+  if(lecboth$completeness_lec1[i]=="not attempted" & lecboth$completeness_lec[i]=="not attempted")
+    {lecboth$completeness_lec_both[i]<- "not attempted"
+  }else if(lecboth$completeness_lec1[i]=="complete" || lecboth$completeness_lec[i]=="complete")
+  {lecboth$completeness_lec_both[i]<- "complete"
+  }else{lecboth$completeness_lec_both[i]<- "partially completed"}
+}
 
-#for only selecting 1st visit
-#dat<-dat0[dat0$visit_number==1,]
-
+c17<- lecboth[,-2:-3]
 
 completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c31)
 completedataframe<-Reduce(function(x, y) merge(x, y, all=TRUE), completelist)
 View(completedataframe)
+
+completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
+
+write.csv(completedataframe1, "C:/Users/Nievergelt Lab/Documents/Biobank/data/complete20180718.csv", quote=T, row.names=F,na="#N/A")
