@@ -111,7 +111,7 @@ c31<- whodas(dat0, exportdate)
 #combine old and new LEC
 lecboth <- merge(c171, c172, by=c("assessment_id"), all = TRUE)
 #check both old and new LEC completeness
-for(i in 1:162){
+for(i in 1:nrow(lecboth)){
   if(lecboth$completeness_lec1[i]=="not attempted" & lecboth$completeness_lec[i]=="not attempted")
     {lecboth$completeness_lec_both[i]<- "not attempted"
   }else if(lecboth$completeness_lec1[i]=="complete" || lecboth$completeness_lec[i]=="complete")
