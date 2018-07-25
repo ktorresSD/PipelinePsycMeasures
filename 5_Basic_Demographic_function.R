@@ -9,6 +9,7 @@ basicdemo<- function(dat0, exportdate)
 #Only retain relevant variables
 datdemo <- subset(dat0, 
               select= c(assessment_id,vista_lastname,visit_number,
+                        date_created,
                         demo_gender_r,
                         demo_YOB_r,
                         demo_weight_r,
@@ -27,6 +28,9 @@ datdemo <- subset(dat0,
                         demo_relationship_r
                         
               ))
+datdemo$year_assessed<- format(as.Date(datdemo$date_created, format="%d/%m/%Y"),"%Y")
+datdemo$approx_age<- as.numeric(datdemo$year_assessed) - datdemo$demo_YOB_r
+
 
 #________________________________________________________________________________________ 
 #Export datBTBISa

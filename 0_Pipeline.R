@@ -4,7 +4,7 @@
 # Description: Merge corefile with data export & run all scoring functions. 
 #              Outputs will be stored in appropriaste questionnaire folders
 ##########################################################################################
-
+library(tidyverse)
 #Replace this path with location where data is currently stored
 setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 
@@ -18,9 +18,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20180628_with_LEC_names.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20180628.csv',header=T, na.strings=c("",NA))
-exportdate <- "20180628"
+dataset <- read.csv('joined_data_export_20180718_with_LEC_names.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_20180718.csv',header=T, na.strings=c("",NA))
+exportdate <- "20180725"
 
 #________________________________________________________________________________________  
 # MERGE DATASETS TOGETHER
@@ -39,8 +39,8 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/00_R_scripts')
 #SOURCE IN SCRIPTS
 #----------------------------------------------------------------------------------------
 source("1_AUDIT_function.r")
-source("2_BAT_L_interval_function.r")
-source("3_BATL_function.r")
+# source("2_BAT_L_interval_function.r") #REMOVED
+# source("3_BATL_function.r")           #REMOVED
 source("4_BTBIS_function.r")
 source("5_Basic_Demographic_function.r")
 source("6_basic_pain_function.r")
@@ -122,9 +122,11 @@ for(i in 1:nrow(lecboth)){
 c17<- lecboth[,-2:-3]
 
 completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c31)
-completedataframe<-Reduce(function(x, y) merge(x, y, all=TRUE), completelist)
+completedataframe<-completelist %>% reduce(left_join, by = "assessment_id")
 View(completedataframe)
 
 completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
 
-write.csv(completedataframe1, "C:/Users/Nievergelt Lab/Documents/Biobank/data/complete20180718.csv", quote=T, row.names=F,na="#N/A")
+#Export data
+#filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")
+#write.csv(completedataframe1, filename,quote=T, row.names=F,na="#N/A")
