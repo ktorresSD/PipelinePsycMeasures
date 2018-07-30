@@ -433,7 +433,7 @@ detach(datalec_scored)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/17_LEC-5_lifetime/LEC-5_lifetime_NEW_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/17_LEC-5_lifetime/LEC-5_lifetime_UPDATED_reduced_data_export_", exportdate, ".csv", sep="")
 write.csv( datalec_scored  , filename,quote=T,row.names=F,na="#N/A")
 
 print("17_LEC_lifetime_NEW_done")

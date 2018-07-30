@@ -31,20 +31,6 @@ drripbe <- function(dat0, exportdate)
 #Scoring function
 #----------------------------------------------------------------------------------------
 #Calculate summary scores in data
-#NOTE: For summation purposes we will remove all NA's/treat them as zeros
- datpbe$DRRI_PBE_scores <- as.numeric(rowSums(datpbe[,c("DRRIPBE1",
-                                                  "DRRIPBE2",
-                                                  "DRRIPBE3",
-                                                  "DRRIPBE4",
-                                                  "DRRIPBE5",
-                                                  "DRRIPBE6",
-                                                  "DRRIPBE7",
-                                                  "DRRIPBE8",
-                                                  "DRRIPBE9",
-                                                  "DRRIPBE10",
-                                                  "DRRIPBE11",
-                                                  "DRRIPBE12",
-                                                  "DRRIPBE13")],na.rm=FALSE))
  
  score_pbe <- function(x)
  {

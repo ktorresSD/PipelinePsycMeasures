@@ -106,7 +106,7 @@ datemploy_scored <- adply(datemploy, 1, employ_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/12_DEMO/Demographic_employment_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/12_DEMO_employment/Demographic_employment_reduced_data_export_", exportdate, ".csv", sep="")
 write.csv(datemploy_scored , filename,quote=T,row.names=F,na="#N/A")
 
 print("12_Employment_done")

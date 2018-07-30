@@ -10,7 +10,7 @@ library(plyr)
 
 #Only retain relevant variables
 dataudit <- subset(dat0, 
-              select= c(assessment_id,vista_lastname,visit_number, demo_YOB_r,
+              select= c(assessment_id,vista_lastname,visit_number,
                         alcol1_often,
                         alcol2_many,
                         alcol3_six,
@@ -20,7 +20,10 @@ dataudit <- subset(dat0,
                         alcol7_guilt,
                         alcol8_remember,
                         alcol9_injure,
-                        alcol10_concern
+                        alcol10_concern,
+                        audit10_score,
+                        audit.c_score
+                        
               ))
 #________________________________________________________________________________________
 # Data Manipulation and cleaning
