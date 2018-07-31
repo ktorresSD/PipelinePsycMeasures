@@ -376,7 +376,7 @@ datwhodas_scored <- adply(datawhodas1, 1, whodas_check)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/31_WHODAS/WHODAS_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/31_WHODAS/WHODAS_scored_data_export.csv", sep="")
 write.csv(datwhodas_scored, filename,quote=T,row.names=F,na="#N/A")
 
 print("31_WHODAS_done")

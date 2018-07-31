@@ -31,7 +31,7 @@ datpain$pain_score<-ifelse(datpain$pain_number >=4, TRUE, FALSE)
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/6_basic_pain/basic_pain_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/6_basic_pain/basic_pain_scored_data_export.csv", sep="")
 write.csv(datpain, filename,quote=T,row.names=F,na="#N/A")
 
 return(print("6_basic_Pain_done"))

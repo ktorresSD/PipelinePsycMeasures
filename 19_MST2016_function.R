@@ -91,7 +91,7 @@ datmst_scored <- adply(datmst, 1, mst_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/19_MST2016/MST2016_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/19_MST2016/MST2016_scored_data_export.csv", sep="")
 write.csv(datmst_scored , filename,quote=T,row.names=F,na="#N/A")
 
 print("19_mst_done")

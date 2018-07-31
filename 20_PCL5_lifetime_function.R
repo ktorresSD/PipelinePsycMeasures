@@ -282,7 +282,7 @@ pcl_5_entire_life <- function(x)
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_reduced_data_export_", exportdate, ".csv", sep="")
+ filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_scored_data_export.csv", sep="")
  write.csv( pcl_5_scores, filename,quote=T,row.names=F,na="#N/A")
  
 print("20_PCL_done")

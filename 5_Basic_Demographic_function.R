@@ -35,7 +35,7 @@ datdemo$approx_age<- as.numeric(datdemo$year_assessed) - datdemo$demo_YOB_r
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export.csv", sep="")
 write.csv(datdemo, filename,quote=T,row.names=F,na="#N/A")
 
 return(print("5_Basic_Demographic_done"))

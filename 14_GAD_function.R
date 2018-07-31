@@ -186,7 +186,7 @@ gad7 <- function(x){
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/14_GAD7/gad7_reduced_data_export_", exportdate, ".csv", sep="")
+ filename <- paste("~/Biobank/14_GAD7/gad7_scored_data_export.csv", sep="")
  write.csv( gad7_scores, filename,quote=T,row.names=F,na="#N/A")
  
 print("14_GAD_done")

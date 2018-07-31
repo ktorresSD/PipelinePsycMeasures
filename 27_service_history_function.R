@@ -127,7 +127,7 @@ datserv_scored <- adply(datserv, 1, serv_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/27_service_history/service_history_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/27_service_history/service_history_scored_data_export.csv", sep="")
 write.csv(datserv_scored, filename,quote=T,row.names=F,na="#N/A")
 
 print("27_service_hist_done")

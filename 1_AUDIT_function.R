@@ -152,7 +152,7 @@ dataudit_scored <- adply(dataudit, 1, audit_score)
 #________________________________________________________________________________________ 
 #Export data
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/1_AUDIT/AUDIT_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/1_AUDIT/AUDIT_scored_data_export.csv", sep="")
 write.csv(dataudit_scored, filename ,quote=T,row.names=F,na="#N/A")
 
 

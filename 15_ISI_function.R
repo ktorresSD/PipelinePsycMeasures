@@ -143,7 +143,7 @@ insomnia_scores <- adply(datisi, 1, insomnia)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/15_ISI/ISI_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/15_ISI/ISI_scored_data_export.csv", sep="")
 write.csv( insomnia_scores, filename,quote=T,row.names=F,na="#N/A")
 
 print("15_ISI_done")

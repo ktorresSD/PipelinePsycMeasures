@@ -144,7 +144,7 @@ tinnitus_scores <- adply(dattinnitus, 1, tinnitus)
 #Export
 #----------------------------------------------------------------------------------------
 exportdate<-20180730
-filename <- paste("~/Biobank/29_Tinnitus_Screener/tinnitus_screener_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/29_Tinnitus_Screener/tinnitus_screener_scored_data_export.csv", sep="")
 write.csv(tinnitus_scores, filename,quote=T,row.names=F,na="#N/A")
 
 print("29_Tinnitus_done")

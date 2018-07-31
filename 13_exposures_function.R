@@ -192,7 +192,7 @@ score_datexpo <- adply(datexpo, 1, score_expo)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/13_exposures/exposures_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/13_exposures/exposures_scored_data_export.csv", sep="")
 write.csv(score_datexpo , filename,quote=T,row.names=F,na="#N/A")
 
 print("13_Exposures_done")

@@ -21,7 +21,7 @@ datid <- subset(dat0,
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/26_Research_ID/Research_ID_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/26_Research_ID/Research_ID_scored_data_export.csv", sep="")
 write.csv( datid, filename,quote=T,row.names=F,na="#N/A")
 
 return(print("26_Research_ID_done"))

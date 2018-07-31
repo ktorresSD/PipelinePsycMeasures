@@ -191,7 +191,7 @@ return(scores)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/30_treatment_history/TreatHis_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/30_treatment_history/TreatHis_scored_data_export.csv", sep="")
 write.csv(dattreatment, filename,quote=T,row.names=F,na="#N/A")
 print("30_tretment_hist_done")
 

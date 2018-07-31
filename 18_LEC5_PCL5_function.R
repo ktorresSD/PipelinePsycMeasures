@@ -41,7 +41,7 @@ datlecpcl_scored <- adply(datlecpcl, 1, lecpcl_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/18_LEC-5_PCL-5/LEC5_PCL5_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/18_LEC-5_PCL-5/LEC5_PCL5_scored_data_export.csv", sep="")
 write.csv(datlecpcl_scored, filename,quote=T,row.names=F,na="#N/A")
 
 print("18_LEC_done")

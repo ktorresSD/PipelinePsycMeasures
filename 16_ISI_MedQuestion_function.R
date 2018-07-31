@@ -75,7 +75,7 @@ datisimed_scored <- adply(datisi2, 1, isimed_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export.csv", sep="")
 write.csv( datisimed_scored, filename,quote=T,row.names=F,na="#N/A")
 
 print("16_ISI_MED_done")

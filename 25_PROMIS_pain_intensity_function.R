@@ -84,7 +84,7 @@ promis_scored <- adply(datpain, 1, pain_scoring)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/25_PROMIS_Pain_Intensity/PROMIS_Pain_Intensity_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/25_PROMIS_Pain_Intensity/PROMIS_Pain_Intensity_scored_data_export.csv", sep="")
 write.csv( promis_scored, filename,quote=T,row.names=F,na="#N/A")
 
 print("25_PROMIS_done")

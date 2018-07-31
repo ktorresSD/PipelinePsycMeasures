@@ -128,7 +128,7 @@ datsocial_scored <- adply(datdemosocial, 1, social_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_scored_data_export.csv", sep="")
 write.csv(datsocial_scored , filename,quote=T,row.names=F,na="#N/A")
 
 print("28_Demo_social_done")

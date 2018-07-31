@@ -177,7 +177,7 @@ cdddr_scored <- adply(datcddr, 1, cddrs_score)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/8_CDDR/CDDR_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/8_CDDR/CDDR_reduced_data_export.csv", sep="")
 write.csv(cdddr_scored , filename,quote=T,row.names=F,na="#N/A")
 
 print("8_CDDR_done")

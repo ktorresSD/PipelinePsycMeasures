@@ -172,7 +172,7 @@ phq9 <- function(x)
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/23_PHQ9/phq9_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/23_PHQ9/phq9_scored_data_export.csv", sep="")
 write.csv(phq9_scores, filename,quote=T,row.names=F,na="#N/A")
 
 print("23_PHQ9_done")

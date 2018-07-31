@@ -198,7 +198,7 @@ score_datBTBIS <- adply(datBTBIS, 1, score_BTBIS)
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/4_BTBIS/BTBIS_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/4_BTBIS/BTBIS_scored_data_export.csv", sep="")
 write.csv( score_datBTBIS, filename,quote=T,row.names=F,na="#N/A")
 
 print("4_BTBIS_done")

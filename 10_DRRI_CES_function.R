@@ -139,7 +139,7 @@ drrices <- function(dat0, exportdate)
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_reduced_data_export_", exportdate, ".csv", sep="")
+ filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_scored_data_export.csv", sep="")
  write.csv(score_datces, filename,quote=T,row.names=F,na="#N/A")
  
 print("10_DRRI_CES_done")

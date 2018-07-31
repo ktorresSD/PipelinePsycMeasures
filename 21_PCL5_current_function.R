@@ -294,7 +294,7 @@ pcl_5_current <- function(x)
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_reduced_data_export_", exportdate, ".csv", sep="")
+ filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export.csv", sep="")
  write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="#N/A")
  
 print("21_PCL_current_done")
