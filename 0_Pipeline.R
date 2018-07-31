@@ -18,9 +18,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20180718_with_LEC_names.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20180718.csv',header=T, na.strings=c("",NA))
-exportdate <- "20180725"
+dataset <- read.csv('joined_data_export_20180727.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_20180727.csv',header=T, na.strings=c("",NA))
+exportdate <- "20180727"
 
 #________________________________________________________________________________________  
 # MERGE DATASETS TOGETHER
@@ -128,5 +128,5 @@ View(completedataframe)
 completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
 
 #Export data
-#filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")
-#write.csv(completedataframe1, filename,quote=T, row.names=F,na="#N/A")
+# filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")
+# write.csv(completedataframe1, filename,quote=T, row.names=F,na="#N/A")

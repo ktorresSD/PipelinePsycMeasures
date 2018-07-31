@@ -62,17 +62,17 @@ mst_score <- function(x)
     if(data_not_attempted_mst==1)
     {
       completeness_mst <- "not attempted"}else{}
-  }else{completeness_mst<-NA}
+  }else{}
   
   if(!(is.na(data_complete_mst))){
     if(data_complete_mst==1){
       completeness_mst <- "complete"} else{}
-  }else{completeness_mst<-NA}
+  }else{}
   
   if(!(is.na(saidno))){
     if(saidno==0){
       completeness_mst <- "complete"} else{}
-  }else{completeness_mst<-NA}
+  }else{}
   
   
   if(data_not_attempted_mst==0 & data_complete_mst==0 & saidno==1){
