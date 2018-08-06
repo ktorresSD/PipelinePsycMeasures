@@ -38,11 +38,21 @@ return(scores)
 datlecpcl_scored <- adply(datlecpcl, 1, lecpcl_score)
 
 
+#to anonymize data
+datlecpcl_scored1<- within(datlecpcl_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/18_LEC-5_PCL-5/LEC5_PCL5_scored_data_export.csv", sep="")
 write.csv(datlecpcl_scored, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/18_LEC-5_PCL-5/LEC5_PCL5_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datlecpcl_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("18_LEC_done")
 

@@ -290,12 +290,23 @@ pcl_5_current <- function(x)
 
 #Calculate summary scores in data 
  pcl_5_scorescurr <- adply(datpclcurr, 1, pcl_5_current)
+ 
+ #to anonymize data
+ pcl_5_scorescurr1<- within(pcl_5_scorescurr,
+                         {
+                           assessment_id <- NULL
+                           vista_lastname <- NULL
+                         })
 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export.csv", sep="")
  write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="#N/A")
+ 
+ 
+ filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv( pcl_5_scorescurr1, filename,quote=T,row.names=F,na="#N/A")
  
 print("21_PCL_current_done")
 

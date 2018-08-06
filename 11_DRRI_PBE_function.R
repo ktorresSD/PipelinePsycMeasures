@@ -120,11 +120,21 @@ drripbe <- function(dat0, exportdate)
  #Calculate summary scores in datBTBISa
  score_datpbe <- adply(datpbe, 1, score_pbe)
  
+ #to anonymize data
+ score_datpbe1<- within(score_datpbe,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+ 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/11_DRR12_PBE/DRR12_PBE_reduced_data_export.csv", sep="")
  write.csv(score_datpbe, filename,quote=T,row.names=F,na="#N/A")
+ 
+ filename <- paste("~/Biobank/11_DRR12_PBE/DRR12_PBE_reduced_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv(score_datpbe1, filename,quote=T,row.names=F,na="#N/A")
  
 print("11_DRRI_PBE_done")
  

@@ -124,11 +124,20 @@ serv_score <- function(x)
 #Calculate summary scores in data
 datserv_scored <- adply(datserv, 1, serv_score)
   
+#to anonymize data
+datserv_scored1<- within(datserv_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/27_service_history/service_history_scored_data_export.csv", sep="")
 write.csv(datserv_scored, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/27_service_history/service_history_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datserv_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("27_service_hist_done")
 

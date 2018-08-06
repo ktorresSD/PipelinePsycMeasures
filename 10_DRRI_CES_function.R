@@ -136,12 +136,20 @@ drrices <- function(dat0, exportdate)
  #Calculate summary scores in datBTBISa
  score_datces <- adply(datces, 1, score_ces)
  
+ #to anonymize data
+ score_datces1<- within(score_datces ,
+                           {
+                             assessment_id <- NULL
+                             vista_lastname <- NULL
+                           })
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_scored_data_export.csv", sep="")
  write.csv(score_datces, filename,quote=T,row.names=F,na="#N/A")
  
+ filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_scored_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv(score_datces1, filename,quote=T,row.names=F,na="#N/A")
 print("10_DRRI_CES_done")
 
 #return completness column

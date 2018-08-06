@@ -105,7 +105,7 @@ rid(dat0, exportdate)
 c27<- service(dat0, exportdate)
 c28<- social(dat0, exportdate)
 c29<-tinnitus(dat0, exportdate)
-#treathist(dat0, exportdate)             # ----- WILL DO LATER
+treathist(dat0, exportdate)             # ----- WILL DO LATER
 c31<- whodas(dat0, exportdate)
 
 #combine old and new LEC

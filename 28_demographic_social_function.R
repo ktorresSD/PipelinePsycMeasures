@@ -124,12 +124,21 @@ return(scores)
 #Calculate summary scores in data 
 datsocial_scored <- adply(datdemosocial, 1, social_score)
 
+#to anonymize data
+datsocial_scored1<- within(datsocial_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
 
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_scored_data_export.csv", sep="")
 write.csv(datsocial_scored , filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datsocial_scored1 , filename,quote=T,row.names=F,na="#N/A")
 
 print("28_Demo_social_done")
        

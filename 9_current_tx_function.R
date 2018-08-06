@@ -60,12 +60,20 @@ currtx <- function(dat0, exportdate)
                          CurrentTreatments9_OtherType
                ))
               
-
+ #to anonymize data
+ datcurrent1<- within(datcurrent,
+                           {
+                             assessment_id <- NULL
+                             vista_lastname <- NULL
+                           })
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/9_current_treatments/CurrTx_reduced_data_export.csv", sep="")
  write.csv(datcurrent, filename,quote=T,row.names=F,na="#N/A")
+ 
+ filename <- paste("~/Biobank/9_current_treatments/CurrTx_reduced_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv(datcurrent1, filename,quote=T,row.names=F,na="#N/A")
  
  return(print("9_current_treatment_done"))
 }

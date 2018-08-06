@@ -183,11 +183,22 @@ gad7 <- function(x){
   
   dev.off()
 
+  #to anonymize data
+  gad7_scores1<- within(gad7_scores,
+                          {
+                            assessment_id <- NULL
+                            vista_lastname <- NULL
+                          })
+  
+  
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/14_GAD7/gad7_scored_data_export.csv", sep="")
  write.csv( gad7_scores, filename,quote=T,row.names=F,na="#N/A")
+ 
+ filename <- paste("~/Biobank/14_GAD7/gad7_scored_data_export.csv", sep="")
+ write.csv( gad7_scores1, filename,quote=T,row.names=F,na="#N/A")
  
 print("14_GAD_done")
  

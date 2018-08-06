@@ -17,12 +17,21 @@ datid <- subset(dat0,
                         Research_VisitDate
               ))
 
+#to anonymize data
+datid1<- within(datid,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
 
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/26_Research_ID/Research_ID_scored_data_export.csv", sep="")
 write.csv( datid, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/26_Research_ID/Research_ID_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv( datid1, filename,quote=T,row.names=F,na="#N/A")
 
 return(print("26_Research_ID_done"))
 }

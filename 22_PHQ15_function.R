@@ -203,12 +203,22 @@ score <- function(x)
 #Calculate summary scores in data
  score_datphq15 <- adply(datphq15 , 1, score)
 
+ #to anonymize data
+ score_datphq151<- within(score_datphq15,
+                         {
+                           assessment_id <- NULL
+                           vista_lastname <- NULL
+                         })
 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export.csv", sep="")
  write.csv(score_datphq15, filename,quote=T,row.names=F,na="#N/A")
+ 
+ 
+ filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv(score_datphq151, filename,quote=T,row.names=F,na="#N/A")
  
 print("22_PHQ15_done")
 

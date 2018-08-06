@@ -145,12 +145,21 @@ score_brief <- function(x)
 #Calculate summary scores in datBTBISa
 score_datbrief <- adply(datcesamh, 1, score_brief)
 
+#to anonymize data
+score_datbrief1<- within(score_datbrief,
+                  {
+                    assessment_id <- NULL
+                    vista_lastname <- NULL
+                  })
+
 # #________________________________________________________________________________________ 
 # #Export datBTBISa
 # #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/7_Brief_CESAMH_Biorepository_Survey/Brief_CESAMH_reduced_data_export.csv", sep="")
 write.csv(score_datbrief, filename,quote=T,row.names=F,na="#N/A")
 
+filename <- paste("~/Biobank/7_Brief_CESAMH_Biorepository_Survey/Brief_CESAMH_reduced_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(score_datbrief1, filename,quote=T,row.names=F,na="#N/A")
 
 print("7_Brief_done")
 

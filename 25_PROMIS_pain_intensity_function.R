@@ -81,11 +81,23 @@ return(painscores)
 #Calculate summary scores in data
 promis_scored <- adply(datpain, 1, pain_scoring)
 
+#to anonymize data
+promis_scored1<- within(promis_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/25_PROMIS_Pain_Intensity/PROMIS_Pain_Intensity_scored_data_export.csv", sep="")
 write.csv( promis_scored, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/25_PROMIS_Pain_Intensity/PROMIS_Pain_Intensity_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv( promis_scored1, filename,quote=T,row.names=F,na="#N/A")
+
 
 print("25_PROMIS_done")
 

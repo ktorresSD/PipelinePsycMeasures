@@ -427,15 +427,23 @@ list1<-
 newdata <- datalec_scored[, list1]
 datalec_scored$CritA2<-as.numeric(apply(newdata[2:69], 1, function(x) any(x == 1)))
   
-  
-
 detach(datalec_scored)
+
+#to anonymize data
+datalec_scored1<- within(datalec_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/17_LEC-5_lifetime/LEC-5_lifetime_UPDATED_scored_data_export.csv", sep="")
 write.csv( datalec_scored  , filename,quote=T,row.names=F,na="#N/A")
 
+filename <- paste("~/Biobank/17_LEC-5_lifetime/LEC-5_lifetime_UPDATED_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv( datalec_scored  , filename,quote=T,row.names=F,na="#N/A")
 print("17_LEC_lifetime_NEW_done")
 
 

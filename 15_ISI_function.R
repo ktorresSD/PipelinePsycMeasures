@@ -140,11 +140,21 @@ insomnia <- function(x)
 #Calculate summary scores in data
 insomnia_scores <- adply(datisi, 1, insomnia)
 
+#to anonymize data
+insomnia_scores1<- within(insomnia_scores,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/15_ISI/ISI_scored_data_export.csv", sep="")
 write.csv( insomnia_scores, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/15_ISI/ISI_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv( insomnia_scores1, filename,quote=T,row.names=F,na="#N/A")
 
 print("15_ISI_done")
 

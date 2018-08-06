@@ -189,11 +189,22 @@ return(scorespanas)
 #Calculate summary scores in data 
 panas_scores <- adply(datpanas, 1, pan_score)
 
+#to anonymize data
+panas_scores1<- within(panas_scores,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/24_PANAS/PANAS_scored_data_export.csv", sep="")
 write.csv(panas_scores, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/24_PANAS/PANAS_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(panas_scores1, filename,quote=T,row.names=F,na="#N/A")
 
 print("24_PANAS_done")
 

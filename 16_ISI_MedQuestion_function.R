@@ -72,11 +72,21 @@ isimed_score <- function(x)
 
 datisimed_scored <- adply(datisi2, 1, isimed_score)
 
+#to anonymize data
+datisimed_scored1<- within(datisimed_scored,
+                          {
+                            assessment_id <- NULL
+                            vista_lastname <- NULL
+                          })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export.csv", sep="")
 write.csv( datisimed_scored, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export_FEIDENTIFIED.csv", sep="")
+write.csv( datisimed_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("16_ISI_MED_done")
 

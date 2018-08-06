@@ -278,12 +278,22 @@ pcl_5_entire_life <- function(x)
 
 #Calculate summary scores in data 
  pcl_5_scores <- adply(datpcllife, 1, pcl_5_entire_life)
+ 
+ #to anonymize data
+ pcl_5_scores1<- within(pcl_5_scores,
+                            {
+                              assessment_id <- NULL
+                              vista_lastname <- NULL
+                            })
 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_scored_data_export.csv", sep="")
  write.csv( pcl_5_scores, filename,quote=T,row.names=F,na="#N/A")
+ 
+ filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_scored_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv( pcl_5_scores1, filename,quote=T,row.names=F,na="#N/A")
  
 print("20_PCL_done")
 

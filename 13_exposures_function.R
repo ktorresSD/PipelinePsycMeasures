@@ -189,11 +189,22 @@ score_expo <- function(x)
 
 #Calculate summary scores in datBTBISa
 score_datexpo <- adply(datexpo, 1, score_expo)
+
+#to anonymize data
+score_datexpo1<- within(score_datexpo,
+                       {
+                         assessment_id <- NULL
+                         vista_lastname <- NULL
+                       })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/13_exposures/exposures_scored_data_export.csv", sep="")
 write.csv(score_datexpo , filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/13_exposures/exposures_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(score_datexpo1 , filename,quote=T,row.names=F,na="#N/A")
 
 print("13_Exposures_done")
 

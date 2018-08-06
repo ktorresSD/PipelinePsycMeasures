@@ -174,11 +174,22 @@ return(scores)
 #Calculate summary scores in data 
 cdddr_scored <- adply(datcddr, 1, cddrs_score)
 
+#to anonymize data
+cdddr_scored1<- within(cdddr_scored,
+                           {
+                             assessment_id <- NULL
+                             vista_lastname <- NULL
+                           })
+
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/8_CDDR/CDDR_reduced_data_export.csv", sep="")
 write.csv(cdddr_scored , filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/8_CDDR/CDDR_reduced_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(cdddr_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("8_CDDR_done")
 

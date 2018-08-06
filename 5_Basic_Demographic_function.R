@@ -32,11 +32,20 @@ datdemo$year_assessed<- format(as.Date(datdemo$date_created, format="%d/%m/%Y"),
 datdemo$approx_age<- as.numeric(datdemo$year_assessed) - datdemo$demo_YOB_r
 
 
+#to anonymize data
+datdemo1<- within(datdemo ,
+                         {
+                           assessment_id <- NULL
+                           vista_lastname <- NULL
+                         })
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export.csv", sep="")
 write.csv(datdemo, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datdemo1, filename,quote=T,row.names=F,na="#N/A")
 
 return(print("5_Basic_Demographic_done"))
 }

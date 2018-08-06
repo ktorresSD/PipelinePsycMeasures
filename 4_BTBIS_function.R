@@ -195,11 +195,22 @@ return(scores)
 #Calculate summary scores in datBTBISa
 score_datBTBIS <- adply(datBTBIS, 1, score_BTBIS)
 
+#to anonymize data
+score_datBTBIS1<- within(score_datBTBIS ,
+       {
+         assessment_id <- NULL
+         vista_lastname <- NULL
+       })
+
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/4_BTBIS/BTBIS_scored_data_export.csv", sep="")
 write.csv( score_datBTBIS, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/4_BTBIS/BTBIS_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv( score_datBTBIS1, filename,quote=T,row.names=F,na="#N/A")
+
 
 print("4_BTBIS_done")
 

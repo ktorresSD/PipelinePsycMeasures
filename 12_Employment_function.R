@@ -103,12 +103,21 @@ return(scores)
 #Calculate summary scores in data 
 datemploy_scored <- adply(datemploy, 1, employ_score)
 
+#to anonymize data
+datemploy_scored1<- within(datemploy_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/12_DEMO_employment/Demographic_employment_scored_data_export.csv", sep="")
 write.csv(datemploy_scored , filename,quote=T,row.names=F,na="#N/A")
 
+filename <- paste("~/Biobank/12_DEMO_employment/Demographic_employment_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datemploy_scored1, filename,quote=T,row.names=F,na="#N/A")
 print("12_Employment_done")
 
 #return completness column

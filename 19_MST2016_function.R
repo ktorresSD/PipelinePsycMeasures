@@ -87,12 +87,21 @@ mst_score <- function(x)
 #Calculate summary scores in data 
 datmst_scored <- adply(datmst, 1, mst_score)
 
+datmst_scored1<- within(datmst_scored,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
   
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/19_MST2016/MST2016_scored_data_export.csv", sep="")
 write.csv(datmst_scored , filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/19_MST2016/MST2016_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datmst_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("19_mst_done")
 

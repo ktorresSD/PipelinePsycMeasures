@@ -169,11 +169,23 @@ phq9 <- function(x)
  abline(col= "slategray", v=3.75, lwd= 2, lty = "dashed")
  mtext("                                                                                            Warrants treatment for depression", col= "slategray")
  
+ 
+ #to anonymize data
+ phq9_scores1<- within(phq9_scores,
+                         {
+                           assessment_id <- NULL
+                           vista_lastname <- NULL
+                         })
+ 
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/23_PHQ9/phq9_scored_data_export.csv", sep="")
 write.csv(phq9_scores, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/23_PHQ9/phq9_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(phq9_scores1, filename,quote=T,row.names=F,na="#N/A")
+
 
 print("23_PHQ9_done")
 

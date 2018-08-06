@@ -188,18 +188,31 @@ return(scores)
 # #Calculate summary scores in data 
 # dattreath_scored <- adply(dattreatment, 1, treath_comp)
 
+#to anonymize data
+datreatment1<- within(dattreatment,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/30_treatment_history/TreatHis_scored_data_export.csv", sep="")
 write.csv(dattreatment, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/30_treatment_history/TreatHis_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(datreatment1, filename,quote=T,row.names=F,na="#N/A")
+
 print("30_tretment_hist_done")
 
 
 #return completness column
 myvars <- c("assessment_id", "completeness_treat")
-newdata <- dattreath_scored[myvars]
-return(newdata)
+#newdata <- dattreatment[myvars]
+#return(newdata)
+
+return(print("30_tretment_hist_done"))
 }
 
 

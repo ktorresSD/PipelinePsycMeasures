@@ -149,11 +149,21 @@ if(!(is.na(drinker))){
 #Calculate summary scores in data 
 dataudit_scored <- adply(dataudit, 1, audit_score)
 
+#to anonymize data
+dataudit_scored1<- within(dataudit_scored ,
+       {
+         assessment_id <- NULL
+         vista_lastname <- NULL
+       })
+
 #________________________________________________________________________________________ 
 #Export data
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/1_AUDIT/AUDIT_scored_data_export.csv", sep="")
 write.csv(dataudit_scored, filename ,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/1_AUDIT/AUDIT_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(dataudit_scored1, filename ,quote=T,row.names=F,na="#N/A")
 
 
 print("1_Audit_done")

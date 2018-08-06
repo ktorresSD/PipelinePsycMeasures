@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 06/27/2018
+# Last Date modified: 07/30/2018
 # Author: Katy Torres
 # Description: Subset of question 29, Tinnitus Screener
 ##########################################################################################
@@ -26,50 +26,51 @@ dattinnitus <- subset(dat0,
 #Scoring function defined
 tinnitus <- function(x)
 {
-  
-  #attach(x)
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
 #SCORING of categories
-  
   no_tinnitus<- as.numeric(!Tinnitus.1_2.3mins)
   
-  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.5_comeandgo) &  !is.na(Tinnitus.4_recentevents)) {
-    if(Tinnitus.4_recentevents ==1 & Tinnitus.5_comeandgo == 1 & Tinnitus.1_2.3mins==1) { tinnitus_temporary_only<- 1} 
-    else{ tinnitus_temporary_only<- 0} 
+  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
+    if(Tinnitus.1_2.3mins==1 & Tinnitus.2_6months==0) { tinnitus_acute<- 1 
+    }else{ tinnitus_acute<- 0} 
   }
-  else { tinnitus_temporary_only<- NA } 
+  else { tinnitus_acute <- NA } 
   
-  #CHECK THIS CODE
-  if(!is.na(Tinnitus.6_experience) & !is.na(Tinnitus.1_2.3mins)) {
-    if(Tinnitus.6_experience == 2 & Tinnitus.1_2.3mins == 1) { tinnitus_occassional<- 1}
+  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
+    if(Tinnitus.1_2.3mins == 1 & Tinnitus.2_6months == 1) { tinnitus_chronic<- 1
+    }else {tinnitus_chronic<- 0}
+  } else {tinnitus_chronic <- NA } 
+  
+  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.3_quietroom)) {
+    if(Tinnitus.1_2.3mins==1 & Tinnitus.3_quietroom==3) { tinnitus_constant<- 1} 
+    else if(Tinnitus.1_2.3mins==1 & Tinnitus.3_quietroom==2) { tinnitus_constant<- 1} 
+    else{ tinnitus_constant<- 0} 
+  }
+  else { tinnitus_constant <- NA } 
+  
+  if(!is.na(Tinnitus.1_2.3mins) &  !is.na(Tinnitus.3_quietroom) &!is.na(Tinnitus.5_comeandgo) &  !is.na(Tinnitus.4_recentevents)) {
+    if(Tinnitus.1_2.3mins==1 & Tinnitus.3_quietroom == 1 & Tinnitus.4_recentevents ==2) { tinnitus_temporary_only<- 1}
+    else if(Tinnitus.1_2.3mins==1 & Tinnitus.3_quietroom == 1 & Tinnitus.5_comeandgo == 0  ) { tinnitus_temporary_only<- 1
+    }else{ tinnitus_temporary_only<- 0} 
+  }else { tinnitus_temporary_only<- NA } 
+
+  
+  if(!is.na(Tinnitus.6_experience) & !is.na(Tinnitus.1_2.3mins) &  !is.na(Tinnitus.3_quietroom) ) {
+    if(Tinnitus.1_2.3mins == 1 & Tinnitus.3_quietroom==1 & Tinnitus.6_experience == 1 ) { tinnitus_intermittent<- 1}
+    else{tinnitus_intermittent <- 0}
+  } 
+  else {tinnitus_intermittent <- NA } 
+  
+  if(!is.na(Tinnitus.6_experience) & !is.na(Tinnitus.1_2.3mins)&  !is.na(Tinnitus.3_quietroom)) {
+    if(Tinnitus.1_2.3mins == 1 & Tinnitus.3_quietroom==1 & Tinnitus.6_experience == 2) { tinnitus_occassional<- 1}
     else{ tinnitus_occassional <- 0}
   } 
   else { tinnitus_occassional <- NA } 
   
-  
-  
-  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
-    if(Tinnitus.2_6months==0 & Tinnitus.1_2.3mins==1) { tinnitus_acute<- 1} 
-    else{ tinnitus_acute<- 0} 
-  }
-  else { tinnitus_acute <- NA } 
-  
-  
-  
-  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
-    if(Tinnitus.1_2.3mins == 1 & Tinnitus.2_6months == 1) { tinnitus_chronic<- 1} 
-    else if(Tinnitus.1_2.3mins == 1 & Tinnitus.2_6months == 0) { tinnitus_chronic<- 0} 
-    else if(Tinnitus.1_2.3mins == 0) { tinnitus_chronic <- 0} 
-  }
-  else { tinnitus_chronic <- NA } 
-
-  
   #________________________________________________________________________________________              
   # Completeness check
   #----------------------------------------------------------------------------------------
-
-  
   data_complete_tin <- as.numeric(
     sum(
       is.na(
@@ -129,7 +130,7 @@ tinnitus <- function(x)
   else{}
   
   scores <- data.frame(no_tinnitus, tinnitus_temporary_only, tinnitus_occassional,
-                       tinnitus_acute, tinnitus_chronic,
+                       tinnitus_acute, tinnitus_chronic, tinnitus_intermittent, tinnitus_constant,
                        data_complete_tin, data_not_attempted_tin, completeness_tin)
   
   return(scores)
@@ -139,11 +140,22 @@ tinnitus <- function(x)
 #Calculate summary scores in data
 tinnitus_scores <- adply(dattinnitus, 1, tinnitus)
 
+#to anonymize data
+tinnitus_scores1<- within(tinnitus_scores,
+                        {
+                          assessment_id <- NULL
+                          vista_lastname <- NULL
+                        })
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
-filename <- paste("~/Biobank/29_Tinnitus_Screener/tinnitus_screener_reduced_data_export_", exportdate, ".csv", sep="")
+filename <- paste("~/Biobank/29_Tinnitus_Screener/tinnitus_screener_scored_data_export.csv", sep="")
 write.csv(tinnitus_scores, filename,quote=T,row.names=F,na="#N/A")
+
+filename <- paste("~/Biobank/29_Tinnitus_Screener/tinnitus_screener_scored_data_export_DEIDENTIFIED.csv", sep="")
+write.csv(tinnitus_scores1, filename,quote=T,row.names=F,na="#N/A")
+
 
 print("29_Tinnitus_done")
 
