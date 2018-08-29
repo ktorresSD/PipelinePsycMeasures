@@ -45,7 +45,16 @@ datserv <- subset(dat,
                         serv_discharge_1,              
                         serv_rank_1,                    
                         serv_job_1,
-                        serv_count
+                        serv_count,
+                        
+                        serv_type_2,
+                        serv_branch_2,
+                        serv_start_2,
+                        serv_stop_2,
+                        serv_discharge_2,
+                        serv_rank_2,
+                        serv_job_2
+                        
                         
               ))
 #________________________________________________________________________________________              

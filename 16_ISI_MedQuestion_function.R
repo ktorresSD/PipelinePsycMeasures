@@ -5,11 +5,10 @@
 ##########################################################################################
 isi2<- function(dat0, exportdate)
 {
-  #for only selecting 2nd and 3rd visit
-  dat<-dat0[dat0$visit_number!=1,]
+
   
 #Only retain relevant variables
-datisi2 <- subset(dat, 
+datisi2 <- subset(dat0, 
               select= c(assessment_id,vista_lastname,visit_number,
                         ISI_Medications, ISI_WhatMeds, ISI_numberofdays
               ))

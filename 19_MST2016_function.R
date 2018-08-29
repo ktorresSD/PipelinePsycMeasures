@@ -9,8 +9,8 @@ mst<- function(dat0, exportdate)
 #Only retain relevant variables
 datmst <- subset(dat0, 
               select= c(assessment_id,vista_lastname, visit_number,
-                        MST_2016_Q1_2,
-                        MST_2016_consult
+                        MST2016_Research_1
+                        
               ))
 
 
@@ -23,11 +23,11 @@ mst_score <- function(x)
 {
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
-  if(!(is.na(MST_2016_Q1_2))){
-    if(MST_2016_Q1_2==0)
+  if(!(is.na(MST2016_Research_1))){
+    if(MST2016_Research_1==0)
     {
       saidno <- 0}
-    else if(MST_2016_Q1_2==2)
+    else if(MST2016_Research_1==2)
     {
       saidno <- 0}else{saidno <- 1}
   }else{saidno<-NA}
@@ -40,8 +40,7 @@ mst_score <- function(x)
   data_complete_mst<- as.numeric(
     sum(
       is.na(
-        c(MST_2016_Q1_2,
-          MST_2016_consult
+        c(MST2016_Research_1
         )
       )
     ) == 0
@@ -50,11 +49,10 @@ mst_score <- function(x)
   data_not_attempted_mst<- as.numeric(
     sum(
       is.na(
-        c(MST_2016_Q1_2,
-          MST_2016_consult
+        c(MST2016_Research_1
         )
       )
-    ) == 2
+    ) == 1
   )
   
   completeness_mst<- "1"
@@ -107,6 +105,6 @@ print("19_mst_done")
 
 #return completness column
 myvars <- c("assessment_id", "completeness_mst")
-newdata <- datmst_scored [myvars]
+newdata <- datmst_scored[myvars]
 return(newdata)
 }

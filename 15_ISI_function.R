@@ -9,10 +9,9 @@ isi<- function(dat0, exportdate)
   
 #Load plyr library
 library(plyr)
-dat<-dat0[dat0$visit_number==1,]
   
 #Only retain relevant variables
-datisi <- subset(dat, 
+datisi <- subset(dat0, 
               select= c(assessment_id,vista_lastname,visit_number,
                         sleep1a_falling,
                         sleep1b_staying,

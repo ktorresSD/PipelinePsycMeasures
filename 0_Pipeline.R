@@ -5,6 +5,7 @@
 #              Outputs will be stored in appropriaste questionnaire folders
 ##########################################################################################
 library(tidyverse)
+library(plyr)
 #Replace this path with location where data is currently stored
 setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 
@@ -18,9 +19,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20180727.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20180727.csv',header=T, na.strings=c("",NA))
-exportdate <- "20180727"
+dataset <- read.csv('joined_data_export_20180829.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_20180829.csv',header=T, na.strings=c("",NA))
+exportdate <- "20180829"
 
 #________________________________________________________________________________________  
 # MERGE DATASETS TOGETHER
@@ -28,13 +29,13 @@ exportdate <- "20180727"
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
 dat0 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
 #Export data
-# filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-# write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
+write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
 #________________________________________________________________________________________              
 # RUN THROUGH PIPELINE
 #----------------------------------------------------------------------------------------
-setwd('C:/Users/Nievergelt Lab/Documents/Biobank/00_R_scripts')
+setwd('C:/Users/Nievergelt Lab/Documents/Biobank/000_R_scripts')
 
 #SOURCE IN SCRIPTS
 #----------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ source("14_GAD_function.r")
 source("15_ISI_function.r")
 source("16_ISI_MedQuestion_function.r")
 source("17_LEC_5_lifetime_function.r")
-source("17_LEC_5_lifetime_function_2.r")
+source("17_LEC_5_lifetime_function_2_updated.r")
 source("18_LEC5_PCL5_function.r")
 source("19_MST2016_function.r") 
 source("20_PCL5_lifetime_function.r")
@@ -67,9 +68,12 @@ source("25_PROMIS_pain_intensity_function.r")
 source("26_Research_ID_function.r")               
 source("27_service_history_function.r")            
 source("28_demographic_social_function.r")        
-source("29_tinnitus_screener_function.r")
+source("29_tinnitus_screener_function_2.r")
 source("30_treatment_history_function.r")         #WILL DO LATER
-source("31_WHODAS_function.r")                   
+source("31_WHODAS_function.r")    
+source("32_HEQ_script_2.r") 
+source("33_MASQ_script.r") 
+
 
 
 #CALL EACH FUNCTION
@@ -107,9 +111,13 @@ c28<- social(dat0, exportdate)
 c29<-tinnitus(dat0, exportdate)
 treathist(dat0, exportdate)             # ----- WILL DO LATER
 c31<- whodas(dat0, exportdate)
+c32<- HEQfunc(dat0, exportdate) 
+c33<- masq(dat0, exportdate)
 
+c171a <- na.omit(c171)
+c172a <- na.omit(c172)
 #combine old and new LEC
-lecboth <- merge(c171, c172, by=c("assessment_id"), all = TRUE)
+lecboth <- merge(c171a, c172a, by=c("assessment_id"), all = FALSE)
 #check both old and new LEC completeness
 for(i in 1:nrow(lecboth)){
   if(lecboth$completeness_lec1[i]=="not attempted" & lecboth$completeness_lec[i]=="not attempted")
@@ -121,12 +129,13 @@ for(i in 1:nrow(lecboth)){
 
 c17<- lecboth[,-2:-3]
 
-completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c31)
-completedataframe<-completelist %>% reduce(left_join, by = "assessment_id")
+completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c31,c32,c33)
+#completedataframe<-completelist %>% reduce(left_join, by = "assessment_id")
+completedataframe<-join_all(completelist, by="assessment_id")
 View(completedataframe)
 
 completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
 
 #Export data
-# filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")
-# write.csv(completedataframe1, filename,quote=T, row.names=F,na="#N/A")
+filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")
+write.csv(completedataframe1, filename,quote=T, row.names=F,na="#N/A")

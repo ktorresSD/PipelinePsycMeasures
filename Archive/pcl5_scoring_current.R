@@ -1,18 +1,21 @@
 #########################################################################################
-# Last Date modified: 6/21/2018
+# Last Date modified: 1/23/2018
 # Author: Katy Torres
 # Description: Subset of question 20, PCL Current
 ##########################################################################################
-pclcurrent<- function(dat0, exportdate)
-{
-  
+
 #Load plyr library
  library(plyr)
 
+#To the user: Set path to where data is stored
+ setwd('C:/Users/Psychiatry Lab/Documents/Biobank/data')
+
+#Read all data
+ dat0 <- read.csv('joined_data_export_20180124_2.csv',header=T,na.strings=c(NA,999))
 
 #Only retain relevant variables
  datpclcurr <- subset(dat0, 
-               select= c(assessment_id,vista_lastname,visit_number,
+               select= c(assessment_id,vista_lastname, 
                     pcl5_m_1_memories,
                     pcl5_m_2_dream,
                     pcl5_m_3_acting,
@@ -32,9 +35,7 @@ pclcurrent<- function(dat0, exportdate)
                     pcl5_m_17_superalert,
                     pcl5_m_18_jumpy,
                     pcl5_m_19_concentrate,
-                    pcl5_m_20_sleep,
-                    PCL5m_sum
-               ))
+                    pcl5_m_20_sleep))
 
              
 #Scoring function defined
@@ -188,48 +189,6 @@ pcl_5_current <- function(x)
       ) == 0
     )
     
-    data_not_attempted_pcl_curr <- as.numeric( 
-      sum(
-        is.na(
-          c(pcl5_m_1_memories,
-            pcl5_m_2_dream,
-            pcl5_m_3_acting,
-            pcl5_m_4_upset,
-            pcl5_m_5_physical,
-            pcl5_m_6_avoid,
-            pcl5_m_7_external,
-            pcl5_m_8_trouble,
-            pcl5_m_9_negbelief,
-            pcl5_m_10_blame,
-            pcl5_m_11_fear,
-            pcl5_m_12_interest,
-            pcl5_m_13_distant,
-            pcl5_m_14_posfeel,
-            pcl5_m_15_irritable,
-            pcl5_m_16_risk,
-            pcl5_m_17_superalert,
-            pcl5_m_18_jumpy,
-            pcl5_m_19_concentrate,
-            pcl5_m_20_sleep)
-        )
-      ) == 20
-    )
-    
-    completeness_pcl_curr<- "1"
-    if(!(is.na(data_not_attempted_pcl_curr))){
-      if(data_not_attempted_pcl_curr==1)
-      {
-        completeness_pcl_curr <- "not attempted"}else{}
-    }else{completeness_pcl_curr<-NA}
-    
-    if(!(is.na(data_complete_pcl_curr))){
-      if(data_complete_pcl_curr==1){
-        completeness_pcl_curr <- "complete"} else{}
-    }else{completeness_pcl_curr<-NA}
-    
-    
-    if(data_not_attempted_pcl_curr==0 & data_complete_pcl_curr==0){
-      completeness_pcl_curr <- "partially completed"}else{}
     
     
     ###Infer DSM if data is incomplete
@@ -284,7 +243,7 @@ pcl_5_current <- function(x)
     # }    
     # 
                 
-    scores <- data.frame(pcl_b,pcl_c,pcl_d,pcl_e,pcl_total,pcl_33,pcl_5_dsm,  pcl_5_dsm_infer, data_complete_pcl_curr, data_not_attempted_pcl_curr, completeness_pcl_curr)
+    scores <- data.frame(pcl_b,pcl_c,pcl_d,pcl_e,pcl_total,pcl_33,pcl_5_dsm,data_complete_pcl_curr, pcl_5_dsm_infer)
     
 	return(scores)
 }
@@ -292,33 +251,8 @@ pcl_5_current <- function(x)
 
 #Calculate summary scores in data 
  pcl_5_scorescurr <- adply(datpclcurr, 1, pcl_5_current)
- 
- #to anonymize data
- pcl_5_scorescurr1<- within(pcl_5_scorescurr,
-                         {
-                           assessment_id <- NULL
-                           vista_lastname <- NULL
-                         })
 
- #________________________________________________________________________________________ 
- #Export
- #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export.csv", sep="")
- write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="#N/A")
- 
- 
- filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv( pcl_5_scorescurr1, filename,quote=T,row.names=F,na="#N/A")
- 
-print("21_PCL_current_done")
-
-#return completness column
-myvars <- c("assessment_id", "completeness_pcl_curr")
-newdata <- pcl_5_scorescurr[myvars]
-return(newdata)
-}
-
-
-
+#Export data
+ write.csv( pcl_5_scorescurr, "C:/Users/Psychiatry Lab/Documents/Biobank/20_21_PCL_5/pcl5_current_reduced_data_export_20180124.csv",quote=T,row.names=F,na="#N/A")
 
 

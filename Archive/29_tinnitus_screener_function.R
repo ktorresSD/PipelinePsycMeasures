@@ -12,7 +12,7 @@ library(plyr)
 dattinnitus <- subset(dat0, 
               select= c(assessment_id,vista_lastname, visit_number,
                         Tinnitus.1_2.3mins,
-                        Tinnitus2_6months,
+                        Tinnitus.2_6months,
                         Tinnitus.3_quietroom,
                         Tinnitus.4_recentevents,
                         Tinnitus.5_comeandgo,
@@ -31,14 +31,14 @@ tinnitus <- function(x)
 #SCORING of categories
   no_tinnitus<- as.numeric(!Tinnitus.1_2.3mins)
   
-  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus2_6months)) {
-    if(Tinnitus.1_2.3mins==1 & Tinnitus2_6months==0) { tinnitus_acute<- 1 
+  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
+    if(Tinnitus.1_2.3mins==1 & Tinnitus.2_6months==0) { tinnitus_acute<- 1 
     }else{ tinnitus_acute<- 0} 
   }
   else { tinnitus_acute <- NA } 
   
-  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus2_6months)) {
-    if(Tinnitus.1_2.3mins == 1 & Tinnitus2_6months == 1) { tinnitus_chronic<- 1
+  if(!is.na(Tinnitus.1_2.3mins) & !is.na(Tinnitus.2_6months)) {
+    if(Tinnitus.1_2.3mins == 1 & Tinnitus.2_6months == 1) { tinnitus_chronic<- 1
     }else {tinnitus_chronic<- 0}
   } else {tinnitus_chronic <- NA } 
   
@@ -75,7 +75,7 @@ tinnitus <- function(x)
     sum(
       is.na(
         c(Tinnitus.1_2.3mins,
-          Tinnitus2_6months,
+          Tinnitus.2_6months,
           Tinnitus.3_quietroom,
           Tinnitus.4_recentevents,
           Tinnitus.5_comeandgo,
@@ -89,7 +89,7 @@ tinnitus <- function(x)
     sum(
       is.na(
         c(Tinnitus.1_2.3mins,
-          Tinnitus2_6months,
+          Tinnitus.2_6months,
           Tinnitus.3_quietroom,
           Tinnitus.4_recentevents,
           Tinnitus.5_comeandgo,

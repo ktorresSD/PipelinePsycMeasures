@@ -24,25 +24,39 @@ datcesamh<- subset(dat0,
                         Stat4_caff,
                         Stat5_alc,
                         Stat6_diet,
-                        
+                        Stat6_diet_spec,
                         
                         Stat7_med_blood,
+                        Stat7_med_blood_spec,
                         Stat7_med_statin,
+                        Stat7_med_statin_spec,
                         Stat7_med_heart,
+                        Stat7_med_heart_spec,
                         Stat7_med_diabetes,
+                        Stat7_med_diabetes_spec,
                         Stat7_med_psych,
+                        Stat7_med_psych_spec,
                         Stat7_med_pain,
+                        Stat7_med_pain_spec,
                         Stat7_med_sleep,
+                        Stat7_med_sleep_spec,
                         Stat7_med_antibiotics,
+                        Stat7_med_antibotics_spec,
                         Stat7_med_prost,
+                        Stat7_med_prost_spec,
                         Stat7_med_allerg,
+                        Stat7_med_allerg_spec,
                         Stat7_med_steroid,
+                        Stat7_med_steroid_spec,
+                        Stat7_med_none,
                         
                         Stat8_marijtoday,
                         Stat9_cannabisweek,
                         Stat10_bed_night,
+                        Stat10_bed_night_ampm,
                         Stat10_bed_morn,
-                        Stat10_bed_wakeupnight ))
+                        Stat10_bed_morn_ampm,
+                        Stat10_bed_wakeupnight))
                         
 #________________________________________________________________________________________              
 # Completeness Functions Defined
