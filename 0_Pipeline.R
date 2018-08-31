@@ -29,8 +29,8 @@ exportdate <- "20180829"
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
 dat0 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
 #Export data
-filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+#filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
+#write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
 #________________________________________________________________________________________              
 # RUN THROUGH PIPELINE
@@ -69,7 +69,7 @@ source("26_Research_ID_function.r")
 source("27_service_history_function.r")            
 source("28_demographic_social_function.r")        
 source("29_tinnitus_screener_function_2.r")
-source("30_treatment_history_function.r")         #WILL DO LATER
+source("30_treatment_history_function_2.r")        
 source("31_WHODAS_function.r")    
 source("32_HEQ_script_2.r") 
 source("33_MASQ_script.r") 
@@ -109,7 +109,7 @@ rid(dat0, exportdate)
 c27<- service(dat0, exportdate)
 c28<- social(dat0, exportdate)
 c29<-tinnitus(dat0, exportdate)
-treathist(dat0, exportdate)             # ----- WILL DO LATER
+c30<- treathist(dat0, exportdate)           
 c31<- whodas(dat0, exportdate)
 c32<- HEQfunc(dat0, exportdate) 
 c33<- masq(dat0, exportdate)
@@ -129,7 +129,7 @@ for(i in 1:nrow(lecboth)){
 
 c17<- lecboth[,-2:-3]
 
-completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c31,c32,c33)
+completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c30, c31,c32,c33)
 #completedataframe<-completelist %>% reduce(left_join, by = "assessment_id")
 completedataframe<-join_all(completelist, by="assessment_id")
 View(completedataframe)

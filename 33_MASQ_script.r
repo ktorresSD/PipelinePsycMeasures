@@ -100,7 +100,7 @@ MASQ_score <- function(x)
   if(!(is.na(data_complete_MASQ))){
     if(data_not_attempted_MASQ == 0 & data_complete_MASQ==0){
       completeness_MASQ <- "partially completed"}else{}
-  }else{completeness_MASQ<-NA}
+  }else{}
   
   
  scores <- data.frame(AD, data_complete_MASQ, data_not_attempted_MASQ, completeness_MASQ)
@@ -108,16 +108,16 @@ MASQ_score <- function(x)
 return(scores)
 }
 
-
-#Calculate summary scores in data 
-datMASQ_scored <- adply(dat0, 1, MASQ_score)
-
-#to anonymize data
-datMASQ_scored1<- within(datMASQ_scored,
-                           {
-                             assessment_id <- NULL
-                             vista_lastname <- NULL
-                           })
+  
+  #Calculate summary scores in data 
+  datMASQ_scored <- adply(datcesamh, 1, MASQ_score)
+  
+  #to anonymize data
+  datMASQ_scored1<- within(datMASQ_scored,
+                             {
+                               assessment_id <- NULL
+                               vista_lastname <- NULL
+                             })
 
 #________________________________________________________________________________________              
 # Completeness Functions Defined

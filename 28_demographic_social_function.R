@@ -34,6 +34,7 @@ datdemosocial <- subset(dat0,
                         child_agegroup_2,
                         child_agegroup_3,
                         child_agegroup_4,
+                        child_agegroup_5,
                         child_agegroup,
                         demo_children,
                         child_count

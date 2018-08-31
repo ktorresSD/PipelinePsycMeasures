@@ -1,20 +1,20 @@
 #########################################################################################
-# Last Date modified: 06/04/2018
+# Last Date modified: 08/31/2018
 # Author: Katy Torres
 # Description: HEQQ scoring function - paper form questionnaire
 ##########################################################################################
 HEQfunc<- function(dat0, exportdate)
 {
 
+  #dat0<- read.csv('C:/Users/Nievergelt Lab/Documents/Biobank/32_HEQ/HEQ_August_test.csv',header=T, na.strings=c("",NA))
+  
   #Load libraries
   library(plyr)
   library(ggplot2)
-
+  
   #Only retain relevant variables
   datheq<- subset(dat0, 
-                     select= c(assessment_id,vista_lastname, visit_number,
-                               HEQ1_rel_0,
-                               HEQ0_rel,
+                     select= c(assessment_id,vista_lastname,
                                HEQa1_routine,
                                HEQa2_late,
                                HEQa3_after,
@@ -57,12 +57,7 @@ HEQfunc<- function(dat0, exportdate)
                                HEQb28_clean,
                                HEQb29_cluttered,
                                HEQb30_noisy,
-                               HEQb31_misplaced,
-                               HEQ1_count))
-  
-  
-
-
+                               HEQb31_misplaced))
 
 # Data Manipulation and cleaning
 #----------------------------------------------------------------------------------------
@@ -187,10 +182,14 @@ paren_score <- function(y)
 
   
 #overall score
+  #should ONLY BE IMPUTED IF NO MORE THAN 6 ARE MISSING
+  
+  
   overall_score <- function(y)
   {
     for (v in 1:length(y)) assign(names(y)[v], y[[v]])
- 
+    
+    
     HEQ_overall_score <- q1 + HEQa2_late + q3 + HEQa4_pickup + q5 + q6 + q7 + q8 + q9 + q10 +
       q11 + q12 + q1b + HEQb2_punish + HEQb3_household + HEQb4_wondered + HEQb5_people +
       q6b + q7b + HEQb8_plan + q9b + HEQb10_long + HEQb11_custody + HEQb12_moved + 
@@ -207,8 +206,8 @@ paren_score <- function(y)
                                         HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
                                       q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced), na.rm = TRUE)
     
-    
-    data_complete_househ_overall<- as.numeric(
+    #COMPLETENESS CHECK
+    data_complete_heq<- as.numeric(
       sum(is.na(c(q1 , HEQa2_late , q3 , HEQa4_pickup , q5 , q6 , q7 , q8 , q9 , q10 ,
                     q11 , q12 , q1b , HEQb2_punish , HEQb3_household , HEQb4_wondered , HEQb5_people ,
                     q6b , q7b , HEQb8_plan , q9b , HEQb10_long , HEQb11_custody ,  HEQb12_moved , 
@@ -217,7 +216,33 @@ paren_score <- function(y)
                   HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
                   q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced))) == 0)
     
-    scores <- data.frame(HEQ_overall_score, HEQ_overall_score_incomp, data_complete_househ_overall)
+    data_not_attempted_heq<- as.numeric(
+      sum(is.na(c(q1 , HEQa2_late , q3 , HEQa4_pickup , q5 , q6 , q7 , q8 , q9 , q10 ,
+                  q11 , q12 , q1b , HEQb2_punish , HEQb3_household , HEQb4_wondered , HEQb5_people ,
+                  q6b , q7b , HEQb8_plan , q9b , HEQb10_long , HEQb11_custody ,  HEQb12_moved , 
+                  HEQb13_changejob , HEQb14_unemployed , HEQb15_eat , HEQb16_necessities , HEQb17_safe , 
+                  HEQb18_frequent , HEQb19_midyear, q20b , HEQb21_divorced , HEQb22_partner , 
+                  HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
+                  q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced))) == 43)
+    
+    
+    completeness_heq<- "1"
+    if(!(is.na(data_not_attempted_heq))){
+      if(data_not_attempted_heq==1)
+      {
+        completeness_heq <- "not attempted"}else{}
+    }else{completeness_heq<-NA}
+    
+    if(!(is.na(data_complete_heq))){
+      if(data_complete_heq==1){
+        completeness_heq <- "complete"} else{}
+    }else{completeness_heq<-NA}
+    
+    if(data_not_attempted_heq==0 & data_complete_heq==0 ){
+      completeness_heq <- "partially completed"}else{}
+    
+    
+    scores <- data.frame(HEQ_overall_score, HEQ_overall_score_incomp, data_complete_heq, completeness_heq)
     return(scores)
   }
   
@@ -243,7 +268,7 @@ paren_score <- function(y)
   print("HEQ_done")
   
   #return completness column
-  myvars <- c("assessment_id", "data_complete_househ_overall")
+  myvars <- c("assessment_id", "completeness_heq")
   newdata <- overall_scored[myvars]
   return(newdata)
 }

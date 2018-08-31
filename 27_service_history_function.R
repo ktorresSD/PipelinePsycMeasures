@@ -53,9 +53,20 @@ datserv <- subset(dat,
                         serv_stop_2,
                         serv_discharge_2,
                         serv_rank_2,
-                        serv_job_2
+                        serv_job_2,
                         
+                        serv_type_3,
+                        serv_branch_3,
+                        serv_start_3,
+                        serv_stop_3,
+                        serv_discharge_3,
                         
+                        serv_type_4,
+                        serv_branch_4,
+                        serv_start_4,
+                        serv_stop_4,
+                        serv_discharge_4
+
               ))
 #________________________________________________________________________________________              
 # SCORING Functions Defined
