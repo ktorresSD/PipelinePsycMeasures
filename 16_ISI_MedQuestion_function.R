@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 12/21/2017
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: Subset of question 16, ISI Medication Question
 ##########################################################################################
@@ -48,17 +48,17 @@ isimed_score <- function(x)
     if(data_not_attempted_isimed==1)
     {
       completeness_isimed <- "not attempted"}else{}
-  }else{completeness_isimed<-NA}
+  }else{}
   
   if(!(is.na(data_complete_isimed))){
     if(data_complete_isimed==1){
       completeness_isimed <- "complete"} else{}
-  }else{completeness_isimed<-NA}
+  }else{}
   
   if(!(is.na(meds))){
     if(meds==0){
       completeness_isimed <- "complete"} else{}
-  }else{completeness_isimed<-NA}
+  }else{}
   
   
   if(data_not_attempted_isimed==0 & data_complete_isimed==0 & meds==1){

@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 08/31/2018
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: HEQQ scoring function - paper form questionnaire
 ##########################################################################################
@@ -15,12 +15,19 @@ HEQfunc<- function(dat0, exportdate)
   #Only retain relevant variables
   datheq<- subset(dat0, 
                      select= c(assessment_id,vista_lastname,
+                               HEQ1_rel,
+                               HEQ0_rel,
+                               HEQ1_rel_2,
+                               HEQ1_rel_3,
+                               HEQ1_rel,
+                               
                                HEQa1_routine,
                                HEQa2_late,
                                HEQa3_after,
                                HEQa4_pickup,
                                HEQa5_track,
                                HEQa6_meal,
+                               
                                HEQa7_sleep,
                                HEQa8_bedtime,
                                HEQa9_afterschool,
@@ -57,7 +64,9 @@ HEQfunc<- function(dat0, exportdate)
                                HEQb28_clean,
                                HEQb29_cluttered,
                                HEQb30_noisy,
-                               HEQb31_misplaced))
+                               HEQb31_misplaced,
+                               HEQ1_count
+                     ))
 
 # Data Manipulation and cleaning
 #----------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 12/21/2017
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: Subset of question 7, Brief CESAMH Biorepository Sample Status Survey
 ##########################################################################################
@@ -23,9 +23,9 @@ datcesamh<- subset(dat0,
                         Stat3_eat,
                         Stat4_caff,
                         Stat5_alc,
+                        
                         Stat6_diet,
                         Stat6_diet_spec,
-                        
                         Stat7_med_blood,
                         Stat7_med_blood_spec,
                         Stat7_med_statin,
@@ -52,11 +52,15 @@ datcesamh<- subset(dat0,
                         
                         Stat8_marijtoday,
                         Stat9_cannabisweek,
+                        
                         Stat10_bed_night,
                         Stat10_bed_night_ampm,
                         Stat10_bed_morn,
                         Stat10_bed_morn_ampm,
-                        Stat10_bed_wakeupnight))
+                        Stat10_bed_wakeupnight,
+                        Stat10_bed_night_ampm,
+                        Stat10_bed_morn_ampm
+              ))
                         
 #________________________________________________________________________________________              
 # Completeness Functions Defined

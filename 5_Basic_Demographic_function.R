@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 12/21/2017
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: Subset of question 5, Basic Demographic and scoring functions
 ##########################################################################################
@@ -24,7 +24,8 @@ datdemo <- subset(dat0,
                         demo_race_asian,
                         demo_race_decline,
                         demo_race_oth,
-                        
+                        demo_race_oth_spec,
+                
                         demo_relationship_r
                         
               ))

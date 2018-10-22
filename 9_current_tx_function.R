@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 12/21/2017
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: Subset of question 9, CURRENT TREATMENTS
 ##########################################################################################
@@ -45,7 +45,10 @@ currtx <- function(dat0, exportdate)
                          CurrTx7g_Anger, 
                          CurrTx7h_ACT, 
                          CurrTx7i_Other, 
-                         CurrTx7.1_Helpful, 
+                         CurrTx7j_None, #new
+                         
+                         CurrTx7.1_Helpful, #might remove
+                         CurrTx8.1_Helpful, 
                          CurrTx8a_CBTAnx, 
                          CurrTx8b_CBTDep, 
                          CurrTx8c_CBTInsom, 
@@ -56,6 +59,8 @@ currtx <- function(dat0, exportdate)
                          CurrTx8h_ACT, 
                          CurrTx8g_Anger, 
                          CurrTx8i_Other, 
+                         CurrTx8j_None, #new
+                         
                          CurrTx8.1_Helpful, 
                          CurrentTreatments9_OtherType
                ))
@@ -69,10 +74,10 @@ currtx <- function(dat0, exportdate)
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/9_current_treatments/CurrTx_reduced_data_export.csv", sep="")
+ filename <- paste("~/Biobank/99_Current_treatments_paper_form/9_current_treatments/CurrTx_reduced_data_export.csv", sep="")
  write.csv(datcurrent, filename,quote=T,row.names=F,na="#N/A")
  
- filename <- paste("~/Biobank/9_current_treatments/CurrTx_reduced_data_export_DEIDENTIFIED.csv", sep="")
+ filename <- paste("~/Biobank/99_Current_treatments_paper_form/9_current_treatments/CurrTx_reduced_data_export_DEIDENTIFIED.csv", sep="")
  write.csv(datcurrent1, filename,quote=T,row.names=F,na="#N/A")
  
  return(print("9_current_treatment_done"))

@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 06/27/2017
+# Last Date modified: 10/23/2018
 # Author: Katy Torres
 # Description: Subset of question 30, Treatment History
 ##########################################################################################
@@ -28,11 +28,18 @@ dattreatment <- subset(dat,
                         TreatHis_5e_Benzo,
                         TreatHis_5f_Antipsy,
                         TreatHis_5g_AdBlk,
+                        TreatHis_5g_AdBlk_spec, #new
+                        
                         TreatHis_5h_other,
                         TreatHis_6_presc,
                         TreatHis_7_helpful,
+                        TreatHis_7_helpful_spec, #new
                         TreatHis_8_discont,
+                        TreatHis_8_discont_spec, #new
+                        
                         TreatHis_9_Psycho,
+                        TreatHis_9_therapy, #not sure what this is, check dictionary
+                        
                         TreatHis_9_VAtherap,
                         TreatHis2_9c_GpTher,
                         TreatHis2_9c_IndTher,
@@ -63,12 +70,14 @@ dattreatment <- subset(dat,
                         TreatHis_11_indACT,
                         TreatHis_11_indAM,
                         TreatHis_11_indother,
-                        #TreatHis_11_indnone,
+                        TreatHis_11_indnone,
                         TreatHis_11_inddates,
-                        #TreatHis_11_inddateend,
+                        TreatHis_11_inddateend,
                         TreatHis_11_indhelp,
                         TreatHis_11_indcomp,
                         TreatHis_12_OtherTX,
+                        TreatHis_12_othTx_spec, #new
+                        
                         TreatHis_12_OtherDate
               ))
 

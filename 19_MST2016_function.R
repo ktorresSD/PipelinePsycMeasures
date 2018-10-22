@@ -9,6 +9,8 @@ mst<- function(dat0, exportdate)
 #Only retain relevant variables
 datmst <- subset(dat0, 
               select= c(assessment_id,vista_lastname, visit_number,
+                        MST_2016_Q1_2,
+                        MST_2016_consult,
                         MST2016_Research_1
                         
               ))

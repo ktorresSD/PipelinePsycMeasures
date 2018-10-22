@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 07/30/2018
+# Last Date modified: 10/22/2018
 # Author: Katy Torres
 # Description: Subset of question 29, Tinnitus Screener
 ##########################################################################################
@@ -16,7 +16,16 @@ dattinnitus <- subset(dat0,
                         Tinnitus.3_quietroom,
                         Tinnitus.4_recentevents,
                         Tinnitus.5_comeandgo,
-                        Tinnitus.6_experience
+                        Tinnitus.6_experience,
+                        
+                        Tinnitus1_2to3mins,
+                        Tinnitus2_6_months,
+                        Tinnitus2_6months,
+                        Tinnitus3_quiteroom,
+                        Tinnitus4_recentevents,
+                        Tinnitus5_comeandgo,
+                        Tinnitus6_experience
+                        
                         
               ))
 
