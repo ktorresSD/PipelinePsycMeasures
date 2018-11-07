@@ -19,9 +19,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20181002_edited.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20181002.csv',header=T, na.strings=c("",NA))
-exportdate <- "20181002"
+dataset <- read.csv('joined_data_export_20181029.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_20181029.csv',header=T, na.strings=c("",NA))
+exportdate <- "20181026"
 
 #________________________________________________________________________________________  
 # MERGE DATASETS TOGETHER
@@ -29,8 +29,8 @@ exportdate <- "20181002"
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
 dat0 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
 #Export data
-# filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-# write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+#filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
+#write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
 #________________________________________________________________________________________              
 # RUN THROUGH PIPELINE
