@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 10/22/2018
+# Last Date modified: 11/05/2018
 # Author: Katy Torres
 # Description: Subset of question 5, Basic Demographic and scoring functions
 ##########################################################################################
@@ -29,7 +29,9 @@ datdemo <- subset(dat0,
                         demo_relationship_r
                         
               ))
-datdemo$year_assessed<- format(as.Date(datdemo$date_created, format="%d/%m/%Y"),"%Y")
+
+
+datdemo$year_assessed<- format(as.Date(datdemo$date_created, format="%m/%d/%Y"),"%Y")
 datdemo$approx_age<- as.numeric(datdemo$year_assessed) - datdemo$demo_YOB_r
 
 
