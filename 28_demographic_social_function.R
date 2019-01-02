@@ -29,17 +29,16 @@ datdemosocial <- subset(dat0,
                         demo_emo_other_spec,
                         demo_rel_hurt,
                         
+                        demo_children,
+                        child_count,
+                        child_agegroup,
                         child_agegroup_0,
                         child_agegroup_1,
                         child_agegroup_2,
                         child_agegroup_3,
                         child_agegroup_4,
-                        child_agegroup_5,
-                        child_agegroup,
-                        demo_children,
-                        child_count
-                        
-                        
+                        child_agegroup_5
+                    
               ))
 #________________________________________________________________________________________              
 # Completeness check

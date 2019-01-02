@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 06/18/2018
+# Last Date modified: 12/05/2018
 # Author: Katy Torres
 # Description: Subset of question 12, Demographic: Education, Employment & Income
 ##########################################################################################
@@ -37,9 +37,9 @@ employ_score <- function(x)
     if(!(is.na(demo_income_none))){  
       if(demo_income_none == 1 | demo_income_wrk  == 1 | demo_income_unemp == 1 |
       demo_income_dis == 1 | demo_income_gi == 1 | demo_income_retire == 1 |
-      demo_income_other == 1){income <- "yes"
-      }else{income <- "no"}
-  }else{income<-"no"}
+      demo_income_other == 1){income <- 1
+      }else{income <- 0}
+  }else{income<-0}
 
 #checking for completeness
 data_complete_employment<- as.numeric(
@@ -49,7 +49,8 @@ data_complete_employment<- as.numeric(
         demo_education,
         demo_workstatus,
         demo_hours,
-        demo_occupation
+        demo_occupation, 
+        income
       )
     )
   ) == 0
@@ -58,21 +59,15 @@ data_complete_employment<- as.numeric(
 data_not_attempted_employment<- as.numeric(
   sum(
     is.na(
-      c(demo_education,
+      c(demo_income_group,
+        demo_education,
         demo_workstatus,
         demo_hours,
-        demo_occupation,
-        demo_income_none,
-        demo_income_wrk,
-        demo_income_unemp,
-        demo_income_dis,
-        demo_income_gi,
-        demo_income_retire,
-        demo_income_other,
-        demo_income_group
+        demo_occupation, 
+        income
       )
     )
-  ) == 13
+  ) == 5
 )
 
 completeness_employment<- "1"
@@ -83,16 +78,16 @@ if(!(is.na(data_not_attempted_employment))){
 }else{completeness_employment<-NA}
 
 if(!(is.na(data_complete_employment))){
-  if(data_complete_employment==1 & income=="yes"){
+  if(data_complete_employment==1 & income==1){
     completeness_employment <- "complete"} 
-  else if(data_complete_employment==1 & income=="no"){
+  else if(data_complete_employment==1 & income == 0){
     completeness_employment <- "partially complete"} 
-  else if(data_complete_employment==0 & income=="yes"){
+  else if(data_complete_employment==0 & income ==1){
     completeness_employment <- "partially complete"}
   else{}
 }else{completeness_employment<-NA}
 
-  if(data_not_attempted_employment==0 & data_complete_employment==0 & income=="no"){
+  if(data_not_attempted_employment==0 & data_complete_employment==0 & income == 0){
     completeness_employment <- "partially completed"}else{}
 
 scores <- data.frame(income, data_not_attempted_employment, data_complete_employment,  completeness_employment)
