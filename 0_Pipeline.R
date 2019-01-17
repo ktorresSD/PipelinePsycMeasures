@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 06/28/2018
+# Last Date modified: 01/17/2019
 # Author: Katy Torres
 # Description: Merge corefile with data export & run all scoring functions. 
 #              Outputs will be stored in appropriaste questionnaire folders
@@ -19,18 +19,26 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20181029.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20181029.csv',header=T, na.strings=c("",NA))
-exportdate <- "20181026"
+dataset <- read.csv('joined_data_export_2018_FREEZE_1.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_2018_Freeze_1.csv',header=T, na.strings=c("",NA))
+exportdate <- "2018_FREEZE_1"
+
+
 
 #________________________________________________________________________________________  
 # MERGE DATASETS TOGETHER
 #------------------------------------------------------------------------
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
-dat0 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
+dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
+
+#REMOVE EXCLUDED SUBJECTS
+dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071), ]
+
 #Export data
-#filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-#write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
+write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+
+
 
 #________________________________________________________________________________________              
 # RUN THROUGH PIPELINE
