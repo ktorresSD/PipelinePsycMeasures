@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 6/21/2018
+# Last Date modified: 1/10/2019
 # Author: Katy Torres
 # Description: Subset of question 20, PCL Current
 ##########################################################################################
@@ -244,7 +244,7 @@ pcl_5_current <- function(x)
     #Assign TRUE to each PCL C item score that is >= 2
     pcl_5_c_gt2_infer <- na.omit(c(pcl5_m_6_avoid, pcl5_m_7_external )) >= 2
 
-    #Assign TRUE if at least one PCL C is >= 2
+    #Assign TRUE if at least one PCL C is >= 1
     pcl_5_c_dsm5_infer <- sum(pcl_5_c_gt2_infer) >= 1
 
     ##PCL D
@@ -300,15 +300,53 @@ pcl_5_current <- function(x)
                            vista_lastname <- NULL
                          })
 
+ 
+ #________________________________________________________________________________________ 
+ #Report
+ #----------------------------------------------------------------------------------------
+ library(psych)
+ #subset by visit to get report information
+ v1 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==1), ]
+ v2 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==2), ]
+ v3 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==3), ]
+ 
+ #summary statistics for total PCL
+ describe(v1$pcl_total)
+ describe(v2$pcl_total)
+ describe(v3$pcl_total)
+ describe(pcl_5_scorescurr$pcl_total)
+ 
+ #mode
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
+ 
+ Mode(v1$pcl_total)
+ Mode(v2$pcl_total)
+ Mode(v3$pcl_total)
+ Mode(pcl_5_scorescurr$pcl_total)
+ 
+
+ 
+ #histograms
+ par(mfrow=c(2,2))
+ hist(pcl_5_scorescurr$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (all visits)")
+ hist(v1$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 1 only)")
+ hist(v2$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 2 only)")
+ hist(v3$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 3 only)")
+ 
+
+ 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export.csv", sep="")
- write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="NA")
  
  
  filename <- paste("~/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv( pcl_5_scorescurr1, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( pcl_5_scorescurr1, filename,quote=T,row.names=F,na="NA")
  
 print("21_PCL_current_done")
 

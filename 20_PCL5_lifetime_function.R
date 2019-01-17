@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 6/21/2018
+# Last Date modified: 1/14/2019
 # Author: Katy Torres
 # Description: Subset of question 20, PCL LIFETIME
 ##########################################################################################
@@ -9,6 +9,7 @@ pcllife <- function(dat0, exportdate)
 #Load plyr library
  library(plyr)
   
+  #Subset by visit one only as this measure is only administered in the 1st visit
   dat<-dat0[dat0$visit_number==1,]
 #Only retain relevant variables
  datpcllife <- subset(dat, 
@@ -43,7 +44,7 @@ pcl_5_entire_life <- function(x)
 	#PCL summary score is just the summation of all items 1-20
 	#Note: This function is not designed to handle NA values (subject must have complete data)
 
-	pcl_b <- pcl5_entirelife_1_memories +
+    pcl_b <- pcl5_entirelife_1_memories +
         pcl5_entirelife_2_dream +
         pcl5_entirelife_3_acting +
         pcl5_entirelife_4_upset +
@@ -112,7 +113,7 @@ pcl_5_entire_life <- function(x)
     #Assign TRUE to each PCL C item score that is >= 2
     pcl_5_c_gt2 <- c(pcl5_entirelife_6_avoid, pcl5_entirelife_7_external ) >= 2
     
-    #Assign TRUE if at least one PCL C is >= 2
+    #Assign TRUE if at least one PCL C is >= 1
     pcl_5_c_dsm5 <- sum(pcl_5_c_gt2) >= 1
     
     ##PCL D 
@@ -286,6 +287,40 @@ pcl_5_entire_life <- function(x)
                               vista_lastname <- NULL
                             })
 
+ 
+ #________________________________________________________________________________________ 
+ #Report
+ #----------------------------------------------------------------------------------------
+ library(psych)
+table(pcl_5_scores$completeness_pcllife)
+ 
+ #summary statistics for total PCL
+ describe(pcl_5_scores$pcl_total)
+ 
+ #mode
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
+ 
+ Mode(pcl_5_scores$pcl_total)
+ 
+ #histogram of all scores
+ par(mfrow=c(1,1))
+ hist(pcl_5_scores$pcl_total, xlab = "PCL score", xlim=c(0,85), ylim=c(0,20), col = c("lightyellow"), main = "PCL Total Score \n (only assessed in 1st visit)",cex.axis=1.45,cex.lab=1.6)
+
+ 
+#histogram of cases/controls based on PCL DSM-IV and PCL total score
+ p0 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 1),plot=FALSE)
+ p1 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 0),plot=FALSE)
+
+ transparency_level=0.4
+ plot(p0, col=rgb(1,0,0,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,20), ylab="Frequency", xlab="PCL_total_Score",main="Total PCL Score for Cases and Controls \n  based on PCL DSM-IV",cex.axis=1.45,cex.lab=1.6) 
+ plot(p1, col=rgb(0,0,1,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,20), add=T)  # second
+ legend('topright',legend=c("Case","Control"),col=c(rgb(1,0,0,transparency_level),rgb(0,0,1,transparency_level)),pch=c(19,19))
+
+
+ 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
