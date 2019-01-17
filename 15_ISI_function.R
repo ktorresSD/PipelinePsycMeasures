@@ -40,14 +40,8 @@ insomnia <- function(x)
   #Note: This function is not designed to handle NA values (subject must have complete data)
   
   
-  insomnia_total <-   sleep1a_falling+
-  sleep1b_staying+
-  sleep1c_waking+
-  sleep2_satisfied+
-  sleep3_interfere+
-  sleep4_noticeable+
-  sleep5_worried+
-  sleep_score
+  insomnia_total <-   sleep1a_falling + sleep1b_staying + sleep1c_waking + 
+    sleep2_satisfied + sleep3_interfere + sleep4_noticeable + sleep5_worried + sleep_score
   
   
   not_clinically_significant_insomnia <- as.numeric(insomnia_total <= 7)
@@ -150,10 +144,10 @@ insomnia_scores1<- within(insomnia_scores,
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/15_ISI/ISI_scored_data_export.csv", sep="")
-write.csv( insomnia_scores, filename,quote=T,row.names=F,na="#N/A")
+write.csv( insomnia_scores, filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/15_ISI/ISI_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv( insomnia_scores1, filename,quote=T,row.names=F,na="#N/A")
+write.csv( insomnia_scores1, filename,quote=T,row.names=F,na="NA")
 
 print("15_ISI_done")
 

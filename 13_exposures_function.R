@@ -201,10 +201,10 @@ score_datexpo1<- within(score_datexpo,
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/13_exposures/exposures_scored_data_export.csv", sep="")
-write.csv(score_datexpo , filename,quote=T,row.names=F,na="#N/A")
+write.csv(score_datexpo , filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/13_exposures/exposures_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(score_datexpo1 , filename,quote=T,row.names=F,na="#N/A")
+write.csv(score_datexpo1 , filename,quote=T,row.names=F,na="NA")
 
 print("13_Exposures_done")
 

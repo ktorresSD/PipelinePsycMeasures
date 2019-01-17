@@ -201,10 +201,10 @@ panas_scores1<- within(panas_scores,
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/24_PANAS/PANAS_scored_data_export.csv", sep="")
-write.csv(panas_scores, filename,quote=T,row.names=F,na="#N/A")
+write.csv(panas_scores, filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/24_PANAS/PANAS_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(panas_scores1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(panas_scores1, filename,quote=T,row.names=F,na="NA")
 
 print("24_PANAS_done")
 

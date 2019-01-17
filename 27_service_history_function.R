@@ -1,5 +1,5 @@
 #########################################################################################
-# Last Date modified: 06/27/2018
+# Last Date modified: 01/03/2019
 # Author: Katy Torres
 # Description: Subset of question 27, service history and scoring functions
 ##########################################################################################
@@ -155,10 +155,10 @@ datserv_scored1<- within(datserv_scored,
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/27_service_history/service_history_scored_data_export.csv", sep="")
-write.csv(datserv_scored, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datserv_scored, filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/27_service_history/service_history_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(datserv_scored1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datserv_scored1, filename,quote=T,row.names=F,na="NA")
 
 print("27_service_hist_done")
 

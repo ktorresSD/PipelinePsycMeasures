@@ -195,10 +195,10 @@ gad7 <- function(x){
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/14_GAD7/gad7_scored_data_export.csv", sep="")
- write.csv( gad7_scores, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( gad7_scores, filename,quote=T,row.names=F,na="NA")
  
  filename <- paste("~/Biobank/14_GAD7/gad7_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv( gad7_scores1, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( gad7_scores1, filename,quote=T,row.names=F,na="NA")
  
 print("14_GAD_done")
  

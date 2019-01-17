@@ -146,10 +146,10 @@ drrices <- function(dat0, exportdate)
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_scored_data_export.csv", sep="")
- write.csv(score_datces, filename,quote=T,row.names=F,na="#N/A")
+ write.csv(score_datces, filename,quote=T,row.names=F,na="NA")
  
  filename <- paste("~/Biobank/10_DRRI2_CES/DRRICES_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv(score_datces1, filename,quote=T,row.names=F,na="#N/A")
+ write.csv(score_datces1, filename,quote=T,row.names=F,na="NA")
 print("10_DRRI_CES_done")
 
 #return completness column
