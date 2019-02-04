@@ -6,7 +6,7 @@
 
 gad<- function(dat0, exportdate)
 {
-  #Load plyr library
+#Load required libraries
   library(plyr)
   library(psych)
 #Only retain relevant variables
@@ -25,7 +25,6 @@ gad<- function(dat0, exportdate)
 #Scoring function defined
 gad7 <- function(x){
 
-    #attach(x)
     for (v in 1:length(x)) assign(names(x)[v], x[[v]])
     
 	#GAD-7 summary score is the summation of items 1-7 (not 8)
@@ -40,6 +39,14 @@ gad7 <- function(x){
                 gad6_annoyed +
                 gad7_afraid
          
+	#sum of all non-na entries for questions 1-7 
+	gad7_incomplete <- sum(gad1_nervous,
+	                         gad2_notable,
+	                         gad3_worry,
+	                         gad4_trouble,
+	                         gad5_restless,
+	                         gad6_annoyed,
+	                         gad7_afraid,na.rm=T)
   #Score Interpretation
    mild_anxiety <- as.numeric(gad7_total >= 5 & gad7_total <= 9)
    moderate_anxiety <- as.numeric(gad7_total >= 10 & gad7_total <= 14)
@@ -68,7 +75,7 @@ gad7 <- function(x){
     # }else{}
     
     
-    #treatment action if total score is greater than 14
+    #cut-off if total score is greater than 10
     
     if (is.na(gad7_total))
     {
@@ -81,7 +88,7 @@ gad7 <- function(x){
       gad7_greater_than_cut_off <- 1
     }
     
-    #Completeness chack
+    #Completeness check
     data_complete_gad <- as.numeric( 
       sum(
         is.na(
@@ -127,7 +134,21 @@ gad7 <- function(x){
     if(data_not_attempted_gad==0 & data_complete_gad==0 ){
       completeness_gad <- "partially completed"}else{}
     
-    gadscores <- data.frame(gad7_total, gad7_greater_than_cut_off, mild_anxiety, moderate_anxiety,  severe_anxiety, score_interpretation_gad7, data_complete_gad, data_not_attempted_gad, completeness_gad)
+    
+    
+    
+    #if the total score is 0, they have to have a 0 in question 8 
+    
+    if((is.na(gad7_total) | is.na(gad8_difficult))){inconsistency_flag <- NA
+    }else if(gad7_total==0 & gad8_difficult == 0){ inconsistency_flag <- "consistent"
+    } else if (gad7_total ==0 & gad8_difficult < 0) {inconsistency_flag <- "inconsistent"
+    } else if (gad7_total > 0 ){inconsistency_flag <- "total not zero"}
+    
+    
+    
+    
+    
+    gadscores <- data.frame(gad7_total, gad7_incomplete, gad7_greater_than_cut_off, mild_anxiety, moderate_anxiety,  severe_anxiety, score_interpretation_gad7, data_complete_gad, data_not_attempted_gad, completeness_gad, inconsistency_flag)
     
 	return(gadscores)
 }
@@ -135,33 +156,61 @@ gad7 <- function(x){
 
 #Calculate summary scores in data 
  gad7_scores <- adply(datgad, 1, gad7)
+ 
+ 
+ #check for consistency between GAD7 total scores and 8_difficult
+ plot(gad7_scores$gad7_total, gad7_scores$gad8_difficult, xlab= "GAD-7 Total Scores", ylab= "Impact of problems", main= "Total scores and impact of problems on quality of life \n (Checking for inconsistency). ", pch= 16, col= "deepskyblue3")
+ 
  #________________________________________________________________________________________              
  # Descriptive Stats and plots
  #----------------------------------------------------------------------------------------
- #Calculate summary scores in data 
- gad7_scores <- adply(datgad, 1, gad7)
+
+ #subset by visit to get report information
+ v1 <- gad7_scores[ which(gad7_scores$visit_number==1), ]
+ v2 <- gad7_scores[ which(gad7_scores$visit_number==2), ]
+ v3 <- gad7_scores[ which(gad7_scores$visit_number==3), ]
  
- #Descriptive stats
+ #completeness table
+ table(gad7_scores$completeness_gad, gad7_scores$visit_number)
+ 
+ #summary statistics for total PCL
+ describe(v1$gad7_total)
+ describe(v2$gad7_total)
+ describe(v3$gad7_total)
  describe(gad7_scores$gad7_total)
+ 
  #mode
- names(sort(-table(gad7_scores$gad7_total)))[1]
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
  
- table(gad7_scores$score_interpretation_gad7)
- table(gad7_scores$gad7_total)
+ Mode(v1$gad7_total)
+ Mode(v2$gad7_total)
+ Mode(v3$gad7_total)
+ Mode(gad7_scores$gad7_total)
  
- #histogram of total score
- hist(gad7_scores$gad7_total, xlab = "Total GAD Score", col = c("steelblue3"), main = "Histogram for Total GAD Score")
- abline(v = 10, lty = 2, lwd=3)
- axis(1, 1:21)
  
+ #histograms
+ par(mfrow=c(2,2))
+ hist(gad7_scores$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (all visits)")
+ hist(v1$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 1 only)")
+ hist(v2$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 2 only)")
+ hist(v3$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 3 only)")
+ 
+ 
+ par(mfrow=c(1,1))
  # #saving this to a image file into folder
- plotname1 <- paste("~/Biobank/14_GAD7/gad7_histogram_of_total_score", exportdate, ".png", sep="")
- png(filename=plotname1)
+ #plotname1 <- paste("~/Biobank/14_GAD7/gad7_histogram_of_total_score", exportdate, ".png", sep="")
+ #png(filename=plotname1)
  hist(gad7_scores$gad7_total, xlab = "Total GAD Score", col = c("steelblue3"), main = "Histogram for Total GAD Score")
- abline(v = 10, lty = 2, lwd=3)
+ abline(v = 10, lty = 2, lwd=2)
  axis(1, 1:21)
- dev.off()
+ legend('topright',legend=c("Cut-off"),lty = 2, lwd=2)
+ #dev.off()
  
+ 
+ # Subject count for each GAD7 category
  barplot(table(gad7_scores$score_interpretation_gad7), 
          col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
          main = "Count of subjects in each GAD Diagnosis category", 
@@ -169,19 +218,7 @@ gad7 <- function(x){
          names.arg = c("None", "Mild", "Moderate", "Severe"))
  abline(col= "slategray", v=2.5, lwd= 2, lty = "dashed")
  mtext("                                                  Possible diagnosis of GAD", col= "slategray")
- 
- # #saving this to a image file into folder
-  plotname <- paste("~/Biobank/14_GAD7/gad7_plot_", exportdate, ".png", sep="")
-  png(filename=plotname)
-  barplot(table(gad7_scores$score_interpretation_gad7), 
-          col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
-          main = "Count of subjects in each GAD Diagnosis category", 
-          ylab = "Subject Count",
-          names.arg = c("None", "Mild", "Moderate", "Severe"))
-  abline(col= "slategray", v=2.5, lwd= 2, lty = "dashed")
-  mtext("                                                  Possible diagnosis of GAD", col= "slategray")
-  
-  dev.off()
+
 
   #to anonymize data
   gad7_scores1<- within(gad7_scores,

@@ -35,8 +35,14 @@ pclcurrent<- function(dat0, exportdate)
                     pcl5_m_20_sleep,
                     PCL5m_sum
                ))
-
-             
+ 
+ #Check each item is within range 1-5
+ datpclcurr$within_range <- sapply(1:nrow(datpclcurr), function(x) { 
+   tr <- datpclcurr[x, c(4:23)]
+   all(tr >= 0 & tr <= 4)
+ })
+ 
+ 
 #Scoring function defined
 pcl_5_current <- function(x)
 {
@@ -284,7 +290,7 @@ pcl_5_current <- function(x)
     # }    
     # 
                 
-    scores <- data.frame(pcl_b,pcl_c,pcl_d,pcl_e,pcl_total,pcl_33,pcl_5_dsm,  pcl_5_dsm_infer, data_complete_pcl_curr, data_not_attempted_pcl_curr, completeness_pcl_curr)
+    scores <- data.frame(pcl_b,pcl_c,pcl_d,pcl_e,pcl_total, pcl_incomplete, pcl_33,pcl_5_dsm,  pcl_5_dsm_infer, data_complete_pcl_curr, data_not_attempted_pcl_curr, completeness_pcl_curr)
     
 	return(scores)
 }
@@ -305,10 +311,21 @@ pcl_5_current <- function(x)
  #Report
  #----------------------------------------------------------------------------------------
  library(psych)
+ 
+ table(pcl_5_scorescurr$completeness_pcl_curr)
+ 
+ #completeness table
+ table(pcl_5_scorescurr$completeness_pcl_curr, pcl_5_scorescurr$visit_number)
+ 
  #subset by visit to get report information
  v1 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==1), ]
  v2 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==2), ]
  v3 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==3), ]
+ 
+ 
+ table(v1$completeness_pcl_curr)
+ table(v2$completeness_pcl_curr)
+ table(v3$completeness_pcl_curr)
  
  #summary statistics for total PCL
  describe(v1$pcl_total)
@@ -337,6 +354,25 @@ pcl_5_current <- function(x)
  hist(v3$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 3 only)")
  
 
+ 
+ #histogram of all scores
+ par(mfrow=c(1,1))
+ hist(pcl_5_scorescurr$pcl_total, xlab = "PCL score", xlim=c(0,85), ylim=c(0,50), col = c("lightyellow"), main = "PCL Total Score \n (all visits)")
+ 
+
+ #histogram of cases/controls based on PCL DSM-IV and PCL total score
+ p0 <- hist(subset(pcl_5_scorescurr$pcl_total, pcl_5_scorescurr$pcl_5_dsm == 1), breaks = c(0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80), plot=FALSE)
+ p1 <- hist(subset(pcl_5_scorescurr$pcl_total, pcl_5_scorescurr$pcl_5_dsm == 0), breaks = c(0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80), plot=FALSE)
+ 
+ transparency_level=0.4
+ plot(p0, col=rgb(1,0,0,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,30), ylab="Frequency", xlab="PCL_total_Score",main="Total PCL Score for Cases and Controls \n  based on PCL DSM-IV",cex.axis=1.2,cex.lab=1.2) 
+ plot(p1, col=rgb(0,0,1,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,30), add=T)  # second
+ legend('topright',legend=c("Case","Control", "Cut-off"),col=c(rgb(1,0,0,transparency_level),rgb(0,0,1,transparency_level), "black"),pch=c(19,19,95))
+ abline(v=33, col = "black", lty="dashed")
+ 
+ 
+ 
+ 
  
  #________________________________________________________________________________________ 
  #Export

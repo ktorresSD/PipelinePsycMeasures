@@ -307,28 +307,28 @@ table(pcl_5_scores$completeness_pcllife)
  
  #histogram of all scores
  par(mfrow=c(1,1))
- hist(pcl_5_scores$pcl_total, xlab = "PCL score", xlim=c(0,85), ylim=c(0,20), col = c("lightyellow"), main = "PCL Total Score \n (only assessed in 1st visit)",cex.axis=1.45,cex.lab=1.6)
+ hist(pcl_5_scores$pcl_total, xlab = "PCL score", xlim=c(0,85), ylim=c(0,20), col = c("lightyellow"), main = "PCL Total Score \n (only assessed in 1st visit)")
 
  
 #histogram of cases/controls based on PCL DSM-IV and PCL total score
- p0 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 1),plot=FALSE)
- p1 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 0),plot=FALSE)
+ p0 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 1), breaks = c(0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80), plot=FALSE)
+ p1 <- hist(subset(pcl_5_scores$pcl_total, pcl_5_scores$pcl_5_dsm == 0), breaks = c(0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80), plot=FALSE)
 
  transparency_level=0.4
- plot(p0, col=rgb(1,0,0,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,20), ylab="Frequency", xlab="PCL_total_Score",main="Total PCL Score for Cases and Controls \n  based on PCL DSM-IV",cex.axis=1.45,cex.lab=1.6) 
+ plot(p0, col=rgb(1,0,0,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,20), ylab="Frequency", xlab="PCL_total_Score",main="Total PCL Score for Cases and Controls \n  based on PCL DSM-IV",cex.axis=1.2,cex.lab=1.2) 
  plot(p1, col=rgb(0,0,1,transparency_level),freq=TRUE,xlim=c(0,85),ylim=c(0,20), add=T)  # second
- legend('topright',legend=c("Case","Control"),col=c(rgb(1,0,0,transparency_level),rgb(0,0,1,transparency_level)),pch=c(19,19))
-
+ legend('topright',legend=c("Case","Control", "Cut-off"),col=c(rgb(1,0,0,transparency_level),rgb(0,0,1,transparency_level), "black"),pch=c(19,19,95))
+abline(v=33, col = "black", lty="dashed")
 
  
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_scored_data_export.csv", sep="")
- write.csv( pcl_5_scores, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( pcl_5_scores, filename,quote=T,row.names=F,na="NA")
  
  filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_entire_life_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv( pcl_5_scores1, filename,quote=T,row.names=F,na="#N/A")
+ write.csv( pcl_5_scores1, filename,quote=T,row.names=F,na="NA")
  
 print("20_PCL_done")
 
