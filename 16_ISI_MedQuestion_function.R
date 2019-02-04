@@ -84,7 +84,7 @@ datisimed_scored1<- within(datisimed_scored,
 filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export.csv", sep="")
 write.csv( datisimed_scored, filename,quote=T,row.names=F,na="#N/A")
 
-filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export_FEIDENTIFIED.csv", sep="")
+filename <- paste("~/Biobank/16_ISI_MedQuestion/ISI_MedQuestion_scored_data_export_DEIDENTIFIED.csv", sep="")
 write.csv( datisimed_scored1, filename,quote=T,row.names=F,na="#N/A")
 
 print("16_ISI_MED_done")
