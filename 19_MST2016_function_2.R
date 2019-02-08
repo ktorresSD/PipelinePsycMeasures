@@ -26,6 +26,8 @@ datmst[is.na(datmst)] = ''
 mergedversion <- unite(datmst, MST_use, MST_2016_Q1_2:MST2016_Research_1, sep='')
 mergedversion[mergedversion == ''] <- NA
 
+#Subset by visit one only as this measure is only administered in the 1st visit
+mergedversion1 <-mergedversion[mergedversion$visit_number==1,]
 
 #________________________________________________________________________________________              
 # Completeness Functions Defined
@@ -78,7 +80,7 @@ mst_score <- function(x)
 
 
 #Calculate summary scores in data 
-datmst_scored <- adply(mergedversion, 1, mst_score)
+datmst_scored <- adply(mergedversion1, 1, mst_score)
 
 datmst_scored1<- within(datmst_scored,
                         {
@@ -86,15 +88,30 @@ datmst_scored1<- within(datmst_scored,
                           vista_lastname <- NULL
                         })
 
+#________________________________________________________________________________________ 
+#Report
+#----------------------------------------------------------------------------------------
+
+#completeness table
+table(datmst_scored$completeness_mst)
+
+#yes or no answer
+table(as.numeric(datmst_scored$MST_use))
+
+
+#plot
+counts <- table(datmst_scored$MST_use)
+barplot(counts, main="MST2016 for Research reponses", col = c("blue","red","gray"),
+        xlab="Reponse", ylab= "Number of Subjects", names.arg=c("No to both", "Yes to at least one", "Decline to answer")) 
   
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/19_MST2016/MST2016_scored_data_export.csv", sep="")
-write.csv(datmst_scored , filename,quote=T,row.names=F,na="#N/A")
+write.csv(datmst_scored , filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/19_MST2016/MST2016_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(datmst_scored1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datmst_scored1, filename,quote=T,row.names=F,na="NA")
 
 print("19_mst_done")
 
