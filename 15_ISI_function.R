@@ -19,21 +19,14 @@ datisi <- subset(dat0,
                         sleep2_satisfied,
                         sleep3_interfere,
                         sleep4_noticeable,
-                        sleep5_worried,
-                        sleep_score
+                        sleep5_worried
               ))
-#________________________________________________________________________________________
-# Data Manipulation and cleaning
-#----------------------------------------------------------------------------------------
-
 #________________________________________________________________________________________              
 # SCORING Functions Defined
 #----------------------------------------------------------------------------------------
 #Scoring function defined
 insomnia <- function(x)
 {
-
-  #attach(x)
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
   #summary score is the summation of items 1-7
@@ -41,7 +34,7 @@ insomnia <- function(x)
   
   
   insomnia_total <-   sleep1a_falling + sleep1b_staying + sleep1c_waking + 
-    sleep2_satisfied + sleep3_interfere + sleep4_noticeable + sleep5_worried + sleep_score
+    sleep2_satisfied + sleep3_interfere + sleep4_noticeable + sleep5_worried
   
   
   not_clinically_significant_insomnia <- as.numeric(insomnia_total <= 7)
@@ -73,7 +66,14 @@ insomnia <- function(x)
   }else{score_interpretation_isi<-NA}
   
   
-  
+  #score if any items are missing
+  isi_incomplete <- sum(c(sleep1a_falling,
+                           sleep1b_staying,
+                           sleep1c_waking,
+                           sleep2_satisfied,
+                           sleep3_interfere,
+                           sleep4_noticeable,
+                           sleep5_worried),na.rm=T)
   
   #completeness checks
 
@@ -86,8 +86,7 @@ insomnia <- function(x)
           sleep2_satisfied,
           sleep3_interfere,
           sleep4_noticeable,
-          sleep5_worried,
-          sleep_score
+          sleep5_worried
         )
       )
     ) == 0
@@ -102,11 +101,10 @@ insomnia <- function(x)
           sleep2_satisfied,
           sleep3_interfere,
           sleep4_noticeable,
-          sleep5_worried,
-          sleep_score
+          sleep5_worried
         )
       )
-    ) == 8
+    ) == 7
   )
   
   completeness_isi<- "1"
@@ -124,7 +122,7 @@ insomnia <- function(x)
   if(data_not_attempted_isi==0 & data_complete_isi==0){
     completeness_isi <- "partially completed"}else{}
   
-  scoresisi <- data.frame(insomnia_total, not_clinically_significant_insomnia,  subthreshold_insomnia, moderate_severity_insomnia, severe_insomnia, score_interpretation_isi, data_not_attempted_isi, data_complete_isi, completeness_isi)
+  scoresisi <- data.frame(insomnia_total, isi_incomplete, not_clinically_significant_insomnia,  subthreshold_insomnia, moderate_severity_insomnia, severe_insomnia, score_interpretation_isi, data_not_attempted_isi, data_complete_isi, completeness_isi)
   
   return(scoresisi)
 }
@@ -139,6 +137,67 @@ insomnia_scores1<- within(insomnia_scores,
                           assessment_id <- NULL
                           vista_lastname <- NULL
                         })
+
+
+
+#________________________________________________________________________________________              
+# Descriptive Stats and plots
+#----------------------------------------------------------------------------------------
+library(psych)
+
+#subset by visit to get report information
+v1 <- insomnia_scores[ which(insomnia_scores$visit_number==1), ]
+v2 <- insomnia_scores[ which(insomnia_scores$visit_number==2), ]
+v3 <- insomnia_scores[ which(insomnia_scores$visit_number==3), ]
+
+#completeness table
+table(insomnia_scores$completeness_isi, insomnia_scores$visit_number)
+
+#summary statistics for total PCL
+describe(v1$insomnia_total)
+describe(v2$insomnia_total)
+describe(v3$insomnia_total)
+describe(insomnia_scores$insomnia_total)
+
+#mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+Mode(v1$insomnia_total)
+Mode(v2$insomnia_total)
+Mode(v3$insomnia_total)
+Mode(insomnia_scores$insomnia_total)
+
+
+#histograms
+par(mfrow=c(2,2))
+hist(insomnia_scores$insomnia_total, breaks=10, xlab = "ISI Score", ylim=c(0,45), col = c("lightyellow"), main = "ISI total Score (all visits)")
+hist(v1$insomnia_total, breaks=10, xlab = "ISI Score", ylim=c(0,45), col = c("lightyellow"), main = "ISI total Score (visit 1 only)")
+hist(v2$insomnia_total, breaks=10, xlab = "ISI Score", ylim=c(0,45), col = c("lightyellow"), main = "ISI total Score (visit 2 only)")
+hist(v3$insomnia_total, breaks=10, xlab = "ISI Score", ylim=c(0,45), col = c("lightyellow"), main = "ISI total Score (visit 3 only)")
+
+
+par(mfrow=c(1,1))
+hist(insomnia_scores$insomnia_total, breaks=17, xlim=c(0,27), xlab = "Total ISI Score", col = c("steelblue3"), main = "Total ISI Score")
+abline(v = 15, lty = 2, lwd=2)
+axis(1, 1:28)
+legend('topright',legend=c("Clinical Insomnia"),lty = 2, lwd=2)
+
+
+
+
+barplot(table(insomnia_scores$score_interpretation_isi), 
+        col = c("mistyrose" ,"lavender", "lightblue", "lightskyblue3"), 
+        main = "Count of subjects in each ISI Diagnosis category", 
+        ylab = "Subject Count",
+        names.arg = c("Not clinically sig", "Subtreshold", "Moderate severity", "Severe" ))
+abline(col= "slategray", v=2.50, lwd= 2, lty = "dashed")
+mtext("                               Clinical insomnia", col= "slategray")
+
+
+
 
 #________________________________________________________________________________________ 
 #Export
