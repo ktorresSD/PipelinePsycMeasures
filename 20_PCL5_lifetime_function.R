@@ -3,18 +3,18 @@
 # Author: Katy Torres
 # Description: Subset of question 20, PCL LIFETIME
 ##########################################################################################
-
+pcllife<- function(dat0, exportdate)
+{
+  
 
 #Load plyr library
  library(plyr)
 
-setwd("C:/Users/Nievergelt Lab/Documents/GWAS_Freeze2_CURRENT/13_NHRVS/pheno_3")
-
-dat<- read.csv('./GFK_for_scoring_pcl-5.csv',header=T,na.strings=c(NA,"#N/A"))
-
+#Subset by visit one only as this measure is only administered in the 1st visit
+dat<-dat0[dat0$visit_number==1,]
 #Only retain relevant variables
- datpcllife <- subset(dat, 
-               select= c(IID,
+datpcllife <- subset(dat, 
+                     select= c(assessment_id,vista_lastname,visit_number,
                          pcl5_entirelife_1_memories,
                     pcl5_entirelife_2_dream,
                     pcl5_entirelife_3_acting,
@@ -287,6 +287,12 @@ pcl_5_entire_life <- function(x)
  #----------------------------------------------------------------------------------------
 #Export data
 write.csv( pcl_5_scores , "C:/Users/Nievergelt Lab/Documents/GWAS_Freeze2_CURRENT/13_NHRVS/pheno_3/pcl5_lifetime_GFK.csv",quote=T,row.names=F,na="#N/A")
+
+ #return completness column
+ myvars <- c("assessment_id", "completeness_pcllife")
+ newdata <- pcl_5_scores[myvars]
+ return(newdata)
+}
 
 
 

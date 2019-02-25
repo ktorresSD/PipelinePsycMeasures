@@ -9,10 +9,7 @@ lecpcl<- function(dat0, exportdate)
 #Only retain relevant variables
 datlecpcl <- subset(dat0, select= c(assessment_id,vista_lastname,visit_number,
                               LEC_5_18_MostSevere
-                        
               ))
-
-
 
 
 #________________________________________________________________________________________              
@@ -44,6 +41,31 @@ datlecpcl_scored1<- within(datlecpcl_scored,
                           assessment_id <- NULL
                           vista_lastname <- NULL
                         })
+
+#________________________________________________________________________________________              
+# Descriptive Stats and plots for Report
+#----------------------------------------------------------------------------------------
+
+#subset by visit to get report information
+v1 <- datlecpcl_scored[ which(datlecpcl_scored$visit_number==1), ]
+v2 <- datlecpcl_scored[ which(datlecpcl_scored$visit_number==2), ]
+v3 <- datlecpcl_scored[ which(datlecpcl_scored$visit_number==3), ]
+
+#completeness table
+table(datlecpcl_scored$completeness_lecpcl, datlecpcl_scored$visit_number)
+
+
+table(datlecpcl_scored$LEC_5_18_MostSevere)
+
+xx<- barplot(table(datlecpcl_scored$LEC_5_18_MostSevere), 
+        col = c("steelblue3"),
+        main = "Count of subjects in each response category", 
+        ylab = "Subject Count", xlab = "Most severe Event")
+
+dat$freqs <- as.numeric(as.character(table(datlecpcl_scored$LEC_5_18_MostSevere)))
+
+  ## Add text at top of bars
+  text(x = xx, y = dat$freqs, label = datlecpcl_scored$freqs, pos = 3, cex = 0.8, col = "red")
 
 #________________________________________________________________________________________ 
 #Export

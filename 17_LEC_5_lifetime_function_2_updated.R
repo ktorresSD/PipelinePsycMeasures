@@ -438,6 +438,23 @@ datalec_scored1<- within(datalec_scored,
                           vista_lastname <- NULL
                         })
 
+
+#________________________________________________________________________________________              
+# Descriptive Stats and plots
+#----------------------------------------------------------------------------------------
+datalec_scored
+#subset by visit to get report information
+v1 <- datalec_scored[ which(datalec_scored$visit_number==1), ]
+v2 <- datalec_scored[ which(datalec_scored$visit_number==2), ]
+v3 <- datalec_scored[ which(datalec_scored$visit_number==3), ]
+
+#completeness table
+table(datalec_scored$completeness_lec, datalec_scored$visit_number)
+
+
+datalec_scored$CritA2
+
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------

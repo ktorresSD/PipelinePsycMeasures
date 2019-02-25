@@ -135,9 +135,9 @@ phq9 <- function(x)
     
     #if the total score is 0, they have to have a 0 in question 8 
     
-    if((is.na(phq9_total) | is.na(dep10_difficultt))){inconsistency_flag <- NA
-    }else if(phq9_total==0 & dep10_difficultt == 0){ inconsistency_flag <- "consistent"
-    } else if (phq9_total ==0 & dep10_difficultt < 0) {inconsistency_flag <- "inconsistent"
+    if((is.na(phq9_total) | is.na(dep10_difficult))){inconsistency_flag <- NA
+    }else if(phq9_total==0 & dep10_difficult == 0){ inconsistency_flag <- "consistent"
+    } else if (phq9_total ==0 & dep10_difficult < 0) {inconsistency_flag <- "inconsistent"
     } else if (phq9_total > 0 ){inconsistency_flag <- "total not zero"}
     
     

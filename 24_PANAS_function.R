@@ -41,9 +41,6 @@ datpanas <- subset(dat0, select= c(assessment_id,vista_lastname,visit_number,
                         Liz.s.Formula
                         
               ))
-#________________________________________________________________________________________
-# Data Manipulation and cleaning
-#----------------------------------------------------------------------------------------
 
 #________________________________________________________________________________________              
 # SCORING Functions Defined
@@ -195,6 +192,81 @@ panas_scores1<- within(panas_scores,
                           assessment_id <- NULL
                           vista_lastname <- NULL
                         })
+
+
+#________________________________________________________________________________________              
+# Descriptive Stats and plots for Report
+#----------------------------------------------------------------------------------------
+
+#subset by visit to get report information
+v1 <- panas_scores[ which(panas_scores$visit_number==1), ]
+v2 <- panas_scores[ which(panas_scores$visit_number==2), ]
+v3 <- panas_scores[ which(panas_scores$visit_number==3), ]
+
+#completeness table
+table(panas_scores$completeness_panas, panas_scores$visit_number)
+
+#POSITIVE
+#summary statistics for total PCL
+describe(v1$Positive_Affect_Score)
+describe(v2$Positive_Affect_Score)
+describe(v3$Positive_Affect_Score)
+describe(panas_scores$Positive_Affect_Score)
+
+#mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+Mode(v1$Positive_Affect_Score)
+Mode(v2$Positive_Affect_Score)
+Mode(v3$Positive_Affect_Score)
+Mode(panas_scores$Positive_Affect_Score)
+
+#NEGATIVE
+#summary statistics for total PCL
+describe(v1$Negative_Affect_Score)
+describe(v2$Negative_Affect_Score)
+describe(v3$Negative_Affect_Score)
+describe(panas_scores$Negative_Affect_Score)
+
+#mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+Mode(v1$Negative_Affect_Score)
+Mode(v2$Negative_Affect_Score)
+Mode(v3$Negative_Affect_Score)
+Mode(panas_scores$Negative_Affect_Score)
+
+
+
+#histograms
+par(mfrow=c(2,2))
+hist(panas_scores$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score(all visits)")
+hist(v1$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 1 only)")
+hist(v2$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 2 only)")
+hist(v3$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 3 only)")
+
+
+
+#histograms
+par(mfrow=c(2,2))
+hist(panas_scores$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score(all visits)")
+hist(v1$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 1 only)")
+hist(v2$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 2 only)")
+hist(v3$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 3 only)")
+
+
+
+par(mfrow=c(2,1))
+hist(panas_scores$Positive_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Positive Affect Scores", col = c("steelblue3"), main = "Histogram for Positive Affect Scores")
+
+hist(panas_scores$Negative_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Negative Affect Scores", col = c("steelblue3"), main = "Histogram for Negative Affect Scores")
+
 
 
 #________________________________________________________________________________________ 

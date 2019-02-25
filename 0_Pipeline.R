@@ -36,7 +36,7 @@ dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071), ]
 
 #Export data
 filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+#write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
 
 
