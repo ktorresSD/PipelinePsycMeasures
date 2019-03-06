@@ -19,7 +19,7 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_2018_FREEZE_1.csv',header=T,na.strings=c("#N/A",NA))
+dataset <- read.csv('joined_data_export_2018_FREEZE_1_with_lec_use.csv',header=T,na.strings=c("#N/A",NA))
 core <- read.csv('biobank_data_corefile_2018_Freeze_1.csv',header=T, na.strings=c("",NA))
 exportdate <- "2018_FREEZE_1"
 
@@ -50,7 +50,7 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/000_R_scripts')
 source("1_AUDIT_function.r")
 # source("2_BAT_L_interval_function.r") #REMOVED
 # source("3_BATL_function.r")           #REMOVED
-source("4_BTBIS_function.r")
+source("4_BTBIS_function_correspond.r")
 source("5_Basic_Demographic_function.r")
 source("6_basic_pain_function.r")
 source("7_Brief_CESAMH_function.r")
@@ -63,8 +63,8 @@ source("13_exposures_function.r")
 source("14_GAD_function.r")
 source("15_ISI_function.r")
 source("16_ISI_MedQuestion_function.r")
-source("17_LEC_5_lifetime_function.r")
-source("17_LEC_5_lifetime_function_2_updated.r")
+#source("17_LEC_5_lifetime_function.r")
+source("17_LEC_5_lifetime_function_2_updated_flags.r")
 source("18_LEC5_PCL5_function.r")
 source("19_MST2016_function_2.r") 
 source("20_PCL5_lifetime_function.r")
@@ -103,8 +103,8 @@ c13<- exposures(dat0, exportdate)
 c14<- gad(dat0, exportdate)
 c15<- isi(dat0, exportdate) 
 c16<- isi2(dat0, exportdate) 
-c171<- leclife(dat0, exportdate)     #OLD version of LEC
-c172<- leclife2(dat0, exportdate)     #NEW version of LEC
+#c171<- leclife(dat0, exportdate)     #OLD version of LEC
+c17<- leclife2(dat0, exportdate)     #NEW version of LEC
 c18<- lecpcl(dat0, exportdate) 
 c19<- mst(dat0, exportdate)
 c20<- pcllife(dat0, exportdate)
@@ -122,20 +122,21 @@ c31<- whodas(dat0, exportdate)
 c32<- HEQfunc(dat0, exportdate) 
 c33<- masq(dat0, exportdate)
 
-c171a <- na.omit(c171)
-c172a <- na.omit(c172)
-#combine old and new LEC
-lecboth <- merge(c171a, c172a, by=c("assessment_id"), all = FALSE)
-#check both old and new LEC completeness
-for(i in 1:nrow(lecboth)){
-  if(lecboth$completeness_lec1[i]=="not attempted" & lecboth$completeness_lec[i]=="not attempted")
-    {lecboth$completeness_lec_both[i]<- "not attempted"
-  }else if(lecboth$completeness_lec1[i]=="complete" || lecboth$completeness_lec[i]=="complete")
-  {lecboth$completeness_lec_both[i]<- "complete"
-  }else{lecboth$completeness_lec_both[i]<- "partially completed"}
-}
 
-c17<- lecboth[,-2:-3]
+# c171a <- na.omit(c171)
+# c172a <- na.omit(c172)
+# #combine old and new LEC
+# lecboth <- merge(c171a, c172a, by=c("assessment_id"), all = FALSE)
+# #check both old and new LEC completeness
+# for(i in 1:nrow(lecboth)){
+#   if(lecboth$completeness_lec1[i]=="not attempted" & lecboth$completeness_lec[i]=="not attempted")
+#     {lecboth$completeness_lec_both[i]<- "not attempted"
+#   }else if(lecboth$completeness_lec1[i]=="complete" || lecboth$completeness_lec[i]=="complete")
+#   {lecboth$completeness_lec_both[i]<- "complete"
+#   }else{lecboth$completeness_lec_both[i]<- "partially completed"}
+# }
+# 
+# c17<- lecboth[,-2:-3]
 
 completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c30, c31,c32,c33)
 #completedataframe<-completelist %>% reduce(left_join, by = "assessment_id")

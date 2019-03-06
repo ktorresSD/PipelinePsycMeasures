@@ -62,10 +62,10 @@ xx<- barplot(table(datlecpcl_scored$LEC_5_18_MostSevere),
         main = "Count of subjects in each response category", 
         ylab = "Subject Count", xlab = "Most severe Event")
 
-dat$freqs <- as.numeric(as.character(table(datlecpcl_scored$LEC_5_18_MostSevere)))
+table(datlecpcl_scored$LEC_5_18_MostSevere)
 
-  ## Add text at top of bars
-  text(x = xx, y = dat$freqs, label = datlecpcl_scored$freqs, pos = 3, cex = 0.8, col = "red")
+  # ## Add text at top of bars
+  # text(x = xx, y = dat$freqs, label = datlecpcl_scored$freqs, pos = 3, cex = 0.8, col = "red")
 
 #________________________________________________________________________________________ 
 #Export

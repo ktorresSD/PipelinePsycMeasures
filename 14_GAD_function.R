@@ -213,8 +213,8 @@ gad7 <- function(x){
  # Subject count for each GAD7 category
  barplot(table(gad7_scores$score_interpretation_gad7), 
          col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
-         main = "Count of subjects in each GAD Diagnosis category", 
-         ylab = "Subject Count",
+         main = "Assessments Count in each GAD Diagnosis category", 
+         ylab = "Assessment Count",
          names.arg = c("None", "Mild", "Moderate", "Severe"))
  abline(col= "slategray", v=2.5, lwd= 2, lty = "dashed")
  mtext("                                                  Possible diagnosis of GAD", col= "slategray")

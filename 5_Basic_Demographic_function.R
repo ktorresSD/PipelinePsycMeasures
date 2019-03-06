@@ -44,6 +44,52 @@ demorace<- function(x)
 {
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
+  
+  
+  #One column for Diagnosis based on score
+  
+  if(!(is.na(demo_racewhite))){
+    if(demo_racewhite==1)
+    {
+      race <- "White"}else{}
+  }else{race <- NA}
+  
+  if(!(is.na(demo_race_black))){
+    if(demo_race_black==1){
+      race <- "Black"} else{}
+  }else{race <-NA}
+  
+  if(!(is.na(demo_race_amind))){
+    if(demo_race_amind==1){
+      race <- "American Indian"}else{}
+  }else{race<-NA}
+  
+  if(!(is.na(demo_race_pacisl))){
+    if(demo_race_pacisl==1){
+      race <- "Pacific Islander"}else{}
+  }else{race <-NA}
+  
+  if(!(is.na(demo_race_asian))){
+    if(demo_race_asian==1){
+      race <- "Asian"}else{}
+  }else{race <-NA}
+  
+  if(!(is.na(demo_race_decline))){
+    if(demo_race_decline==1){
+      race <- "Decline To Answer"}else{}
+  }else{race <-NA}
+  
+  if(!(is.na(demo_race_oth))){
+    if(demo_race_oth==1){
+      race <- "Other"}else{}
+  }else{race <-NA}
+  
+  if(!(is.na(demo_racewhite |demo_race_black |demo_race_amind|demo_race_pacisl|demo_race_asian|demo_race_oth))){
+    if(sum(c(demo_racewhite, demo_race_black, demo_race_amind, demo_race_pacisl, demo_race_asian, demo_race_oth)) > 1 ){
+      race <- "Multiple"} else{}
+  }else{race <-NA}
+  
+  
   #completeness checks
   
   race_complete <- as.numeric(
@@ -55,11 +101,7 @@ demorace<- function(x)
           demo_race_pacisl,
           demo_race_asian,
           demo_race_decline,
-          demo_race_oth
-        )
-      )
-    ) == 0
-  )
+          demo_race_oth))) == 0)
   
   race_not_attempted<- as.numeric(
     sum(
@@ -70,11 +112,7 @@ demorace<- function(x)
           demo_race_pacisl,
           demo_race_asian,
           demo_race_decline,
-          demo_race_oth
-        )
-      )
-    ) == 7
-  )
+          demo_race_oth))) == 7)
   
   completeness_race<- "1"
   if(!(is.na(race_not_attempted))){
@@ -91,7 +129,7 @@ demorace<- function(x)
   if(race_not_attempted==0 & race_complete==0){
     completeness_race <- "partially completed"}else{}
   
-  scoresisi <- data.frame(completeness_race)
+  scoresisi <- data.frame(completeness_race, race)
   
   return(scoresisi)
 }
@@ -99,18 +137,6 @@ demorace<- function(x)
 
 #Calculate summary scores in data
 datdemorace <- adply(datdemo1, 1, demorace)
-
-  
-
-
-
-
-
-  
-  
-
-
-
 
 
 democomplete<- function(x)
@@ -135,11 +161,7 @@ democomplete<- function(x)
           demo_race_asian,
           demo_race_decline,
           demo_race_oth,
-          demo_relationship_r
-        )
-      )
-    ) == 0
-  )
+          demo_relationship_r))) == 0)
   
   demo_not_attempted<- as.numeric(
     sum(
@@ -157,11 +179,7 @@ democomplete<- function(x)
           demo_race_asian,
           demo_race_decline,
           demo_race_oth,
-          demo_relationship_r
-        )
-      )
-    ) == 14
-  )
+          demo_relationship_r))) == 14)
   
   completeness_demo<- "1"
   if(!(is.na(demo_not_attempted))){
@@ -188,10 +206,6 @@ democomplete<- function(x)
 datdemo_final <- adply(datdemorace, 1, democomplete)
 
 
-
-
-
-
 #to anonymize data
 datdemo_final1<- within(datdemo_final,
                   {
@@ -200,14 +214,12 @@ datdemo_final1<- within(datdemo_final,
                   })
 
 #________________________________________________________________________________________              
-# Checkign consistency
+# Checking consistency
 #----------------------------------------------------------------------------------------
 attach(datdemo_final)
 
 datdemo_final$sum_multiple <- sum(c(demo_racewhite, demo_race_black, demo_race_amind, demo_race_pacisl, demo_race_asian, 
 demo_race_decline, demo_race_oth),na.rm=T)
-
-
 
 #________________________________________________________________________________________              
 # Descriptive Stats and plots
@@ -223,12 +235,60 @@ table(datdemo_final$completeness_demo, datdemo_final$visit_number)
 
 table(datdemo_final$demo_gender_r)
 
+#------------------------------------------------------------------------
+#DATA TRANSFORMATION to see concordance between visits 
+#------------------------------------------------------------------------
+datdemo_final0<- datdemo_final[,c(2,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)]
+
+
+l.sort <- datdemo_final[order(datdemo_final$vista_lastname),]
+
+demo_wide <- reshape(l.sort, 
+             timevar = "visit_number",
+             idvar = c( "vista_lastname"),
+             direction = "wide")
+
+#to see if responses change between visits 1 and 2
+demo_wide$gen_F_TO_F<- ifelse(demo_wide$demo_gender_r.1 == 2 & demo_wide$demo_gender_r.2 == 2 , "1", "0")
+demo_wide$gen_M_TO_M<- ifelse(demo_wide$demo_gender_r.1 == 1 & demo_wide$demo_gender_r.2 == 1 , "1", "0")
+demo_wide$gen_match<- ifelse(demo_wide$demo_gender_r.1 ==  demo_wide$demo_gender_r.2, "1", "0")
+
+demo_wide$eth_yes_to_yes<- ifelse(demo_wide$demo_ethnic_r.1 == 1 & demo_wide$demo_ethnic_r.2== 1 , "1", "0")
+demo_wide$eth_no_to_no<- ifelse(demo_wide$demo_ethnic_r.1 == 0 & demo_wide$demo_ethnic_r.2== 0 , "1", "0")
+demo_wide$eth_decline_twice<- ifelse(demo_wide$demo_ethnic_r.1 == 2 & demo_wide$demo_ethnic_r.2== 2 , "1", "0")
+demo_wide$eth_match<- ifelse(demo_wide$demo_ethnic_r.1 ==  demo_wide$demo_ethnic_r.2, "1", "0")
+
+demo_wide$race_match<- ifelse(demo_wide$race.1 == demo_wide$race.2, "1", "0")
+
+#GENDER
+sum(as.numeric(demo_wide$gen_F_TO_F), na.rm=TRUE)
+sum(as.numeric(demo_wide$gen_M_TO_M), na.rm=TRUE)
+sum(as.numeric(demo_wide$gen_match), na.rm=TRUE)
+
+#ETHNICITY
+sum(as.numeric(demo_wide$eth_yes_to_yes), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_no_to_no), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_decline_twice), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_match), na.rm=TRUE)
+
+#RACE
+sum(as.numeric(demo_wide$race_match), na.rm=TRUE)
+
+#BEWTWEEN VISITS 2 And 3
+demo_wide$gen_match_23<- ifelse(demo_wide$demo_gender_r.2 ==  demo_wide$demo_gender_r.3, "1", "0")
+demo_wide$eth_match_23<- ifelse(demo_wide$demo_ethnic_r.2 ==  demo_wide$demo_ethnic_r.3, "1", "0")
+demo_wide$race_match_23<- ifelse(demo_wide$race.2 == demo_wide$race.3, "1", "0")
 
 #________________________________________________________________________________________ 
 #Export datBTBISa
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export.csv", sep="")
 write.csv(datdemo_final, filename,quote=T,row.names=F,na="NA")
+
+filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_wide.csv", sep="")
+write.csv(demo_wide , filename,quote=T,row.names=F,na="NA")
+
+
 
 filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export_DEIDENTIFIED.csv", sep="")
 write.csv(datdemo_final1, filename,quote=T,row.names=F,na="NA")
