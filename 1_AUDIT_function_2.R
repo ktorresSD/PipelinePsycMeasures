@@ -54,13 +54,6 @@ audit_total_score <- alcol1_often + alcol2_many +
   alcol8_remember + alcol9_injure_RECODE + alcol10_concern_RECODE
 
 
-
-audit_total_score_incomplete <- sum(c(alcol1_often , alcol2_many ,
-  alcol3_six , alcol4_often , alcol5_fail , alcol6_start , alcol7_guilt ,
-  alcol8_remember , alcol9_injure_RECODE , alcol10_concern_RECODE), na.rm = TRUE)
-
-
-
 if(!(is.na(alcol1_often))){
   if(alcol1_often==0)
   {
@@ -80,8 +73,8 @@ if(!(is.na(audit_total_score))){
 indicator<- "-4"
 #score greater than 8 is an indicator of hazardous and harmful alcohol use,
 #as well as possible alcohol dependence. Only checks if all 10 questions are answered
-  if(!(is.na(audit_total_score_incomplete))){
-    if(audit_total_score_incomplete < 8)
+  if(!(is.na(audit_total_score))){
+    if(audit_total_score < 8)
     {
       indicator<-0}else{indicator<-1}
   }else{indicator<-NA}
@@ -152,7 +145,7 @@ if(!(is.na(drinker))){
   if(data_not_attempted_audit==0 & data_complete_audit==0 & drinker==1){
     completeness_audit <- "partially completed"}else{}
     
-  scores <- data.frame(drinker,audit_total_score, audit_total_score_use, audit_total_score_incomplete, indicator, intervention, data_complete_audit, data_not_attempted_audit, completeness_audit )
+  scores <- data.frame(drinker,audit_total_score, audit_total_score_use, indicator, intervention, data_complete_audit, data_not_attempted_audit, completeness_audit )
   
   return(scores)
 }

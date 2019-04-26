@@ -535,7 +535,26 @@ flag_func <- function(x)
     flag15<-0
     flag16<-0
     flag17<-0
-    }
+  }
+  
+  happened_to_me_sum <- sum(c(LEC5_1_nat_htm,
+                              LEC5_2_fir_htm,
+                              LEC5_3_acc_htm,
+                              LEC5_4_ser_htm,
+                              LEC5_5_exp_htm,
+                              LEC5_6_phy_htm,
+                              LEC5_7_ass_htm,
+                              LEC5_8_sex_htm,
+                              LEC5_9_oth_htm,
+                              LEC5_10_com_htm,
+                              LEC5_11_cap_htm,
+                              LEC5_12_lif_htm,
+                              LEC5_13_sev_htm,
+                              LEC5_14_sudv_htm,
+                              LEC5_15_suda_htm,
+                              LEC5_16_ser_htm,
+                              LEC5_17_any_htm), na.rm = TRUE)
+  
   
   flags_total <- flag1 + flag2 + flag3 + flag4 + flag5 + flag6 + 
     flag7 + flag8 + flag9 + flag10 + flag11 + flag12 + 
@@ -545,9 +564,7 @@ flag_func <- function(x)
     flag7 , flag8 , flag9 , flag10 , flag11 , flag12 , 
     flag13 , flag14 , flag15 , flag16 , flag17), na.rm = TRUE)
   
-  scores <- data.frame(flag1, flag2, flag3, flag4, flag5, flag6, 
-                       flag7, flag8, flag9, flag10, flag11, flag12,
-                       flag13, flag14, flag15, flag16, flag17, flags_total, flags_total_incomplete  )
+  scores <- data.frame(happened_to_me_sum, flags_total, flags_total_incomplete  )
   
   return(scores)
 }

@@ -38,6 +38,7 @@ dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071), ]
 filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
 #write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
+table(dat0$visit_number)
 
 
 #________________________________________________________________________________________              
@@ -51,7 +52,7 @@ source("1_AUDIT_function.r")
 # source("2_BAT_L_interval_function.r") #REMOVED
 # source("3_BATL_function.r")           #REMOVED
 source("4_BTBIS_function_correspond.r")
-source("5_Basic_Demographic_function.r")
+source("5_Basic_Demographic_function_2.r")
 source("6_basic_pain_function.r")
 source("7_Brief_CESAMH_function.r")
 source("8_CDDR_function.r")
@@ -144,6 +145,7 @@ completedataframe<-join_all(completelist, by="assessment_id")
 View(completedataframe)
 
 completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
+
 
 #Export data
 filename <- paste("~/Biobank/data/completeness_table_", exportdate, ".csv", sep="")

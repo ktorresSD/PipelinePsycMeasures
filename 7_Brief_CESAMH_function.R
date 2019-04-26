@@ -69,6 +69,20 @@ score_brief <- function(x)
 {          
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
+  if(!(is.na(Stat2_nic))){
+    if(Stat2_nic==0)
+    {
+      nicotine_today <- 0}else{nicotine_today <- 1}
+  }else{nicotine_today<-NA}
+  
+  
+  if(!(is.na(Stat2_nic | Stat2_nicroute_chew | Stat2_nicroute_cig |Stat2_nicroute_vap| Stat2_nicroute_inh |  Stat2_nicroute_pat))){
+    if(Stat2_nic== 0 & (Stat2_nicroute_chew==1 | Stat2_nicroute_cig==1 |Stat2_nicroute_vap==1 | Stat2_nicroute_inh==1 | Stat2_nicroute_pat ==1 )){nicotine_flag <- 1}else{nicotine_flag<- 0}
+  }else{nicotine_flag<-NA}
+  
+  
+  
+  
   data_complete_minus_meds_brief<- as.numeric(
               sum(
                 is.na(
@@ -155,7 +169,7 @@ score_brief <- function(x)
       }else{completeness_brief<-NA}
       
             
-  scores <- data.frame(completeness_brief)
+  scores <- data.frame(nicotine_today, nicotine_flag,  completeness_brief)
   
   return(scores)
 }               
@@ -174,10 +188,10 @@ score_datbrief1<- within(score_datbrief,
 # #Export datBTBISa
 # #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/7_Brief_CESAMH_Biorepository_Survey/Brief_CESAMH_reduced_data_export.csv", sep="")
-write.csv(score_datbrief, filename,quote=T,row.names=F,na="#N/A")
+write.csv(score_datbrief, filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/7_Brief_CESAMH_Biorepository_Survey/Brief_CESAMH_reduced_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(score_datbrief1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(score_datbrief1, filename,quote=T,row.names=F,na="NA")
 
 print("7_Brief_done")
 
