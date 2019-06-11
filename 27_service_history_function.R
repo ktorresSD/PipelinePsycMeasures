@@ -92,7 +92,16 @@ serv_score <- function(x)
     data_about_serv<-as.numeric(
       sum(
         is.na(
-          c(serv_count
+          c(
+            serv_oper_none,
+            serv_type_0,
+            serv_branch_0,
+            serv_start_0,
+            serv_stop_0,
+            serv_discharge_0,
+            serv_rank_0,
+            serv_job_0
+
           )
         )
       ) == 0
@@ -108,11 +117,10 @@ serv_score <- function(x)
             serv_stop_0,
             serv_discharge_0,
             serv_rank_0,
-            serv_job_0,
-            serv_oper_none
+            serv_job_0
           )
         )
-      ) == 9
+      ) == 8
     )
     
     
@@ -122,17 +130,17 @@ serv_score <- function(x)
    {
      completeness_serv <- "not_attempted"}else{}
    
-   if(!(is.na(servedany))){
-     if(servedany==0){
-       completeness_serv <- "complete"} else{}
-   }else{}
+   # if(!(is.na(servedany))){
+   #   if(servedany==0){
+   #     completeness_serv <- "complete"} else{}
+   # }else{}
 
-   if(!(is.na(servedany))){
-      if(servedany== 1 & data_about_serv==1){
+   if(!(is.na(data_about_serv))){
+      if(data_about_serv==1){
         completeness_serv <- "complete"} else{}
     }else{}
 
-    if(is.na(servedany) & data_about_serv==1){
+    if(data_not_attempted_serv == 0 & data_about_serv==0){
        completeness_serv <- "partially completed"}else{}
   
 

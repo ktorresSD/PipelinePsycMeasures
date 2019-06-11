@@ -142,6 +142,34 @@ drrices <- function(dat0, exportdate)
                              assessment_id <- NULL
                              vista_lastname <- NULL
                            })
+ 
+ 
+ 
+ 
+ 
+ 
+ #completeness table
+ table(score_datces$completeness_ces)
+ 
+ library(psych)
+         
+ #summary statistics for total PCL
+ describe(score_datces$DRRI_CES_scores_total)
+ 
+ #mode
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
+ 
+ Mode(score_datces$DRRI_CES_scores_total)
+ 
+ hist(score_datces$DRRI_CES_scores_total, ylim=c(0,50), xlim = c(10,102),
+      xlab = "Total DRRI_CES Score", col = c("steelblue3"), main = "Histogram for Total DRRI_CES Score")
+
+ 
+ 
+ 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------

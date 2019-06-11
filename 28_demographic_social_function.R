@@ -131,14 +131,18 @@ datsocial_scored1<- within(datsocial_scored,
                           vista_lastname <- NULL
                         })
 
+
+#Completeness table
+table(datsocial_scored$completeness_social,datsocial_scored$visit_number)
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_scored_data_export.csv", sep="")
-write.csv(datsocial_scored , filename,quote=T,row.names=F,na="#N/A")
+write.csv(datsocial_scored , filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/28_Demo_Social/Demographic_social_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(datsocial_scored1 , filename,quote=T,row.names=F,na="#N/A")
+write.csv(datsocial_scored1 , filename,quote=T,row.names=F,na="NA")
 
 print("28_Demo_social_done")
        

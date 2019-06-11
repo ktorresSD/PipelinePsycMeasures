@@ -244,29 +244,29 @@ Mode(panas_scores$Negative_Affect_Score)
 
 
 
-#histograms
-par(mfrow=c(2,2))
-hist(panas_scores$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score(all visits)")
-hist(v1$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 1 only)")
-hist(v2$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 2 only)")
-hist(v3$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 3 only)")
-
-
-
-#histograms
-par(mfrow=c(2,2))
-hist(panas_scores$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score(all visits)")
-hist(v1$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 1 only)")
-hist(v2$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 2 only)")
-hist(v3$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 3 only)")
-
-
-
-par(mfrow=c(2,1))
-hist(panas_scores$Positive_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Positive Affect Scores", col = c("steelblue3"), main = "Histogram for Positive Affect Scores")
-
-hist(panas_scores$Negative_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Negative Affect Scores", col = c("steelblue3"), main = "Histogram for Negative Affect Scores")
-
+# #histograms
+# par(mfrow=c(2,2))
+# hist(panas_scores$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score(all visits)")
+# hist(v1$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 1 only)")
+# hist(v2$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 2 only)")
+# hist(v3$Positive_Affect_Score, breaks=10, xlab = "Positive Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Positive Affect Score (visit 3 only)")
+# 
+# 
+# 
+# #histograms
+# par(mfrow=c(2,2))
+# hist(panas_scores$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score(all visits)")
+# hist(v1$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 1 only)")
+# hist(v2$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 2 only)")
+# hist(v3$Negative_Affect_Score, breaks=10, xlab = "Negative Affect Score", ylim=c(0,50), col = c("lightyellow"), main = "Negative Affect Score (visit 3 only)")
+# 
+# 
+# 
+# par(mfrow=c(2,1))
+# hist(panas_scores$Positive_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Positive Affect Scores", col = c("steelblue3"), main = "Histogram for Positive Affect Scores")
+# 
+# hist(panas_scores$Negative_Affect_Score, breaks=10, xlim=c(10,50), xlab = "Negative Affect Scores", col = c("steelblue3"), main = "Histogram for Negative Affect Scores")
+# 
 
 
 #________________________________________________________________________________________ 

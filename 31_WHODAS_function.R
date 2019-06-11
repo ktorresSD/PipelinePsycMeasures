@@ -203,41 +203,6 @@ datawhodas1$score_sum_imputed <- as.numeric(rowSums(whodas_missing_dealt[,c("D1_
 whodas_missing_dealt$whodas_work_score2 <- NULL
 
 
-#Score taking into account people who don't work
-#----------------------------------------------------------------------------------------
-datawhodas1$work <- "0"
-
-for (i in 1:nrow(datawhodas1)){
-  if (datawhodas1$whodas_work_score2[i] == 0){
-    datawhodas1$summaryscore_imputed[i]<- datawhodas1$score_sum_imputed[i]*100/166
-    datawhodas1$summaryscore_actual[i]<- datawhodas1$score_sum_actual[i]*100/166
-    datawhodas1$work[i] <- "non-working"
-  } else {
-    datawhodas1$summaryscore_imputed[i]<- datawhodas1$score_sum_imputed[i]*100/180
-    datawhodas1$summaryscore_actual[i]<- datawhodas1$score_sum_actual[i]*100/180
-    datawhodas1$work[i] <- "working"
-  }}
-
-#remove temporary variable
-datawhodas1$whodas_work_score2 <- NULL
-
-#plot of scores
-a <- ggplot(datawhodas1, aes(x =score_sum_imputed))
-a + ggtitle("Disability Score by work status") +
-  geom_density(aes(fill = work),  alpha = 0.4) 
-  
-
-#plot of scores
-a <- ggplot(datawhodas1, aes(x =summaryscore_imputed))
-a + ggtitle("% Disability by work status") + 
-  geom_density(aes(fill = work), alpha = 0.4) 
-
-
-#plot of scores
-a <- ggplot(datawhodas1, aes(x =summaryscore_imputed))
-a + ggtitle("Distribuition of % Disability") + 
-  geom_density(fill= "lavender") +
-  xlab("% Disability")
 
 
 
@@ -362,6 +327,45 @@ if(!(is.na(data_complete_whodas))){
 if(data_not_attempted_whodas==0 & data_complete_whodas==0){
   completeness_whodas <- "partially completed"}else{}
 
+
+#Score taking into account people who don't work
+#----------------------------------------------------------------------------------------
+datawhodas1$work <- "0"
+
+for (i in 1:nrow(datawhodas1)){
+  if (datawhodas1$whodas_work_score2[i] == 0){
+    datawhodas1$summaryscore_imputed[i]<- datawhodas1$score_sum_imputed[i]*100/166
+    datawhodas1$summaryscore_actual[i]<- datawhodas1$score_sum_actual[i]*100/166
+    datawhodas1$work[i] <- "non-working"
+  } else {
+    datawhodas1$summaryscore_imputed[i]<- datawhodas1$score_sum_imputed[i]*100/180
+    datawhodas1$summaryscore_actual[i]<- datawhodas1$score_sum_actual[i]*100/180
+    datawhodas1$work[i] <- "working"
+  }}
+
+#remove temporary variable
+datawhodas1$whodas_work_score2 <- NULL
+
+#plot of scores
+a <- ggplot(datawhodas1, aes(x =score_sum_imputed))
+a + ggtitle("Disability Score by working status") +
+  geom_density(aes(fill = work),  alpha = 0.4) 
+
+
+#plot of scores
+a <- ggplot(datawhodas1, aes(x =summaryscore_imputed))
+a + ggtitle("% Disability by working status") + 
+  geom_density(aes(fill = work), alpha = 0.4) 
+
+
+#plot of scores
+a <- ggplot(datawhodas1, aes(x =summaryscore_imputed))
+a + ggtitle("Distribuition of % Disability") + 
+  geom_density(fill= "lavender") +
+  xlab("% Disability")
+
+
+
 scores <- data.frame(data_complete_whodas, data_not_attempted_whodas, completeness_whodas )
 
 return(scores)
@@ -379,14 +383,55 @@ datwhodas_scored1<- within(datwhodas_scored,
                         })
 
 
+#________________________________________________________________________________________              
+# Descriptive Stats and plots
+#----------------------------------------------------------------------------------------
+
+#subset by visit to get report information
+v1 <- datwhodas_scored[ which(datwhodas_scored$visit_number==1), ]
+v2 <- datwhodas_scored[ which(datwhodas_scored$visit_number==2), ]
+v3 <- datwhodas_scored[ which(datwhodas_scored$visit_number==3), ]
+
+
+#completeness table
+table(datwhodas_scored$completeness_whodas, datwhodas_scored$visit_number)
+
+#summary statistics for total sum 
+describe(v1$score_sum_imputed)
+describe(v2$score_sum_imputed)
+describe(v3$score_sum_imputed)
+describe(datwhodas_scored$score_sum_imputed)
+
+#mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+Mode(v1$score_sum_imputed)
+Mode(v2$score_sum_imputed)
+Mode(v3$score_sum_imputed)
+Mode(datwhodas_scored$score_sum_imputed)
+
+
+#summary statistics for diability percentage
+describe(v1$summaryscore_imputed)
+describe(v2$summaryscore_imputed)
+describe(v3$summaryscore_imputed)
+describe(datwhodas_scored$summaryscore_imputed)
+
+
+Mode(v1$summaryscore_imputed)
+Mode(v2$summaryscore_imputed)
+Mode(v3$summaryscore_imputed)
+Mode(datwhodas_scored$summaryscore_imputed)
+
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/31_WHODAS/WHODAS_scored_data_export.csv", sep="")
-write.csv(datwhodas_scored, filename,quote=T,row.names=F,na="#N/A")
-
 filename <- paste("~/Biobank/31_WHODAS/WHODAS_scored_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(datwhodas_scored1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datwhodas_scored1, filename,quote=T,row.names=F,na="NA")
 
 
 print("31_WHODAS_done")

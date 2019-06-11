@@ -7,7 +7,7 @@ briefCESAM<- function(dat0, exportdate)
 {
 #Load plyr library
 library(plyr)
-
+  
 #Only retain relevant variables
 datcesamh<- subset(dat0, 
               select= c(assessment_id,vista_lastname,visit_number,
@@ -74,13 +74,13 @@ score_brief <- function(x)
     {
       nicotine_today <- 0}else{nicotine_today <- 1}
   }else{nicotine_today<-NA}
-  
-  
+
+
   if(!(is.na(Stat2_nic | Stat2_nicroute_chew | Stat2_nicroute_cig |Stat2_nicroute_vap| Stat2_nicroute_inh |  Stat2_nicroute_pat))){
-    if(Stat2_nic== 0 & (Stat2_nicroute_chew==1 | Stat2_nicroute_cig==1 |Stat2_nicroute_vap==1 | Stat2_nicroute_inh==1 | Stat2_nicroute_pat ==1 )){nicotine_flag <- 1}else{nicotine_flag<- 0}
-  }else{nicotine_flag<-NA}
-  
-  
+    if(Stat2_nic== 0 & (Stat2_nicroute_chew==1 | Stat2_nicroute_cig==1 |Stat2_nicroute_vap==1 | Stat2_nicroute_inh==1 | Stat2_nicroute_pat ==1 )){nicotine_flag_conflicting <- 1}else{nicotine_flag_conflicting<- 0}
+  }else{nicotine_flag_conflicting<-NA}
+
+
   
   
   data_complete_minus_meds_brief<- as.numeric(
@@ -169,7 +169,7 @@ score_brief <- function(x)
       }else{completeness_brief<-NA}
       
             
-  scores <- data.frame(nicotine_today, nicotine_flag,  completeness_brief)
+  scores <- data.frame(nicotine_flag_conflicting,  completeness_brief)
   
   return(scores)
 }               
@@ -183,6 +183,15 @@ score_datbrief1<- within(score_datbrief,
                     assessment_id <- NULL
                     vista_lastname <- NULL
                   })
+
+#bring in CDDR data to check correlation between smoking cigarretes and smoking cannabis
+cddr <- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_1_2018_data/scored_data_from_eScreening_modules/CDDR_reduced_data_export_combined.csv",header=T,na.strings=c("#N/A",NA))
+vars<-c("assessment_id", "vista_lastname","visit_number", "CDDR2_EverSmoked")
+cddrsub<- cddr[vars]
+dat <- merge(score_datbrief, cddrsub, by=c("assessment_id", "vista_lastname", "visit_number"), all = FALSE)
+
+table(dat$CDDR2_EverSmoked)
+chisq.test(dat$Stat2_nic,dat$CDDR2_EverSmoked)
 
 # #________________________________________________________________________________________ 
 # #Export datBTBISa
@@ -200,6 +209,7 @@ myvars <- c("assessment_id", "completeness_brief")
 newdata <- score_datbrief[myvars]
 return(newdata)
 }
+
 
 
 

@@ -128,6 +128,31 @@ drripbe <- function(dat0, exportdate)
                         })
  
  #________________________________________________________________________________________ 
+ #For Report
+ #----------------------------------------------------------------------------------------
+ 
+ #completeness table
+ table(score_datpbe$completeness_pbe)
+ 
+ library(psych)
+ 
+ #summary statistics for total PCL
+ describe(score_datpbe $DRRI_pbe_scores_total)
+ 
+ #mode
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
+ 
+ Mode(score_datpbe $DRRI_pbe_scores_total)
+ 
+ hist(score_datpbe $DRRI_pbe_scores_total, ylim=c(0,50), xlim = c(10,78),
+      xlab = "Total DRRI_PBE Score", col = c("steelblue3"), main = "Histogram for Total DRRI_PBE Score")
+ 
+ 
+ 
+ #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/11_DRR12_PBE/DRR12_PBE_reduced_data_export.csv", sep="")

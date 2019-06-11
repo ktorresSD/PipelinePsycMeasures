@@ -28,8 +28,8 @@ datexpo <- subset(dat,
                         serv_exp_pest,
                         serv_exp_other,
                         serv_exp_oth1spec,
-                        serv_exp_other,
-                        serv_exp_oth2spec,
+                        #serv_exp_other,
+                        #serv_exp_oth2spec,
                         
                         serv_animal_bite,
                         serv_animal_blood,
@@ -71,14 +71,14 @@ score_expo <- function(x)
   
   
   if(!(is.na(serv_exp_none))){  
-    if(serv_exp_none == 1 | serv_exp_chemical  == 1 | serv_exp_bio == 1 |
+    if(serv_exp_chemical  == 1 | serv_exp_bio == 1 |
        serv_exp_jp8 == 1 | serv_exp_asbestos == 1 | serv_exp_nerve == 1 |
        serv_exp_radio == 1 | serv_exp_sand ==1 | serv_exp_uranium == 1 | 
        serv_exp_fumes == 1 | serv_exp_paint == 1 | serv_exp_bite == 1 |
        serv_exp_industrial == 1 | serv_exp_burn == 1 | serv_exp_burn == 1 |  
        serv_exp_pest == 1 | serv_exp_other == 1){yesexposure <- "yes"
     }else{yesexposure <- "no"}
-  }else{yesexposure<-"no"}
+  }else{yesexposure<-"missing"}
   
   
   data_complete_expo<- as.numeric(
@@ -160,14 +160,17 @@ score_expo <- function(x)
   if(!(is.na(data_not_attempted_expo))){
     if(data_not_attempted_expo==1)
     {
-      completeness_expo <- "not attempted"}else{}
-  }else{completeness_expo<-NA}
+      completeness_expo <- "not attempted"}
+    else if(data_not_attempted_expo==0 & yesexposure=="missing")
+      {completeness_expo <- "partially complete"}
+      
+      else if(data_not_attempted_expo==0 & yesexposure=="no")
+      {completeness_expo <- "partially complete"
+    }else{}
+  }else{}
   
   if(!(is.na(data_complete_expo))){
     if(data_complete_expo==1 & yesexposure=="yes"){
-      completeness_expo <- "complete"} 
-    
-    else if(data_complete_expo==1 & exposed=="no"){
       completeness_expo <- "complete"} 
     
     else if(data_complete_expo==1 & yesexposure=="no"){
@@ -175,10 +178,11 @@ score_expo <- function(x)
     else if(data_complete_expo==0 & yesexposure=="yes"){
       completeness_expo <- "partially complete"}
     else{}
-  }else{completeness_expo<-NA}
+  }else{}
   
-  if(data_not_attempted_expo==0 & data_complete_expo==0 & yesexposure=="no"){
-    completeness_expo <- "partially complete"}else{}
+  
+  if(data_not_attempted_expo==0 & data_complete_expo==1 & yesexposure=="no"){
+    completeness_expo <- "complete"}else{}
   
   
   scoresces <- data.frame(exposed, data_not_attempted_expo, data_complete_expo, yesexposure, completeness_expo)

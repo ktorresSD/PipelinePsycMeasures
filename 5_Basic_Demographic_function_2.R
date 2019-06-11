@@ -196,7 +196,12 @@ democomplete<- function(x)
   if(demo_not_attempted==0 & demo_complete==0){
     completeness_demo <- "partially completed"}else{}
   
-  scoresdemo_comp <- data.frame(completeness_demo)
+  sum_multiple <- sum(c(demo_racewhite, demo_race_black,
+                                      demo_race_amind, demo_race_pacisl, 
+                                      demo_race_asian, demo_race_decline, 
+                                      demo_race_oth),na.rm=T)
+  
+  scoresdemo_comp <- data.frame(completeness_demo,sum_multiple)
   
   return(scoresdemo_comp)
 }
@@ -215,11 +220,9 @@ datdemo_final1<- within(datdemo_final,
 
 #________________________________________________________________________________________              
 # Checking consistency
-#----------------------------------------------------------------------------------------
-#attach(datdemo_final)
+#---------------------------------------------------------------------------------------
 
-datdemo_final$sum_multiple <- sum(c(demo_racewhite, demo_race_black, demo_race_amind, demo_race_pacisl, demo_race_asian, 
-demo_race_decline, demo_race_oth),na.rm=T)
+
 
 #________________________________________________________________________________________              
 # Descriptive Stats and plots
@@ -239,64 +242,65 @@ table(datdemo_final$demo_gender_r)
 #DATA TRANSFORMATION to see concordance between visits 
 #------------------------------------------------------------------------
 
-#datdemo_final0<- datdemo_final[,c(2,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)]
-#
-#
-#l.sort <- datdemo_final[order(datdemo_final$vista_lastname),]
-#
-# demo_wide <- reshape(l.sort, 
-#              timevar = "visit_number",
-#              idvar = c( "vista_lastname"),
-#              direction = "wide")
-#
-# #to see if responses change between visits 1 and 2
-# demo_wide$gen_F_TO_F<- ifelse(demo_wide$demo_gender_r.1 == 2 & demo_wide$demo_gender_r.2 == 2 , "1", "0")
-# demo_wide$gen_M_TO_M<- ifelse(demo_wide$demo_gender_r.1 == 1 & demo_wide$demo_gender_r.2 == 1 , "1", "0")
-# demo_wide$gen_match<- ifelse(demo_wide$demo_gender_r.1 ==  demo_wide$demo_gender_r.2, "1", "0")
-# 
-# demo_wide$eth_yes_to_yes<- ifelse(demo_wide$demo_ethnic_r.1 == 1 & demo_wide$demo_ethnic_r.2== 1 , "1", "0")
-# demo_wide$eth_no_to_no<- ifelse(demo_wide$demo_ethnic_r.1 == 0 & demo_wide$demo_ethnic_r.2== 0 , "1", "0")
-# demo_wide$eth_decline_twice<- ifelse(demo_wide$demo_ethnic_r.1 == 2 & demo_wide$demo_ethnic_r.2== 2 , "1", "0")
-# demo_wide$eth_match<- ifelse(demo_wide$demo_ethnic_r.1 ==  demo_wide$demo_ethnic_r.2, "1", "0")
-# 
-# demo_wide$race_match<- ifelse(demo_wide$race.1 == demo_wide$race.2, "1", "0")
-# 
-# #GENDER
-# sum(as.numeric(demo_wide$gen_F_TO_F), na.rm=TRUE)
-# sum(as.numeric(demo_wide$gen_M_TO_M), na.rm=TRUE)
-# sum(as.numeric(demo_wide$gen_match), na.rm=TRUE)
-# 
-# #ETHNICITY
-# sum(as.numeric(demo_wide$eth_yes_to_yes), na.rm=TRUE)
-# sum(as.numeric(demo_wide$eth_no_to_no), na.rm=TRUE)
-# sum(as.numeric(demo_wide$eth_decline_twice), na.rm=TRUE)
-# sum(as.numeric(demo_wide$eth_match), na.rm=TRUE)
-# 
-# #RACE
-# sum(as.numeric(demo_wide$race_match), na.rm=TRUE)
-# 
-# #BETWEEN VISITS 2 And 3
-# demo_wide$gen_match_23<- ifelse(demo_wide$demo_gender_r.2 ==  demo_wide$demo_gender_r.3, "1", "0")
-# demo_wide$eth_match_23<- ifelse(demo_wide$demo_ethnic_r.2 ==  demo_wide$demo_ethnic_r.3, "1", "0")
-# demo_wide$race_match_23<- ifelse(demo_wide$race.2 == demo_wide$race.3, "1", "0")
-# 
-# #CONSISTENCY VALUE
-# demo_wide$consistency23<- ifelse(demo_wide$race_match_23 == "1" &  demo_wide$eth_match_23 =="1" & demo_wide$gen_match_23 =="1" , "1", "0")
-# demo_wide$consistency12<- ifelse(demo_wide$race_match == "1" &  demo_wide$eth_match =="1" & demo_wide$gen_match=="1", "1", "0")
-# 
-# #CONSISTENCY VALUE
-# demo_wide$inconsistency12<- ifelse(demo_wide$race_match == "0" |  demo_wide$eth_match =="0" | demo_wide$gen_match=="0", "1", "0")
-# demo_wide$inconsistency23<- ifelse(demo_wide$race_match_23 == "0" |  demo_wide$eth_match_23 =="0" | demo_wide$gen_match_23 =="0" , "1", "0")
-# 
-# 
-# #TOTAL CONSISTENCY 
+datdemo_final0<- datdemo_final[,c(2,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)]
+
+
+l.sort <- datdemo_final[order(datdemo_final$vista_lastname),]
+
+demo_wide <- reshape(l.sort,
+             timevar = "visit_number",
+             idvar = c( "vista_lastname"),
+             direction = "wide")
+
+#to see if responses change between visits 1 and 2
+demo_wide$gen_F_TO_F<- ifelse(demo_wide$demo_gender_r.1 == 2 & demo_wide$demo_gender_r.2 == 2 , "1", "0")
+demo_wide$gen_M_TO_M<- ifelse(demo_wide$demo_gender_r.1 == 1 & demo_wide$demo_gender_r.2 == 1 , "1", "0")
+demo_wide$gen_match<- ifelse(demo_wide$demo_gender_r.1 ==  demo_wide$demo_gender_r.2, "1", "0")
+
+demo_wide$eth_yes_to_yes<- ifelse(demo_wide$demo_ethnic_r.1 == 1 & demo_wide$demo_ethnic_r.2== 1 , "1", "0")
+demo_wide$eth_no_to_no<- ifelse(demo_wide$demo_ethnic_r.1 == 0 & demo_wide$demo_ethnic_r.2== 0 , "1", "0")
+demo_wide$eth_decline_twice<- ifelse(demo_wide$demo_ethnic_r.1 == 2 & demo_wide$demo_ethnic_r.2== 2 , "1", "0")
+demo_wide$eth_match<- ifelse(demo_wide$demo_ethnic_r.1 ==  demo_wide$demo_ethnic_r.2, "1", "0")
+
+demo_wide$race_match<- ifelse(demo_wide$race.1 == demo_wide$race.2, "1", "0")
+
+#GENDER
+sum(as.numeric(demo_wide$gen_F_TO_F), na.rm=TRUE)
+sum(as.numeric(demo_wide$gen_M_TO_M), na.rm=TRUE)
+sum(as.numeric(demo_wide$gen_match), na.rm=TRUE)
+
+#ETHNICITY
+sum(as.numeric(demo_wide$eth_yes_to_yes), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_no_to_no), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_decline_twice), na.rm=TRUE)
+sum(as.numeric(demo_wide$eth_match), na.rm=TRUE)
+
+#RACE
+sum(as.numeric(demo_wide$race_match), na.rm=TRUE)
+
+#BETWEEN VISITS 2 And 3
+demo_wide$gen_match_23<- ifelse(demo_wide$demo_gender_r.2 ==  demo_wide$demo_gender_r.3, "1", "0")
+demo_wide$eth_match_23<- ifelse(demo_wide$demo_ethnic_r.2 ==  demo_wide$demo_ethnic_r.3, "1", "0")
+demo_wide$race_match_23<- ifelse(demo_wide$race.2 == demo_wide$race.3, "1", "0")
+
+#CONSISTENCY VALUE
+demo_wide$consistency12<- ifelse(demo_wide$race_match == "1" &  demo_wide$eth_match =="1" & demo_wide$gen_match=="1", "1", "0")
+demo_wide$consistency23<- ifelse(demo_wide$race_match_23 == "1" &  demo_wide$eth_match_23 =="1" & demo_wide$gen_match_23 =="1" , "1", "0")
+
+#CONSISTENCY VALUE
+demo_wide$inconsistency12<- ifelse(demo_wide$race_match == "0" |  demo_wide$eth_match =="0" | demo_wide$gen_match=="0", "1", "0")
+demo_wide$inconsistency23<- ifelse(demo_wide$race_match_23 == "0" |  demo_wide$eth_match_23 =="0" | demo_wide$gen_match_23 =="0" , "1", "0")
+
+
+
+# #CHECK TOTAL CONSISTENCY per row
 # sum(as.numeric(demo_wide$consistency12), na.rm=TRUE)
 # sum(as.numeric(demo_wide$consistency23), na.rm=TRUE)
 # 
 # 
-# #TOTAL INCONSISTENCY 
-# demo_wide$inconsistent_score<- sum(as.numeric(demo_wide$inconsistency12), na.rm=TRUE)
-# demo_wide$inconsistent_score<- sum(as.numeric(demo_wide$inconsistency23), na.rm=TRUE)
+# #TOTAL INCONSISTENCY per row
+# demo_wide$inconsistent_score1<- sum(as.numeric(demo_wide$inconsistency12), na.rm=TRUE)
+# demo_wide$inconsistent_score2<- sum(as.numeric(demo_wide$inconsistency23), na.rm=TRUE)
 # 
 
 
@@ -305,10 +309,10 @@ table(datdemo_final$demo_gender_r)
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export.csv", sep="")
 write.csv(datdemo_final, filename,quote=T,row.names=F,na="NA")
-# 
-# filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_wide.csv", sep="")
-# write.csv(demo_wide , filename,quote=T,row.names=F,na="NA")
-# 
+
+filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_wide.csv", sep="")
+write.csv(demo_wide , filename,quote=T,row.names=F,na="NA")
+
 
 
 filename <- paste("~/Biobank/5_Basic_Demographic/Basic_Demographic_scored_data_export_DEIDENTIFIED.csv", sep="")

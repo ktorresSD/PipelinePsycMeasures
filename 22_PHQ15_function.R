@@ -43,66 +43,38 @@ score <- function(x)
 	#PHQ-15 summary score is the summation of items 1-15
 	#Note: This function is not designed to handle NA values (subject must have complete data)
   
-  #if it has more than 4 missing items, do not calculate the phq score
-  dont_calculate_phq15 <- as.numeric(
-    sum(
-      is.na(
-        c(health1_stomach,
-          health2_back,
-          health3_arm,
-          health4_cramp,
-          health5_headache,
-          health6_chest,
-          health7_dizzy,
-          health8_faint,
-          health9_heart,
-          health10_breath,
-          health11_sex,
-          health12_constipation,
-          health13_nausea,
-          health14_tired,
-          health15_sleeping
-        )
-      )
-    ) >= 4
-  )
-  
-  if(dont_calculate_phq15==1)
-  {phq15_score_total <-NA
-    phq14_score_males <- NA}
-  else{
-  phq15_score_total <- sum(c(health1_stomach,
-                            health2_back,
-                            health3_arm,
-                            health4_cramp,
-                            health5_headache,
-                            health6_chest,
-                            health7_dizzy,
-                            health8_faint,
-                            health9_heart,
-                            health10_breath,
-                            health11_sex,
-                            health12_constipation,
-                            health13_nausea,
-                            health14_tired,
-                            health15_sleeping),na.rm=T)
-  
-  
-  phq14_score_males <-  sum(c(health1_stomach ,
-                        health2_back ,
-                        health3_arm ,
-                        health5_headache ,
-                        health6_chest ,
-                        health7_dizzy ,
-                        health8_faint ,
-                        health9_heart ,
-                        health10_breath ,
-                        health11_sex ,
-                        health12_constipation ,
-                        health13_nausea ,
-                        health14_tired ,
-                        health15_sleeping),na.rm=T)}
 
+  phq15_score_total <- health1_stomach +
+                            health2_back+
+                            health3_arm+
+                            health4_cramp+
+                            health5_headache+
+                            health6_chest+
+                            health7_dizzy+
+                            health8_faint+
+                            health9_heart+
+                            health10_breath+
+                            health11_sex+
+                            health12_constipation+
+                            health13_nausea+
+                            health14_tired+
+                            health15_sleeping
+  
+  
+  phq14_score_males <-  health1_stomach +
+                        health2_back +
+                        health3_arm +
+                        health5_headache +
+                        health6_chest +
+                        health7_dizzy +
+                        health8_faint +
+                        health9_heart +
+                        health10_breath +
+                        health11_sex +
+                        health12_constipation +
+                        health13_nausea +
+                        health14_tired +
+                        health15_sleeping
 
 	phq15_minimal <- as.numeric(phq15_score_total <= 4)
 	phq15_low <- as.numeric(phq15_score_total >= 5 & phq15_score_total <= 9)
@@ -194,7 +166,7 @@ score <- function(x)
       completeness_phq15 <- "partially completed"}else{}
     
 
-    scoresphq15 <- data.frame(dont_calculate_phq15, phq15_score_total, phq14_score_males ,phq15_minimal, phq15_low, phq15_medium, phq15_high, score_interpretation_PHQ15, data_complete_phq15, data_not_attempted_phq15, completeness_phq15)
+    scoresphq15 <- data.frame(phq15_score_total, phq14_score_males ,phq15_minimal, phq15_low, phq15_medium, phq15_high, score_interpretation_PHQ15, data_complete_phq15, data_not_attempted_phq15, completeness_phq15)
 
 	return(scoresphq15)
 }
@@ -209,16 +181,73 @@ score <- function(x)
                            assessment_id <- NULL
                            vista_lastname <- NULL
                          })
+ 
+ 
+ 
+ 
+ #________________________________________________________________________________________ 
+ #For Report
+ #----------------------------------------------------------------------------------------
+
+ library(psych)
+
+ #subset by visit to get report information
+ v1 <- score_datphq15[ which(score_datphq15$visit_number==1), ]
+ v2 <- score_datphq15[ which(score_datphq15$visit_number==2), ]
+ v3 <- score_datphq15[ which(score_datphq15$visit_number==3), ]
+ 
+ #completeness table
+ table(score_datphq15$completeness_phq15, score_datphq15$visit_number)
+ 
+ #summary statistics for total PCL
+ describe(v1$phq15_score_total)
+ describe(v2$phq15_score_total)
+ describe(v3$phq15_score_total)
+ describe(score_datphq15$phq15_score_total)
+ 
+ #mode
+ Mode <- function(x) {
+   ux <- unique(x)
+   ux[which.max(tabulate(match(x, ux)))]
+ }
+ 
+ Mode(v1$phq15_score_total)
+ Mode(v2$phq15_score_total)
+ Mode(v3$phq15_score_total)
+ Mode(score_datphq15$phq15_score_total)
+ 
+ 
+ 
+ #histograms
+ par(mfrow=c(2,2))
+ hist(score_datphq15$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (all visits)")
+ hist(v1$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 1 only)")
+ hist(v2$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 2 only)")
+ hist(v3$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 3 only)")
+ 
+ 
+ #reorder factors
+ score_datphq15$score_interpretation_PHQ15 <- as.factor(score_datphq15$score_interpretation_PHQ15)
+ score_datphq15$score_interpretation_PHQ15<- factor(score_datphq15$score_interpretation_PHQ15, levels = c("minimal", "low", "medium", "high"))
+ 
+ # Subject count for each PHQ-15 category
+ barplot(table(score_datphq15$score_interpretation_PHQ15), 
+         col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
+         main = "Assessments Count in each PHQ-15 severity categories", 
+         ylab = "Assessment Count")
+
+
+ 
 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export.csv", sep="")
- write.csv(score_datphq15, filename,quote=T,row.names=F,na="#N/A")
+ filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export1.csv", sep="")
+ write.csv(score_datphq15, filename,quote=T,row.names=F,na="NA")
  
  
  filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export_DEIDENTIFIED.csv", sep="")
- write.csv(score_datphq151, filename,quote=T,row.names=F,na="#N/A")
+ write.csv(score_datphq151, filename,quote=T,row.names=F,na="NA")
  
 print("22_PHQ15_done")
 
