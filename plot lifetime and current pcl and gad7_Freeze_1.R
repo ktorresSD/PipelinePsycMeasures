@@ -307,3 +307,31 @@ cor.test(datDRRI_pbe$pcl_m_total, datDRRI_pbe$DRRI_pbe_scores_total, method="pea
 
  
 
+
+#CHECKING CORRELATION BETWEEN MASQ and PHQ9
+PHQ9 <- read.csv('C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_1_2018_data/scored_data_from_eScreening_modules/phq9_scored_data_export.csv',header=T,na.strings=c("#N/A",NA))
+MASQ <- read.csv('C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_1_2018_data/scored_data_from_eScreening_modules/MASQ_reduced_data_export_COMBINED_USE.csv',header=T,na.strings=c("#N/A",NA))
+
+
+par(mfrow=c(1,1))
+#________________________________________________________________________________________  
+# MERGE DATASETS TOGETHER
+#------------------------------------------------------------------------
+#merge CPRS corefile and full dataset by assesstment id % LAST NAME
+dat <- merge(PHQ9, MASQ , by="assessment_id", all = TRUE)
+newdata <- na.omit(dat)
+dim(dat) 
+
+
+plot(newdata$phq9_total, newdata$AD, xlab= "PHQ9", ylab= "MASQ", main = "PCL Total Scores",  pch=19 , col = "blue")
+
+#regression of lifetime and current
+reg <- lm(newdata$AD~ newdata$phq9_total)
+summary(reg)
+abline(reg)
+
+
+#cORRELATION TEST BETWEEN EMASURES
+cor.test(newdata$AD, newdata$phq9_total, method="pearson") 
+
+

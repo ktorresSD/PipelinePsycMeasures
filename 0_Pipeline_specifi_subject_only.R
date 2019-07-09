@@ -19,9 +19,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_2018_FREEZE_1_COMBINES_HEQ_TINNITUS_LEC_CDDR_MASQ2018_FREEZE_1.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_2018_Freeze_1.csv',header=T, na.strings=c("",NA))
-exportdate <- "2018_FREEZE_1"
+dataset <- read.csv('joined_data_export_specific_SUBBJECT.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_March2019.csv',header=T, na.strings=c("",NA))
+exportdate <- "06242019"
 
 
 
@@ -29,14 +29,14 @@ exportdate <- "2018_FREEZE_1"
 # MERGE DATASETS TOGETHER
 #------------------------------------------------------------------------
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
-dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
+dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = FALSE)
 
 #REMOVE EXCLUDED SUBJECTS
-dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071), ]
+dat0 <- dat00[dat00$assessment_id %in% c(20301,23445), ]
 
 #Export data
-filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-#write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
+filename <- paste("~/Biobank/data/complete_database_specific_subject", exportdate, ".csv", sep="")
+write.csv(dat0, filename,quote=T, row.names=F,na="#N/A")
 
 table(dat0$visit_number)
 
@@ -55,7 +55,7 @@ source("4_BTBIS_function_correspond.r")
 source("5_Basic_Demographic_function_2.r")
 source("6_basic_pain_function.r")
 source("7_Brief_CESAMH_function.r")
-source("8_CDDR_function.r")
+source("8_CDDR2_function.r")
 source("9_current_tx_function.r")
 source("10_DRRI_CES_function.r")
 source("11_DRRI_PBE_function.r")

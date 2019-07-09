@@ -22,7 +22,8 @@ datcddr <- subset(dat0,
                         CDDR2_Lifetime,
                         CDDR2_Year,
                         CDDR2_Month,
-                        CDDR2_5year
+                        CDDR2_5year, 
+                        CDDR_version
                         
               ))
 

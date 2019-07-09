@@ -161,63 +161,63 @@ gad7 <- function(x){
  #check for consistency between GAD7 total scores and 8_difficult
  plot(gad7_scores$gad7_total, gad7_scores$gad8_difficult, xlab= "GAD-7 Total Scores", ylab= "Impact of problems", main= "Total scores and impact of problems on quality of life \n (Checking for inconsistency). ", pch= 16, col= "deepskyblue3")
  
- #________________________________________________________________________________________              
- # Descriptive Stats and plots
- #----------------------------------------------------------------------------------------
-
- #subset by visit to get report information
- v1 <- gad7_scores[ which(gad7_scores$visit_number==1), ]
- v2 <- gad7_scores[ which(gad7_scores$visit_number==2), ]
- v3 <- gad7_scores[ which(gad7_scores$visit_number==3), ]
- 
- #completeness table
- table(gad7_scores$completeness_gad, gad7_scores$visit_number)
- 
- #summary statistics for total PCL
- describe(v1$gad7_total)
- describe(v2$gad7_total)
- describe(v3$gad7_total)
- describe(gad7_scores$gad7_total)
- 
- #mode
- Mode <- function(x) {
-   ux <- unique(x)
-   ux[which.max(tabulate(match(x, ux)))]
- }
- 
- Mode(v1$gad7_total)
- Mode(v2$gad7_total)
- Mode(v3$gad7_total)
- Mode(gad7_scores$gad7_total)
- 
- 
- #histograms
- par(mfrow=c(2,2))
- hist(gad7_scores$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (all visits)")
- hist(v1$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 1 only)")
- hist(v2$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 2 only)")
- hist(v3$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 3 only)")
- 
- 
- par(mfrow=c(1,1))
- # #saving this to a image file into folder
- #plotname1 <- paste("~/Biobank/14_GAD7/gad7_histogram_of_total_score", exportdate, ".png", sep="")
- #png(filename=plotname1)
- hist(gad7_scores$gad7_total, xlab = "Total GAD Score", col = c("steelblue3"), main = "Histogram for Total GAD Score")
- abline(v = 10, lty = 2, lwd=2)
- axis(1, 1:21)
- legend('topright',legend=c("Cut-off"),lty = 2, lwd=2)
- #dev.off()
- 
- 
- # Subject count for each GAD7 category
- barplot(table(gad7_scores$score_interpretation_gad7), 
-         col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
-         main = "Assessments Count in each GAD Diagnosis category", 
-         ylab = "Assessment Count",
-         names.arg = c("None", "Mild", "Moderate", "Severe"))
- abline(col= "slategray", v=2.5, lwd= 2, lty = "dashed")
- mtext("                                                  Possible diagnosis of GAD", col= "slategray")
+ # #________________________________________________________________________________________              
+ # # Descriptive Stats and plots
+ # #----------------------------------------------------------------------------------------
+ # 
+ # #subset by visit to get report information
+ # v1 <- gad7_scores[ which(gad7_scores$visit_number==1), ]
+ # v2 <- gad7_scores[ which(gad7_scores$visit_number==2), ]
+ # v3 <- gad7_scores[ which(gad7_scores$visit_number==3), ]
+ # 
+ # #completeness table
+ # table(gad7_scores$completeness_gad, gad7_scores$visit_number)
+ # 
+ # #summary statistics for total PCL
+ # describe(v1$gad7_total)
+ # describe(v2$gad7_total)
+ # describe(v3$gad7_total)
+ # describe(gad7_scores$gad7_total)
+ # 
+ # #mode
+ # Mode <- function(x) {
+ #   ux <- unique(x)
+ #   ux[which.max(tabulate(match(x, ux)))]
+ # }
+ # 
+ # Mode(v1$gad7_total)
+ # Mode(v2$gad7_total)
+ # Mode(v3$gad7_total)
+ # Mode(gad7_scores$gad7_total)
+ # 
+ # 
+ # #histograms
+ # par(mfrow=c(2,2))
+ # hist(gad7_scores$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (all visits)")
+ # hist(v1$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 1 only)")
+ # hist(v2$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 2 only)")
+ # hist(v3$gad7_total, breaks=10, xlab = "GAD7 Score", ylim=c(0,45), col = c("lightyellow"), main = "GAD7 total Score (visit 3 only)")
+ # 
+ # 
+ # par(mfrow=c(1,1))
+ # # #saving this to a image file into folder
+ # #plotname1 <- paste("~/Biobank/14_GAD7/gad7_histogram_of_total_score", exportdate, ".png", sep="")
+ # #png(filename=plotname1)
+ # hist(gad7_scores$gad7_total, xlab = "Total GAD Score", col = c("steelblue3"), main = "Histogram for Total GAD Score")
+ # abline(v = 10, lty = 2, lwd=2)
+ # axis(1, 1:21)
+ # legend('topright',legend=c("Cut-off"),lty = 2, lwd=2)
+ # #dev.off()
+ # 
+ # 
+ # # Subject count for each GAD7 category
+ # barplot(table(gad7_scores$score_interpretation_gad7), 
+ #         col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 
+ #         main = "Assessments Count in each GAD Diagnosis category", 
+ #         ylab = "Assessment Count",
+ #         names.arg = c("None", "Mild", "Moderate", "Severe"))
+ # abline(col= "slategray", v=2.5, lwd= 2, lty = "dashed")
+ # mtext("                                                  Possible diagnosis of GAD", col= "slategray")
 
 
   #to anonymize data

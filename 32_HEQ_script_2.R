@@ -5,16 +5,15 @@
 ##########################################################################################
 HEQfunc<- function(dat0, exportdate)
 {
-
-  #dat0<- read.csv('C:/Users/Nievergelt Lab/Documents/Biobank/32_HEQ/HEQ_August_test.csv',header=T, na.strings=c("",NA))
+ dat<-dat0[dat0$visit_number==1,]
   
   #Load libraries
   library(plyr)
   library(ggplot2)
   
   #Only retain relevant variables
-  datheq<- subset(dat0, 
-                     select= c(assessment_id,vista_lastname,
+  datheq<- subset(dat, 
+                     select= c(assessment_id,vista_lastname, visit_number,
                                HEQ1_rel,
                                HEQ0_rel,
                                HEQ1_rel_2,
@@ -65,7 +64,8 @@ HEQfunc<- function(dat0, exportdate)
                                HEQb29_cluttered,
                                HEQb30_noisy,
                                HEQb31_misplaced,
-                               HEQ1_count
+                               HEQ1_count, HEQ_version
+
                      ))
 
 # Data Manipulation and cleaning
@@ -265,14 +265,52 @@ paren_score <- function(y)
                              vista_lastname <- NULL
                            })
   
-  # #________________________________________________________________________________________ 
-  # #Export data
-  # #----------------------------------------------------------------------------------------
+  
+  #For Report
+  #---------------------------------------------------------------------------
+  #completeness table
+  table(overall_scored$completeness_heq)
+  
+  library(psych)
+  
+  #summary statistics
+  describe(overall_scored$HEQ_overall_score_incomp)
+  describe(overall_scored$age12_total_score)
+  describe(overall_scored$paren_total_score)
+  describe(overall_scored$househ_total_score)  
+  
+  #mode
+  Mode <- function(x) {
+    ux <- unique(x)
+    ux[which.max(tabulate(match(x, ux)))]
+  }
+  
+  Mode(overall_scored$HEQ_overall_score_incomp)
+  Mode(overall_scored$age12_total_score)
+  Mode(overall_scored$paren_total_score)
+  Mode(overall_scored$househ_total_score)  
+  
+  hist(overall_scored$HEQ_overall_score_incomp, ylim=c(0,50), xlim = c(0,45),
+       xlab = "Overall HEQ score", col = c("steelblue3"), main = "Assessment Count of Total Overall HEQ Score")
+  
+  hist(overall_scored$age12_total_score, ylim=c(0,60), xlim = c(0,12),
+       xlab = "Sum Scores of Age 0-12 items", col = c("steelblue3"), main = "Assessment Count of Age 0-12 subscale")
+  
+  hist(overall_scored$paren_total_score, ylim=c(0,30), xlim = c(0,5),
+       xlab = "Sum Scores of Parental items", col = c("steelblue3"), main = "Assessment Count of Parental subscale")
+  
+  hist(overall_scored$househ_total_score, ylim=c(0,70), xlim = c(0, 4),
+       xlab = "Sum Scores of Household items", col = c("steelblue3"), main = "Assessment Count of Household subscale")
+  
+  
+  #________________________________________________________________________________________
+  #Export data
+  #----------------------------------------------------------------------------------------
   filename <- paste("~/Biobank/32_HEQ/HEQ_reduced_data_export.csv", sep="")
-  write.csv(overall_scored, filename,quote=T,row.names=F,na="#N/A")
+  write.csv(overall_scored, filename,quote=T,row.names=F,na="NA")
   
   filename <- paste("~/Biobank/32_HEQ/HEQ_reduced_data_export_DEIDENTIFIED.csv", sep="")
-  write.csv(overall_scored1, filename,quote=T,row.names=F,na="#N/A")
+  write.csv(overall_scored1, filename,quote=T,row.names=F,na="NA")
   
   print("HEQ_done")
   

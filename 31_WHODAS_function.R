@@ -430,6 +430,9 @@ Mode(datwhodas_scored$summaryscore_imputed)
 #Export
 #----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/31_WHODAS/WHODAS_scored_data_export.csv", sep="")
+write.csv(datwhodas_scored, filename,quote=T,row.names=F,na="NA")
+
+
 filename <- paste("~/Biobank/31_WHODAS/WHODAS_scored_data_export_DEIDENTIFIED.csv", sep="")
 write.csv(datwhodas_scored1, filename,quote=T,row.names=F,na="NA")
 

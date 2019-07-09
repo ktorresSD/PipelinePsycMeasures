@@ -12,7 +12,7 @@ masq<- function(dat0, exportdate)
   
   #Only retain relevant variables
   datcesamh<- subset(dat0, 
-                     select= c(assessment_id,vista_lastname,visit_number,
+                     select= c(assessment_id,vista_lastname, visit_number,
                                MASQ1_cheerful,
                                MASQ2_optim,
                                MASQ3_happy,
@@ -34,7 +34,7 @@ masq<- function(dat0, exportdate)
                                MASQ19_interest,
                                MASQ20_quick,
                                MASQ21_feltgood,
-                               MASQ22_suicide))
+                               MASQ22_suicide, MASQ_version))
 
 #________________________________________________________________________________________              
 # SCORING Functions Defined
@@ -119,18 +119,59 @@ return(scores)
                                vista_lastname <- NULL
                              })
 
+  
+  
+  #________________________________________________________________________________________              
+  # Descriptive Stats and plots
+  #----------------------------------------------------------------------------------------
+  
+  #subset by visit to get report information
+  v1 <- datMASQ_scored[ which(datMASQ_scored$visit_number==1), ]
+  v2 <- datMASQ_scored[ which(datMASQ_scored$visit_number==2), ]
+  v3 <- datMASQ_scored[ which(datMASQ_scored$visit_number==3), ]
+  
+  #completeness table
+  table(datMASQ_scored$completeness_MASQ, datMASQ_scored$visit_number)
+  
+  #summary statistics for total PCL
+  describe(v1$AD)
+  describe(v2$AD)
+  describe(v3$AD)
+  describe(datMASQ_scored$AD)
+  
+  #mode
+  Mode <- function(x) {
+    ux <- unique(x)
+    ux[which.max(tabulate(match(x, ux)))]
+  }
+  
+  Mode(v1$AD)
+  Mode(v2$AD)
+  Mode(v3$AD)
+  Mode(datMASQ_scored$AD)
+  
+  
+  #histograms
+  par(mfrow=c(2,2))
+  hist(datMASQ_scored$AD, breaks=10, xlab = "AD Score",  ylim=c(0,50), col = c("lightyellow"), main = "AD total Score (all visits)")
+  hist(v1$AD, breaks=10, xlab = "AD Score",  ylim=c(0,50), col = c("lightyellow"), main = "AD total Score (visit 1 only)")
+  hist(v2$AD, breaks=10, xlab = "AD Score",  ylim=c(0,50), col = c("lightyellow"), main = "AD total Score (visit 2 only)")
+  hist(v3$AD, breaks=10, xlab = "AD Score",  ylim=c(0,50), col = c("lightyellow"), main = "AD total Score (visit 3 only)")
+  
+  
+  
 #________________________________________________________________________________________              
 # Completeness Functions Defined
 #----------------------------------------------------------------------------------------
 
-# #________________________________________________________________________________________ 
-# #Export data
-# #----------------------------------------------------------------------------------------
+#________________________________________________________________________________________
+#Export data
+#----------------------------------------------------------------------------------------
 filename <- paste("~/Biobank/33_MASQ/MASQ_reduced_data_export.csv", sep="")
-write.csv(datMASQ_scored, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datMASQ_scored, filename,quote=T,row.names=F,na="NA")
 
 filename <- paste("~/Biobank/33_MASQ/MASQ_reduced_data_export_DEIDENTIFIED.csv", sep="")
-write.csv(datMASQ_scored1, filename,quote=T,row.names=F,na="#N/A")
+write.csv(datMASQ_scored1, filename,quote=T,row.names=F,na="NA")
 
 print("33_MASQ_done")
 

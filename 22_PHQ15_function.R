@@ -242,7 +242,7 @@ score <- function(x)
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
- filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export1.csv", sep="")
+ filename <- paste("~/Biobank/22_PHQ-15/PHQ15_22_scored_data_export.csv", sep="")
  write.csv(score_datphq15, filename,quote=T,row.names=F,na="NA")
  
  

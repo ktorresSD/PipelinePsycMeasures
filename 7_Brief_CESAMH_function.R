@@ -184,14 +184,14 @@ score_datbrief1<- within(score_datbrief,
                     vista_lastname <- NULL
                   })
 
-#bring in CDDR data to check correlation between smoking cigarretes and smoking cannabis
-cddr <- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_1_2018_data/scored_data_from_eScreening_modules/CDDR_reduced_data_export_combined.csv",header=T,na.strings=c("#N/A",NA))
-vars<-c("assessment_id", "vista_lastname","visit_number", "CDDR2_EverSmoked")
-cddrsub<- cddr[vars]
-dat <- merge(score_datbrief, cddrsub, by=c("assessment_id", "vista_lastname", "visit_number"), all = FALSE)
-
-table(dat$CDDR2_EverSmoked)
-chisq.test(dat$Stat2_nic,dat$CDDR2_EverSmoked)
+# #bring in CDDR data to check correlation between smoking cigarretes and smoking cannabis
+# cddr <- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_1_2018_data/scored_data_from_eScreening_modules/CDDR_reduced_data_export_combined.csv",header=T,na.strings=c("#N/A",NA))
+# vars<-c("assessment_id", "vista_lastname","visit_number", "CDDR2_EverSmoked")
+# cddrsub<- cddr[vars]
+# dat <- merge(score_datbrief, cddrsub, by=c("assessment_id", "vista_lastname", "visit_number"), all = FALSE)
+# 
+# table(dat$CDDR2_EverSmoked)
+# chisq.test(dat$Stat2_nic,dat$CDDR2_EverSmoked)
 
 # #________________________________________________________________________________________ 
 # #Export datBTBISa

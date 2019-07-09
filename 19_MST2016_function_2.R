@@ -87,23 +87,23 @@ datmst_scored1<- within(datmst_scored,
                           assessment_id <- NULL
                           vista_lastname <- NULL
                         })
-
-#________________________________________________________________________________________ 
-#Report
-#----------------------------------------------------------------------------------------
-
-#completeness table
-table(datmst_scored$completeness_mst)
-
-#yes or no answer
-table(as.numeric(datmst_scored$MST_use))
-
-
-#plot
-counts <- table(datmst_scored$MST_use)
-barplot(counts, main="MST2016 for Research reponses", col = c("blue","red","gray"),
-        xlab="Reponse", ylab= "Number of Subjects", names.arg=c("No to both", "Yes to at least one", "Decline to answer")) 
-  
+# 
+# #________________________________________________________________________________________ 
+# #Report
+# #----------------------------------------------------------------------------------------
+# 
+# #completeness table
+# table(datmst_scored$completeness_mst)
+# 
+# #yes or no answer
+# table(as.numeric(datmst_scored$MST_use))
+# 
+# 
+# #plot
+# counts <- table(datmst_scored$MST_use)
+# barplot(counts, main="MST2016 for Research reponses", col = c("blue","red","gray"),
+#         xlab="Reponse", ylab= "Number of Subjects", names.arg=c("No to both", "Yes to at least one", "Decline to answer")) 
+#   
 #________________________________________________________________________________________ 
 #Export
 #----------------------------------------------------------------------------------------

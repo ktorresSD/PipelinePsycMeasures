@@ -282,17 +282,26 @@ pcl_5_entire_life <- function(x)
  pcl_5_scores <- adply(datpcllife, 1, pcl_5_entire_life)
  
 
+ 
  #________________________________________________________________________________________ 
  #Export
  #----------------------------------------------------------------------------------------
-#Export data
-write.csv( pcl_5_scores , "C:/Users/Nievergelt Lab/Documents/GWAS_Freeze2_CURRENT/13_NHRVS/pheno_3/pcl5_lifetime_GFK.csv",quote=T,row.names=F,na="#N/A")
-
+ filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_lifetime_scored_data_export.csv", sep="")
+ write.csv( pcl_5_scorescurr, filename,quote=T,row.names=F,na="NA")
+ 
+ 
+ filename <- paste("~/Biobank/20_PCL_5_lifetime/pcl5_lifetime_scored_data_export_DEIDENTIFIED.csv", sep="")
+ write.csv( pcl_5_scorescurr1, filename,quote=T,row.names=F,na="NA")
+ 
+ 
+ print("20_PCL_lifetime_done")
+ 
  #return completness column
  myvars <- c("assessment_id", "completeness_pcllife")
  newdata <- pcl_5_scores[myvars]
  return(newdata)
 }
+
 
 
 
