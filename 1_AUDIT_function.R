@@ -7,6 +7,7 @@ audit <- function(dat0, exportdate)
 {
 #Load plyr library
 library(plyr)
+library(psych)
 
 #Only retain relevant variables
 dataudit <- subset(dat0, 
@@ -208,7 +209,7 @@ hist(v1$audit_total_score, breaks=10, xlab = "AUDIT Score", ylim=c(0,50), col = 
 hist(v2$audit_total_score, breaks=10, xlab = "AUDIT Score", ylim=c(0,50), col = c("lightyellow"), main = "AUDIT total Score (visit 2 only)")
 hist(v3$audit_total_score, breaks=10, xlab = "AUDIT Score", ylim=c(0,50), col = c("lightyellow"), main = "AUDIT total Score (visit 3 only)")
 
-
+par(mfrow=c(1,1))
 
 
 #________________________________________________________________________________________ 

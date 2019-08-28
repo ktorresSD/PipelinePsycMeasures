@@ -230,6 +230,7 @@ score <- function(x)
  score_datphq15$score_interpretation_PHQ15 <- as.factor(score_datphq15$score_interpretation_PHQ15)
  score_datphq15$score_interpretation_PHQ15<- factor(score_datphq15$score_interpretation_PHQ15, levels = c("minimal", "low", "medium", "high"))
  
+ par(mfrow=c(1,1))
  # Subject count for each PHQ-15 category
  barplot(table(score_datphq15$score_interpretation_PHQ15), 
          col = c( "peachpuff", "mistyrose" ,"lavender", "lightblue"), 

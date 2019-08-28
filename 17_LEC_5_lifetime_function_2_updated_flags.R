@@ -454,7 +454,7 @@ flag_func <- function(x)
     
     if(!(is.na(LEC5_2_fir_da))){
       if(LEC5_2_fir_da== 1 & (LEC5_2_fir_htm==1 | LEC5_2_fir_wi==1 |LEC5_2_fir_lai==1 | LEC5_2_fir_pomj==1)){flag2 <- 1}else{flag2<- 0}
-    }else{flag2<NA}
+    }else{flag2<-NA}
     
     if(!(is.na(LEC5_3_acc_da))){
       if(LEC5_3_acc_da== 1 & (LEC5_3_acc_htm==1 | LEC5_3_acc_wi==1 |LEC5_3_acc_lai==1 | LEC5_3_acc_pomj==1)){ flag3 <- 1}else{flag3<- 0}

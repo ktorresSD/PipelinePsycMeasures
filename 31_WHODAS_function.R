@@ -414,17 +414,17 @@ Mode(v3$score_sum_imputed)
 Mode(datwhodas_scored$score_sum_imputed)
 
 
-#summary statistics for diability percentage
-describe(v1$summaryscore_imputed)
-describe(v2$summaryscore_imputed)
-describe(v3$summaryscore_imputed)
-describe(datwhodas_scored$summaryscore_imputed)
-
-
-Mode(v1$summaryscore_imputed)
-Mode(v2$summaryscore_imputed)
-Mode(v3$summaryscore_imputed)
-Mode(datwhodas_scored$summaryscore_imputed)
+# #summary statistics for diability percentage
+# describe(v1$summaryscore_imputed)
+# describe(v2$summaryscore_imputed)
+# describe(v3$summaryscore_imputed)
+# describe(datwhodas_scored$summaryscore_imputed)
+# 
+# 
+# Mode(v1$summaryscore_imputed)
+# Mode(v2$summaryscore_imputed)
+# Mode(v3$summaryscore_imputed)
+# Mode(datwhodas_scored$summaryscore_imputed)
 
 #________________________________________________________________________________________ 
 #Export

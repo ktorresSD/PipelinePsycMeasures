@@ -157,7 +157,7 @@ gad7 <- function(x){
 #Calculate summary scores in data 
  gad7_scores <- adply(datgad, 1, gad7)
  
- 
+ par(mfrow=c(1,1))
  #check for consistency between GAD7 total scores and 8_difficult
  plot(gad7_scores$gad7_total, gad7_scores$gad8_difficult, xlab= "GAD-7 Total Scores", ylab= "Impact of problems", main= "Total scores and impact of problems on quality of life \n (Checking for inconsistency). ", pch= 16, col= "deepskyblue3")
  

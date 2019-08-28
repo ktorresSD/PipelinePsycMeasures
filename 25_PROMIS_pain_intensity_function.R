@@ -137,12 +137,12 @@ hist(promis_scored$pain_interferance, breaks=10, xlab = "Pain score", ylim=c(0,4
 
 #comparing pain scores
 par(mfrow=c(1,1))
-plot(promis_scored$pain_interferance, promis_scored$pain_intensity, main= "Pain Intensity vs Pain Interefance scores", 
-     xlab= "Pain Interferance scores", ylab= "Pain Intensity Scores", pch= 16, col= "blue")
+plot( promis_scored$pain_intensity, promis_scored$pain_interferance, main= "Pain Intensity vs Pain Interefance scores", 
+     ylab= "Pain Interferance scores", xlab= "Pain Intensity Scores", pch= 16, col= "blue")
 #correlation between pain scores
 cor.test(promis_scored$pain_interferance, promis_scored$pain_intensity, use="pairwise.complete.obs")
 
-abline(lm(promis_scored$pain_intensity~promis_scored$pain_interferance))
+abline(lm(promis_scored$pain_interferance~promis_scored$pain_intensity))
 
 
 #________________________________________________________________________________________ 

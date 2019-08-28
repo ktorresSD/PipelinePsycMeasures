@@ -198,6 +198,7 @@ paren_score <- function(y)
   {
     for (v in 1:length(y)) assign(names(y)[v], y[[v]])
     
+    # HEQb21_divorced1<-as.numeric(HEQb21_divorced)
     
     HEQ_overall_score <- q1 + HEQa2_late + q3 + HEQa4_pickup + q5 + q6 + q7 + q8 + q9 + q10 +
       q11 + q12 + q1b + HEQb2_punish + HEQb3_household + HEQb4_wondered + HEQb5_people +

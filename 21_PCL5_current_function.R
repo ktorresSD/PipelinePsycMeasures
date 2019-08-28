@@ -281,14 +281,17 @@ pcl_5_current <- function(x)
     pcl_5_e_dsm5_infer <- sum(pcl_5_e_gt2_infer) >= 2
 
     #Assign TRUE if all PCL sub-symptoms are TRUE
-    pcl_5_dsm_infer <- as.numeric(
+    pcl_5_dsm_infer0 <- as.numeric(
                     sum(pcl_5_b_dsm5_infer, pcl_5_c_dsm5_infer, pcl_5_d_dsm5_infer, pcl_5_e_dsm5_infer) == 4
                         )
-    # if(pcl_5_dsm_infer == TRUE)
-    # {
-    #  pcl_5_dsm = 1
-    # }    
-    # 
+    
+    pcl_5_dsm_infer <- pcl_5_dsm
+    
+    if(pcl_5_dsm_infer0 == TRUE)
+    {
+     pcl_5_dsm_infer = 1
+    }
+
                 
     scores <- data.frame(pcl_b,pcl_c,pcl_d,pcl_e,pcl_total, pcl_incomplete, pcl_33,pcl_5_dsm,  pcl_5_dsm_infer, data_complete_pcl_curr, data_not_attempted_pcl_curr, completeness_pcl_curr)
     
