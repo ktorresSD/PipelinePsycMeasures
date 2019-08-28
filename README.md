@@ -1,5 +1,5 @@
 # PipelinePsycMeasures
-Pipeline that runs the 31 scripts I created to score and QC a variety of psychiatric measures and demographic information
+Pipeline that runs the over 36 scripts I created to score and QC a variety of psychiatric measures and demographic information
 
 Run "0_Pipeline".
 This will need the most up to date full dataset from subject database.
