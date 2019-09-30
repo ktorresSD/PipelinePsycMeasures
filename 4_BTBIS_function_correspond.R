@@ -3,7 +3,7 @@
 # Author: Katy Torres
 # Description: Subset of question 4, 4_BTBIS
 ##########################################################################################
-btbis <- function(dat0, exportdate)
+btbis <- function(dat0)
 {
 #Load plyr library
 library(plyr)
@@ -328,9 +328,6 @@ demo_wide$no_to_no<- ifelse(demo_wide$q1_yes.1 == 0 & demo_wide$q1_yes.2== 0 , "
   #________________________________________________________________________________________ 
   #Export datBTBISa
   #----------------------------------------------------------------------------------------
-  filename <- paste("~/Biobank/4_BTBIS/BTBIS_scored_data_export_correspond_per_question.csv", sep="")
-  write.csv(mrged, filename,quote=T,row.names=F,na="#N/A")
-
   
   filename <- paste("~/Biobank/4_BTBIS/BTBIS_scored_data_export.csv", sep="")
   write.csv( newdata, filename,quote=T,row.names=F,na="#N/A")

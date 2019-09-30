@@ -19,9 +19,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20190816.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_July 19_kt.csv',header=T, na.strings=c("",NA))
-exportdate <- "20190710"
+dataset <- read.csv('joined_data_export_20190920.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_September_2019_kt.csv',header=T, na.strings=c("",NA))
+exportdate <- "20190927"
 
 dim(dataset)
 dim(core)
@@ -39,7 +39,7 @@ dim(dat0)
 
 #Export data
 filename <- paste("~/Biobank/data/complete_database_", exportdate, ".csv", sep="")
-#write.csv(dat0, filename,quote=T, row.names=F,na="NA")
+write.csv(dat0, filename,quote=T, row.names=F,na="NA")
 
 table(dat0$visit_number)
 
