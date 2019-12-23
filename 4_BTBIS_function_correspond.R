@@ -3,7 +3,7 @@
 # Author: Katy Torres
 # Description: Subset of question 4, 4_BTBIS
 ##########################################################################################
-btbis <- function(dat0)
+btbis <- function(dat0, exportdate)
 {
 #Load plyr library
 library(plyr)

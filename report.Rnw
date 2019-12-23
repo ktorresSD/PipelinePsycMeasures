@@ -1,0 +1,167 @@
+% Stat 696: Knitr illustration for online video
+% Illustrating knitr to present analyses of College data from ISLR text
+% Packages required: knitr, xtable, stargazer, ISLR
+% To use, make sure to call library(knitr) first in console
+% To run and create a .tex file: knit('knitr_ClassVersion.Rnw') in R
+% August 24, 2017
+
+% Preface required in the knitr RnW file
+\documentclass{article}
+
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{latexsym}
+\usepackage{color}
+\usepackage{listings} % allows for importing code scripts into the tex file
+\usepackage{wrapfig} % allows wrapping text around a figure
+\usepackage{lipsum} % provides Latin text to fill up a page in this illustration (do not need it otherwise!)
+
+% Approximately 1 inch borders all around
+\setlength\topmargin{-.56in}
+\setlength\evensidemargin{0in}
+\setlength\oddsidemargin{0in}
+\setlength\textwidth{6.49in}
+\setlength\textheight{8.6in}
+
+% Options for code listing; from Patrick DeJesus, October 2016
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+%"mystyle" code listing set
+\lstset{style=mystyle}
+%\lstset{inputpath=appendix/}
+
+
+\title{CESAMH Biobank, Freeze 2 Report \texttt{knitr}} 
+\author{Katy Torres}
+
+\begin{document} 
+\SweaveOpts{concordance=TRUE}
+\maketitle
+
+% Code to start knitr
+<<include=FALSE>>=
+  library(knitr)
+opts_chunk$set(
+  concordance=TRUE
+)
+@
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Code snippet to load in libraries and data  
+% THIS IS HOW R-CODE IS READ INTO LaTeX DOC WITH knitr
+% Environment:  
+  % <<...>>=  
+  % [Code here] 
+% @
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  <<load data, include=FALSE>>=
+  # Load in libraries, load in data and set up variables
+  library(ISLR)
+library(stargazer)
+library(xtable)
+
+rm(list=ls(all=TRUE)) # remove all previous objects from memory
+
+dataset <- read.csv('C:/Users/Nievergelt Lab/Documents/Biobank/21_PCL_5_monthly/pcl5_current_scored_data_export.csv',header=T,na.strings=c("#N/A",NA))
+
+@
+  
+  Below is a few observations from the PCL-5 Current data set.  
+% Short view of the data
+<<view data>>=
+head(dataset)
+@
+
+<<echo=FALSE>>=
+ library(psych)
+ 
+ table(pcl_5_scorescurr$completeness_pcl_curr)
+ 
+ #completeness table
+ table(pcl_5_scorescurr$completeness_pcl_curr, pcl_5_scorescurr$visit_number)
+ 
+ #subset by visit to get report information
+ v1 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==1), ]
+ v2 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==2), ]
+ v3 <- pcl_5_scorescurr[ which(pcl_5_scorescurr$visit_number==3), ]
+ 
+ 
+ table(v1$completeness_pcl_curr)
+ table(v2$completeness_pcl_curr)
+ table(v3$completeness_pcl_curr)
+ 
+ #summary statistics for total PCL
+ describe(v1$pcl_total)
+ describe(v2$pcl_total)
+ describe(v3$pcl_total)
+ describe(pcl_5_scorescurr$pcl_total)
+ @
+ 
+\newpage
+
+We can also present results in the text using {\tt Sexpr}.  For example, in the College data set, there are \Sexpr{numvars} variables and the sample size is $n = $ \Sexpr{dim(College)[1]}.  Now let us replicate the \LaTeX\ document we created earlier in this video.
+
+Let us start with an example from {\tt stargazer}.  I cut-and-pasted the \LaTeX\ code created by stargazer in R.  Recall we added a caption and label to reference the table.  Table~\ref{descrips} presents summary statistics for the College data set.  {\em Here you would then provide a brief description of the variables and any interesting findings about the statistics displayed.}
+% We <<echo=FALSE>> to ask knitr not to present the R code in the output.
+% We use results="asis" to force knitr to present the table code for compiling in LaTeX.
+<<summary statistics, results="asis", echo=FALSE>>=
+# stargazer illustration: summary statistics of the College data set
+# Note that we add a caption (title in stargazer) and label for the LaTeX code.
+stargazer(dataset, title="Summary statistics for the PCL-5 Current data set.", label="descrips")
+@
+
+
+\newpage
+Let us now present an example of wrapping a figure with text in \LaTeX. 
+% Notice that construction a figure in knitr requires setting the figure environment in LaTeX and then
+%  drawing the figure in R to send to LaTeX (so knitr R snippet within a LaTeX coded environment.)
+
+% Syntax for wrapfigure: \begin{wrapfigure}[lineheight]{position}{width}
+% Position could be R/r, l/L, i/I, o/O (right, left, inside edge, outside edge; uppercase version allows the figure to float, lowercase "exactly here".
+\begin{wrapfigure}{R}{0.5\textwidth} % second parameter specifies percentage of text width image should cover
+\centering
+% Note that we do not need the includegraphics command, knitr does that for us.
+%  But we do need to tell knitr any graphic specifications such as graphic width.
+<<echo=FALSE, out.width='0.45\\textwidth'>>=
+# Box plot of out-of-state tuition by College's elite status
+ #histogram
+ hist(pcl_5_scorescurr$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), 
+      main = "PCL total Score (all visits)")
+
+@
+  \caption{Histogram of PCL-5 scores for all visits.}
+\label{Histogram}
+\end{wrapfigure}
+
+\lipsum[1]
+\lipsum[2]
+
+
+% Create an appendix of code: we will present this knitr code here, not the Rtools.R code.
+% The listing package in LaTeX provides a clean presentation of code in your report just by
+% calling the R/Rnw file itself!
+  \newpage
+\noindent \Large{{\bf R Code}}
+\lstinputlisting[language=R, caption = Code Used for this knitr exercise]{knitr_ClassVersion.Rnw}
+% All you need to change is the file name and caption.
+
+\end{document}

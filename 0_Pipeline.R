@@ -19,9 +19,9 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20190920.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_September_2019_kt.csv',header=T, na.strings=c("",NA))
-exportdate <- "20190927"
+dataset <- read.csv('joined_data_export_20191216.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_20191216.csv',header=T, na.strings=c("",NA))
+exportdate <- "20191216"
 
 dim(dataset)
 dim(core)
@@ -30,11 +30,11 @@ dim(core)
 # MERGE DATASETS TOGETHER
 #------------------------------------------------------------------------
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
-dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
+dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = FALSE)
 dim(dat00)
 
 #REMOVE EXCLUDED SUBJECTS
-dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071, 26265, 25783, 28003), ]
+dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071, 26265, 25783, 28003, 29770), ]
 dim(dat0)
 
 #Export data
@@ -94,7 +94,7 @@ source("33_MASQ_script.r")
 c1<- audit(dat0, exportdate)
 #batl2(dat0, exportdate)       #NO LONGER IN USE
 #batl3(dat0, exportdate)       #NO LONGER IN USE
-c4<-btbis(dat0, core, exportdate)
+c4<-btbis(dat0, exportdate)
 basicdemo(dat0, exportdate)
 basicpain(dat0, exportdate)
 c7<- briefCESAM(dat0, exportdate)
@@ -127,8 +127,6 @@ c33<- masq(dat0, exportdate)
 
 completelist<- list(c1,c4,c7,c8,c10,c11,c12,c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c27, c28, c29, c30, c31,c32,c33)
 completedataframe<-join_all(completelist, by="assessment_id")
-View(completedataframe)
-
 completedataframe1<- merge(core, completedataframe, by=c("assessment_id"), all = TRUE)
 
 
