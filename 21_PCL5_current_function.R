@@ -6,6 +6,10 @@
 pclcurrent<- function(dat0, exportdate)
 {
   
+  
+  
+#dat0<- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_2_2019_data/complete_database_FREEZE_2_minus_missing_pcl.csv")
+
 #Load plyr library
  library(plyr)
 
@@ -35,13 +39,6 @@ pclcurrent<- function(dat0, exportdate)
                     pcl5_m_20_sleep,
                     PCL5m_sum
                ))
- 
- #Check each item is within range 1-5
- datpclcurr$within_range <- sapply(1:nrow(datpclcurr), function(x) { 
-   tr <- datpclcurr[x, c(4:23)]
-   all(tr >= 0 & tr <= 4)
- })
- 
  
 #Scoring function defined
 pcl_5_current <- function(x)
@@ -309,6 +306,10 @@ pcl_5_current <- function(x)
                            vista_lastname <- NULL
                          })
 
+# write.csv( pcl_5_scorescurr, "C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_2_2019_data/pcl_current_scored_freeze2.csv",quote=T,row.names=F,na="NA")
+ 
+ 
+ 
  
  #________________________________________________________________________________________ 
  #Report
@@ -352,9 +353,9 @@ pcl_5_current <- function(x)
  #histograms
  par(mfrow=c(2,2))
  hist(pcl_5_scorescurr$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (all visits)")
- hist(v1$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 1 only)")
- hist(v2$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 2 only)")
- hist(v3$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,45), col = c("lightyellow"), main = "PCL total Score (visit 3 only)")
+ hist(v1$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,30), col = c("lightyellow"), main = "PCL total Score (visit 1 only)")
+ hist(v2$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,30), col = c("lightyellow"), main = "PCL total Score (visit 2 only)")
+ hist(v3$pcl_total, breaks=10, xlab = "PCL score", ylim=c(0,30), col = c("lightyellow"), main = "PCL total Score (visit 3 only)")
  
 
  

@@ -220,10 +220,10 @@ score <- function(x)
  
  #histograms
  par(mfrow=c(2,2))
- hist(score_datphq15$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (all visits)")
- hist(v1$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 1 only)")
- hist(v2$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 2 only)")
- hist(v3$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,30), col = c("lightyellow"), main = "PHQ-15 total Score (visit 3 only)")
+ hist(score_datphq15$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ-15 total Score (all visits)")
+ hist(v1$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ-15 total Score (visit 1 only)")
+ hist(v2$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ-15 total Score (visit 2 only)")
+ hist(v3$phq15_score_total, breaks=10, xlab = "PHQ-15 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ-15 total Score (visit 3 only)")
  
  
  #reorder factors

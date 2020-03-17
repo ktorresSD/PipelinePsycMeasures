@@ -32,13 +32,7 @@ datpanas <- subset(dat0, select= c(assessment_id,vista_lastname,visit_number,
                         panas17_atten,
                         panas18_jitt,
                         panas19_act,
-                        panas20_afraid,
-                        
-                        Panas.Positive,
-                        Positive.Affect.Score,
-                        Negative.Affect.Score,
-                        PANAS.Positive,
-                        Liz.s.Formula
+                        panas20_afraid
                         
               ))
 
@@ -160,6 +154,34 @@ data_not_attempted_panas <- as.numeric(
   ) == 20
 )
 
+N_answered_positive <- 
+  sum( !(is.na( c(panas1_interest ,
+        panas3_excite ,
+        panas5_strong ,
+        panas9_enth ,
+        panas10_proud ,
+        panas12_alert ,
+        panas14_insp ,
+        panas16_deter ,
+        panas17_atten ,
+        panas19_act)
+    ))
+  )
+
+
+N_answered_negative <- 
+  sum( !(is.na( c(panas2_distress,
+        panas4_upset,
+        panas6_guilt,
+        panas7_scare,
+        panas8_host,
+        panas11_irri,
+        panas13_asham,
+        panas15_nerv,
+        panas18_jitt,
+        panas20_afraid)
+    ))
+)
 
 completeness_panas<- "1"
 if(!(is.na(data_not_attempted_panas))){
@@ -177,7 +199,7 @@ if(!(is.na(data_complete_panas))){
 if(data_not_attempted_panas==0 & data_complete_panas==0 ){
   completeness_panas <- "partially completed"}else{}
 
-scorespanas <- data.frame(Positive_Affect_Score, Negative_Affect_Score, data_complete_positive, data_complete_negative, data_complete_panas, data_not_attempted_panas, completeness_panas)
+scorespanas <- data.frame(Positive_Affect_Score, Negative_Affect_Score, data_complete_positive, data_complete_negative, data_complete_panas, N_answered_negative, N_answered_positive, data_not_attempted_panas, completeness_panas)
 
 return(scorespanas)
 }

@@ -5,11 +5,13 @@
 ##########################################################################################
 HEQfunc<- function(dat0, exportdate)
 {
+ #dat <- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/32_HEQ/HEQ_reduced_data_export.CSV")
  dat<-dat0[dat0$visit_number==1,]
   
   #Load libraries
   library(plyr)
   library(ggplot2)
+  library(matrixStats)
   
   #Only retain relevant variables
   datheq<- subset(dat, 
@@ -18,24 +20,21 @@ HEQfunc<- function(dat0, exportdate)
                                HEQ0_rel,
                                HEQ1_rel_2,
                                HEQ1_rel_3,
+                               HEQ1_rel_4,
                                HEQ1_rel,
                                
                                HEQa1_routine,
-                               HEQa2_late,
-                               HEQa3_after,
                                HEQa4_pickup,
                                HEQa5_track,
                                HEQa6_meal,
-                               
                                HEQa7_sleep,
                                HEQa8_bedtime,
                                HEQa9_afterschool,
                                HEQa10_home,
-                               HEQa11_event,
                                HEQa12_homework,
+                               
                                HEQb1_progress,
                                HEQb2_punish,
-                               HEQb3_household,
                                HEQb4_wondered,
                                HEQb5_people,
                                HEQb6_doing,
@@ -55,14 +54,15 @@ HEQfunc<- function(dat0, exportdate)
                                HEQb20_stable,
                                HEQb21_divorced,
                                HEQb22_partner,
+                               
                                HEQb23_disorganized,
                                HEQb24_unpredictable,
                                HEQb25_act,
                                HEQb26_furious,
                                HEQb27_stressed,
+                               
                                HEQb28_clean,
                                HEQb29_cluttered,
-                               HEQb30_noisy,
                                HEQb31_misplaced,
                                HEQ1_count, HEQ_version
 
@@ -72,168 +72,161 @@ HEQfunc<- function(dat0, exportdate)
 #----------------------------------------------------------------------------------------
 #Reverse_code the following variables
 datheq$q1  <- as.numeric(!datheq$HEQa1_routine)
-datheq$q3  <- as.numeric(!datheq$HEQa3_after)
-datheq$q5  <- as.numeric(!datheq$HEQa5_track)
-datheq$q6  <- as.numeric(!datheq$HEQa6_meal)
-datheq$q7  <- as.numeric(!datheq$HEQa7_sleep)
-datheq$q8  <- as.numeric(!datheq$HEQa8_bedtime)
-datheq$q9  <- as.numeric(!datheq$HEQa9_afterschool)
-datheq$q10 <- as.numeric(!datheq$HEQa10_home)
-datheq$q11 <- as.numeric(!datheq$HEQa11_event)
-datheq$q12 <- as.numeric(!datheq$HEQa12_homework)
-datheq$q1b <- as.numeric(!datheq$HEQb1_progress)
-datheq$q6b <- as.numeric(!datheq$HEQb6_doing)
-datheq$q7b <- as.numeric(!datheq$HEQb7_activities)
-datheq$q9b <- as.numeric(!datheq$HEQb9_tradition)
-datheq$q20b<- as.numeric(!datheq$HEQb20_stable)
-datheq$q28b<- as.numeric(!datheq$HEQb28_clean)
+datheq$q3  <- as.numeric(!datheq$HEQa5_track)
+datheq$q4  <- as.numeric(!datheq$HEQa6_meal)
+datheq$q5  <- as.numeric(!datheq$HEQa7_sleep)
+datheq$q6  <- as.numeric(!datheq$HEQa8_bedtime)
+datheq$q7  <- as.numeric(!datheq$HEQa9_afterschool)
+datheq$q8  <- as.numeric(!datheq$HEQa10_home)
+datheq$q9  <- as.numeric(!datheq$HEQa12_homework)
 
-#check reversing ocde worked 
-cbind(datheq$HEQa5_track, datheq$q5)
+datheq$q10 <- as.numeric(!datheq$HEQb1_progress)
 
-#________________________________________________________________________________________
+datheq$q14 <- as.numeric(!datheq$HEQb6_doing)
+datheq$q15 <- as.numeric(!datheq$HEQb7_activities)
+datheq$q17 <- as.numeric(!datheq$HEQb9_tradition)
+datheq$q28 <- as.numeric(!datheq$HEQb20_stable)
+datheq$q36 <- as.numeric(!datheq$HEQb28_clean)
+
+#Rename non-reverse-coded variables
+datheq$q2   <- datheq$HEQa4_pickup
+datheq$q11  <- datheq$HEQb2_punish
+datheq$q12  <- datheq$HEQb4_wondered
+datheq$q13  <- datheq$HEQb5_people
+
+datheq$q16  <- datheq$HEQb8_plan
+datheq$q18  <- datheq$HEQb10_long
+datheq$q19  <- datheq$HEQb11_custody
+datheq$q20  <- datheq$HEQb12_moved
+datheq$q21  <- datheq$HEQb13_changejob
+datheq$q22  <- datheq$HEQb14_unemployed
+datheq$q23  <- datheq$HEQb15_eat
+datheq$q24  <- datheq$HEQb16_necessities
+datheq$q25  <- datheq$HEQb17_safe
+datheq$q26  <- datheq$HEQb18_frequent
+datheq$q27  <- datheq$HEQb19_midyear
+datheq$q29  <- datheq$HEQb21_divorced
+datheq$q30  <- datheq$HEQb22_partner
+
+datheq$q31  <- datheq$HEQb23_disorganized
+datheq$q32  <- datheq$HEQb24_unpredictable
+datheq$q33  <- datheq$HEQb25_act
+datheq$q34  <- datheq$HEQb26_furious
+datheq$q35  <- datheq$HEQb27_stressed
+
+datheq$q37  <- datheq$HEQb29_cluttered
+datheq$q38  <- datheq$HEQb31_misplaced
+
+
+#check that it worked
+#cbind(datheq$HEQa1_routine,datheq$q1 )
+
+# ________________________________________________________________________________________
 # Missing Data Imputation functions defined
-#----------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
 #12 AND UNDER IMPUTATION
-age012_score <- function(y)
+#Imputes the median for missing items within each scale (up to 2 missing items allowed for Age 0-12)
+
+age012_IMPUTE<- function(y)
   {
-    W<-y[,c("q1","q3","q5","q6","q7","q8","q9","q10","q11","q12","HEQa2_late", "HEQa4_pickup")]
+    W<-y[,c("q1","q2", "q3", "q4","q5","q6","q7","q8","q9")]
     for (v in 1:length(W)) assign(names(W)[v], W[[v]])
-    
+
     na_count <- apply(W, 1, function(i) sum(is.na(i)))
     #print(na_count)
     if(na_count<= 2 && na_count>0 )
     {
-      mn<- rowMeans(W, na.rm=TRUE) 
-      #print(mn)
+      mn<- rowMedians(W, na.rm=TRUE) #CHANGE TO THE MEDIAN FOR THAT COLUMN
+
       W[is.na(W)] <- mn
       W$imputed <- 1
-      #print(W)
-      #print("imputed row")
     }else{ W$imputed <- 0 }
-    
-    age12_total_score <- W$q1+ W$q3+ W$q5+ W$q6+ W$q7+ W$q8+ W$q9+ W$q10+ W$q11+ W$q12+ W$HEQa2_late+ W$HEQa4_pickup
-    #print(age12_total_score)
-    
-    data_complete_age12<- as.numeric(
-      sum(
-        is.na(
-          c(q1,q3,q5,q6,q7,q8,q9,q10,q11,q12,HEQa2_late, HEQa4_pickup
-          )
-        )
-      ) == 0
-    )
-    scores <- data.frame(age12_total_score, data_complete_age12 )
-    return(scores)
-  
-  }
-  
-  #Calculate summary scores in data 
-Age012_scored <- adply(datheq, 1, age012_score)
-  
 
+    return(W$imputed)
+}
 
+#Calculate summary scores in data
+Age012_IMPUTED <- adply(datheq, 1, age012_IMPUTE)
 
-#PARENTAL IMPUTATION
-paren_score <- function(y)
+# #PARENTAL IMPUTATION
+paren_IMPUTE <- function(y)
   {
-    
-    py<-y[,c("HEQb23_disorganized",	"HEQb24_unpredictable",	"HEQb25_act",	"HEQb26_furious",	"HEQb27_stressed")]
+
+    py<-y[,c("q31", "q32", "q33", "q34", "q35" )]
     for (v in 1:length(py)) assign(names(py)[v], py[[v]])
-    
+
     na_count <- apply(py, 1, function(i) sum(is.na(i)))
     if(na_count<= 1 && na_count>0 )
     {
-      mn<- rowMeans(py, na.rm=TRUE) 
+      mn<- rowMedians(py, na.rm=TRUE)
       py[is.na(py)] <- mn
       py$imputed <- 1
       print("missing data in this row")
     }else{ py$imputed <- 0}
-    
-    paren_total_score <- py$HEQb23_disorganized+	py$HEQb24_unpredictable+	py$HEQb25_act+	py$HEQb26_furious+	py$HEQb27_stressed
-    
-    data_complete_paren<- as.numeric(
-      sum(is.na(c(HEQb23_disorganized,	HEQb24_unpredictable,	HEQb25_act,	HEQb26_furious,	HEQb27_stressed))) == 0)
-    scores <- data.frame(paren_total_score, data_complete_paren)
-    return(scores)
+
+    return(py$imputed)
   }
-  
-  #Calculate summary scores in data 
-  paren_scored <- adply(Age012_scored, 1, paren_score)
-  
-  
-  
+
+  #Calculate summary scores in data
+  paren_IMPUTED <- adply(Age012_IMPUTED, 1, paren_IMPUTE)
+
+
+
 #HOUSEHOLD IMPUTATION
-  househ_score <- function(y)
+  househ_IMPUTE <- function(y)
   {
-    hy<-y[,c("q28b","HEQb29_cluttered","HEQb30_noisy","HEQb31_misplaced")]
+    hy<-y[,c("q36","q37","q38")]
     for (v in 1:length(hy)) assign(names(hy)[v], hy[[v]])
-    
+
     na_count <- apply(hy, 1, function(i) sum(is.na(i)))
     if(na_count<= 1 && na_count>0 )
     {
-      mn<- rowMeans(hy, na.rm=TRUE) 
+      mn<- rowMedians(hy, na.rm=TRUE)
       hy[is.na(hy)] <- mn
       hy$imputed <- 1
       #print("missing data in this row")
     }else{ hy$imputed <- 0}
-    
-    househ_total_score <- hy$q28b + hy$HEQb29_cluttered + hy$HEQb30_noisy + hy$HEQb31_misplaced
-    
-    data_complete_househ<- as.numeric(
-      sum(is.na(c(q28b,HEQb29_cluttered,HEQb30_noisy,HEQb31_misplaced))) == 0)
-    scores <- data.frame(househ_total_score, data_complete_househ)
-    return(scores)
-  }
-  
-  #Calculate summary scores in data 
-  househ_scored <- adply(paren_scored, 1, househ_score)
 
+    return(hy$imputed)
+  }
+
+  #Calculate summary scores in data
+  househ_IMPUTED <- adply(paren_IMPUTED, 1,   househ_IMPUTE )
+
+  attach(datheq)
+
+#SUBSCORES
+#--------------------------------------------
+
+datheq$Parental_monitoring <- q1 + q3 + q4 + q5 + q6 + q7 + q9 + q10 + q14
+datheq$Parental_predictability <- q2 + q8 + q11 + q12 + q15 + q16 + q17 + q31 + q32 + q33 + q34 + q35
+datheq$Parental_environment <-  q18 + q19 + q21 + q22 + q28 + q29 + q30
+datheq$Physical_environment <- q13 + q20 + q26 + q27 + q36 + q37 + q38
+datheq$Safety_security <- q23 + q24 + q25
   
+
 #overall score
-  #should ONLY BE IMPUTED IF NO MORE THAN 6 ARE MISSING
-  
-  
+#---------------------------------------------
   overall_score <- function(y)
   {
     for (v in 1:length(y)) assign(names(y)[v], y[[v]])
     
-    # HEQb21_divorced1<-as.numeric(HEQb21_divorced)
+    HEQ_overall_score <- Parental_monitoring  +  Parental_predictability +  Parental_environment +  Physical_environment +  Safety_security
     
-    HEQ_overall_score <- q1 + HEQa2_late + q3 + HEQa4_pickup + q5 + q6 + q7 + q8 + q9 + q10 +
-      q11 + q12 + q1b + HEQb2_punish + HEQb3_household + HEQb4_wondered + HEQb5_people +
-      q6b + q7b + HEQb8_plan + q9b + HEQb10_long + HEQb11_custody + HEQb12_moved + 
-      HEQb13_changejob + HEQb14_unemployed + HEQb15_eat + HEQb16_necessities + HEQb17_safe + 
-      HEQb18_frequent + HEQb19_midyear + q20b + HEQb21_divorced + HEQb22_partner + 
-      HEQb23_disorganized + HEQb24_unpredictable + HEQb25_act +  HEQb26_furious + HEQb27_stressed + 
-      q28b + HEQb29_cluttered + HEQb30_noisy + HEQb31_misplaced
-    
-    HEQ_overall_score_incomp <- sum(c(q1 , HEQa2_late , q3 , HEQa4_pickup , q5 , q6 , q7 , q8 , q9 , q10 ,
-                                      q11 , q12 , q1b , HEQb2_punish , HEQb3_household , HEQb4_wondered , HEQb5_people ,
-                                      q6b , q7b , HEQb8_plan , q9b , HEQb10_long , HEQb11_custody, HEQb12_moved , 
-                                        HEQb13_changejob , HEQb14_unemployed , HEQb15_eat , HEQb16_necessities , HEQb17_safe , 
-                                        HEQb18_frequent , HEQb19_midyear, q20b , HEQb21_divorced , HEQb22_partner , 
-                                        HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
-                                      q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced), na.rm = TRUE)
+    HEQ_overall_score_incomp <- sum(c(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, 
+                                      q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, q28, q29, q30, 
+                                      q31, q32, q33, q34, q35, q36, q37, q38), na.rm = TRUE)
     
     #COMPLETENESS CHECK
     data_complete_heq<- as.numeric(
-      sum(is.na(c(q1 , HEQa2_late , q3 , HEQa4_pickup , q5 , q6 , q7 , q8 , q9 , q10 ,
-                    q11 , q12 , q1b , HEQb2_punish , HEQb3_household , HEQb4_wondered , HEQb5_people ,
-                    q6b , q7b , HEQb8_plan , q9b , HEQb10_long , HEQb11_custody ,  HEQb12_moved , 
-                  HEQb13_changejob , HEQb14_unemployed , HEQb15_eat , HEQb16_necessities , HEQb17_safe , 
-                  HEQb18_frequent , HEQb19_midyear, q20b , HEQb21_divorced , HEQb22_partner , 
-                  HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
-                  q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced))) == 0)
+      sum(is.na(c(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, 
+                  q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, q28, q29, q30, 
+                  q31, q32, q33, q34, q35,  q36, q37, q38))) == 0)
     
     data_not_attempted_heq<- as.numeric(
-      sum(is.na(c(q1 , HEQa2_late , q3 , HEQa4_pickup , q5 , q6 , q7 , q8 , q9 , q10 ,
-                  q11 , q12 , q1b , HEQb2_punish , HEQb3_household , HEQb4_wondered , HEQb5_people ,
-                  q6b , q7b , HEQb8_plan , q9b , HEQb10_long , HEQb11_custody ,  HEQb12_moved , 
-                  HEQb13_changejob , HEQb14_unemployed , HEQb15_eat , HEQb16_necessities , HEQb17_safe , 
-                  HEQb18_frequent , HEQb19_midyear, q20b , HEQb21_divorced , HEQb22_partner , 
-                  HEQb23_disorganized , HEQb24_unpredictable , HEQb25_act ,  HEQb26_furious , HEQb27_stressed, 
-                  q28b , HEQb29_cluttered , HEQb30_noisy , HEQb31_misplaced))) == 43)
+      sum(is.na(c(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, 
+                  q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, q28, q29, q30, 
+                  q31, q32, q33, q34, q35,  q36, q37, q38))) == 38)
     
     
     completeness_heq<- "1"
@@ -257,7 +250,21 @@ paren_score <- function(y)
   }
   
   #Calculate summary scores in data 
-  overall_scored <- adply(househ_scored, 1, overall_score)
+  overall_scored <- adply(datheq, 1, overall_score)
+  
+  names(overall_scored)
+  
+  # # exclude intermerdiate variables
+  # myvars <- names(mydata) %in% c(
+  #   "q1"," q3", "q4", "q5", "q6", "q7", "q8", "q9", 
+  #  "q10"," q14", "q15", "q17", "q28", "q36", "q2", "q11", 
+  #  "q12", "q13", "q16", "q18", "q19", "q20", "q21", "q22", 
+  #  "q23", "q24", "q25", "q26", "q27", "q29", "q30", "q31", 
+  #  "q32", "q33", "q34", "q35", "q37", "q38")
+  #   
+  # newdata <- overall_scored[!overall_scored]
+
+  
 
   #to anonymize data
   overall_scored1<- within( overall_scored,
@@ -276,32 +283,31 @@ paren_score <- function(y)
   
   #summary statistics
   describe(overall_scored$HEQ_overall_score_incomp)
-  describe(overall_scored$age12_total_score)
-  describe(overall_scored$paren_total_score)
-  describe(overall_scored$househ_total_score)  
+  describe(overall_scored$Parental_monitoring)
+  describe(overall_scored$Parental_predictability)
+  describe(overall_scored$Parental_environment)  
+  describe(overall_scored$Physical_environment)  
+  describe(overall_scored$Safety_security)  
+
   
-  #mode
-  Mode <- function(x) {
-    ux <- unique(x)
-    ux[which.max(tabulate(match(x, ux)))]
-  }
   
-  Mode(overall_scored$HEQ_overall_score_incomp)
-  Mode(overall_scored$age12_total_score)
-  Mode(overall_scored$paren_total_score)
-  Mode(overall_scored$househ_total_score)  
-  
-  hist(overall_scored$HEQ_overall_score_incomp, ylim=c(0,50), xlim = c(0,45),
+  hist(overall_scored$HEQ_overall_score_incomp, ylim=c(0,70), xlim = c(0,40),
        xlab = "Overall HEQ score", col = c("steelblue3"), main = "Assessment Count of Total Overall HEQ Score")
   
-  hist(overall_scored$age12_total_score, ylim=c(0,60), xlim = c(0,12),
-       xlab = "Sum Scores of Age 0-12 items", col = c("steelblue3"), main = "Assessment Count of Age 0-12 subscale")
+  hist(overall_scored$Parental_monitoring, ylim=c(0,70), xlim = c(0,9),
+       xlab = "Sum Scores of Parental monitoring", col = c("steelblue3"), main = "Assessment Count of Parental monitoring subscale")
   
-  hist(overall_scored$paren_total_score, ylim=c(0,30), xlim = c(0,5),
-       xlab = "Sum Scores of Parental items", col = c("steelblue3"), main = "Assessment Count of Parental subscale")
+  hist(overall_scored$Parental_predictability, ylim=c(0,70), xlim = c(0,12),
+       xlab = "Sum Scores of Parental_predictability", col = c("steelblue3"), main = "Assessment Count of Parental predictability subscale")
   
-  hist(overall_scored$househ_total_score, ylim=c(0,70), xlim = c(0, 4),
-       xlab = "Sum Scores of Household items", col = c("steelblue3"), main = "Assessment Count of Household subscale")
+  hist(overall_scored$Parental_environment, ylim=c(0,70), xlim = c(0,7),
+       xlab = "Sum Scores of Parental_environment", col = c("steelblue3"), main = "Assessment Count of Parental environment subscale")
+  
+  hist(overall_scored$Physical_environment, ylim=c(0,70), xlim = c(0,7),
+       xlab = "Sum Scores of Physical_environment", col = c("steelblue3"), main = "Assessment Count of Physical environment subscale")
+  
+  hist(overall_scored$Safety_security, ylim=c(0,70),
+       xlab = "Sum Scores of Safety and security", col = c("steelblue3"), main = "Assessment Count of Safety and security subscale")
   
   
   #________________________________________________________________________________________

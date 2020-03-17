@@ -6,6 +6,10 @@
 
 whodas<- function(dat0, exportdate)
 {
+
+  
+  dat0<- read.csv("C:/Users/Nievergelt Lab/Documents/Biobank/00_Freeze_2_2019_data/Scored_measures/WHODAS_scored_data_export.csv",header=T,na.strings=c("#N/A",NA))
+  
   
 #Load plyr library
 library(plyr)
@@ -135,14 +139,11 @@ MissingDat <- function(x)
 }
 
 
-
 # Imputation function called
-#test with subject I know needs imputation
-#whodas_missing_dealt <- adply(dat[dat$assessment_id==8583,], 1, MissingDat)
 whodas_missing_dealt <- adply(datwhodas, 1, MissingDat)
 
 #----------------------------------------------------------------------------------------
-#generate new dataset based on original dataset but with columns added for new columns
+#generate new dataset based on original dataset but with new columns added
 datawhodas1<-datwhodas
 #add imputed column to original data set, stating if the data was imputed or complete
 imputed_columns <- whodas_missing_dealt[,grepl( "imputed" , names(whodas_missing_dealt) ) ]

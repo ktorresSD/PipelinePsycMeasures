@@ -12,16 +12,14 @@ setwd('C:/Users/Nievergelt Lab/Documents/Biobank/data')
 #BEFORE READING IN DATA 
 #  1. go in corefile and change visits variable to "visit_number" before merge. QC this.
 #  2. look at IDs for example: "BB1051" sometimes it is incorrectly written as "Bb1051"
-#  3. make sure it all makes sense
-#  4. Add LEC names to the joined data export file
 
 #________________________________________________________________________________________              
 # READ IN DATA
 # CHANGE FILE NAMES AND EXPORT DATE
 #----------------------------------------------------------------------------------------
-dataset <- read.csv('joined_data_export_20191216.csv',header=T,na.strings=c("#N/A",NA))
-core <- read.csv('biobank_data_corefile_20191216.csv',header=T, na.strings=c("",NA))
-exportdate <- "20191216"
+dataset <- read.csv('joined_data_export_20200313.csv',header=T,na.strings=c("#N/A",NA))
+core <- read.csv('biobank_data_corefile_2020_February_kt.csv',header=T, na.strings=c("",NA))
+exportdate <- "20200313"
 
 dim(dataset)
 dim(core)
@@ -30,11 +28,15 @@ dim(core)
 # MERGE DATASETS TOGETHER
 #------------------------------------------------------------------------
 #merge CPRS corefile and full dataset by assesstment id % LAST NAME
-dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = FALSE)
+dat00 <- merge(core, dataset, by=c("assessment_id", "vista_lastname"), all = TRUE)
 dim(dat00)
 
 #REMOVE EXCLUDED SUBJECTS
-dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071, 26265, 25783, 28003, 29770), ]
+#dat0 <- dat00 [ ! dat00$assessment_id %in% c(8835,17071, 26265, 25783, 28003, 29770), ]
+#dim(dat0)
+
+#REMOVE EXCLUDED SUBJECTS
+dat0 <- dat00 [ ! dat00$assessment_id %in% c(17071, 28003, 29684), ]
 dim(dat0)
 
 #Export data
@@ -43,7 +45,7 @@ write.csv(dat0, filename,quote=T, row.names=F,na="NA")
 
 table(dat0$visit_number)
 
-
+dim(dat0)
 #________________________________________________________________________________________              
 # RUN THROUGH PIPELINE
 #----------------------------------------------------------------------------------------

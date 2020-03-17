@@ -156,10 +156,10 @@ drripbe <- function(dat0, exportdate)
  #Export
  #----------------------------------------------------------------------------------------
  filename <- paste("~/Biobank/11_DRR12_PBE/DRR12_PBE_reduced_data_export.csv", sep="")
- write.csv(score_datpbe, filename,quote=T,row.names=F,na="#N/A")
+ write.csv(score_datpbe, filename,quote=T,row.names=F,na="NA")
  
  filename <- paste("~/Biobank/11_DRR12_PBE/DRR12_PBE_reduced_data_export_DEIDENTIFIED.csv", sep="")
- write.csv(score_datpbe1, filename,quote=T,row.names=F,na="#N/A")
+ write.csv(score_datpbe1, filename,quote=T,row.names=F,na="NA")
  
 print("11_DRRI_PBE_done")
  

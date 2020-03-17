@@ -205,10 +205,10 @@ plot(phq9_scores$phq9_total,phq9_scores$dep10_difficult, xlab= "PHQ-9 Total Scor
  
  #histograms
  par(mfrow=c(2,2))
- hist(phq9_scores$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,45), col = c("lightyellow"), main = "PHQ9 total Score (all visits)")
- hist(v1$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,45), col = c("lightyellow"), main = "PHQ9 total Score (visit 1 only)")
- hist(v2$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,45), col = c("lightyellow"), main = "PHQ9 total Score (visit 2 only)")
- hist(v3$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,45), col = c("lightyellow"), main = "PHQ9 total Score (visit 3 only)")
+ hist(phq9_scores$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ9 total Score (all visits)")
+ hist(v1$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ9 total Score (visit 1 only)")
+ hist(v2$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ9 total Score (visit 2 only)")
+ hist(v3$phq9_total, breaks=10, xlab = "PHQ9 Score", ylim=c(0,60), col = c("lightyellow"), main = "PHQ9 total Score (visit 3 only)")
  
  
  par(mfrow=c(1,1))

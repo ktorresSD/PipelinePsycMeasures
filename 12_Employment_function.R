@@ -6,7 +6,7 @@
 
 employment <- function(dat0, exportdate)
 {
-  
+
 #Only retain relevant variables
 datemploy <- subset(dat0, 
               select= c(assessment_id,vista_lastname,visit_number,
@@ -34,12 +34,15 @@ employ_score <- function(x)
 {
   for (v in 1:length(x)) assign(names(x)[v], x[[v]])
   
+  specific <- ifelse(!is.na(demo_income_spec),1,0)
+  
+  
     if(!(is.na(demo_income_none))){  
       if(demo_income_none == 1 | demo_income_wrk  == 1 | demo_income_unemp == 1 |
       demo_income_dis == 1 | demo_income_gi == 1 | demo_income_retire == 1 |
-      demo_income_other == 1){income <- 1
-      }else{income <- 0}
-  }else{income<-0}
+      demo_income_other == 1 | specific == 1){sources_income <- 1
+      }else{sources_income <- 0}
+  }else{sources_income <-0}
 
 #checking for completeness
 data_complete_employment<- as.numeric(
@@ -50,7 +53,7 @@ data_complete_employment<- as.numeric(
         demo_workstatus,
         demo_hours,
         demo_occupation, 
-        income
+        sources_income
       )
     )
   ) == 0
@@ -64,7 +67,7 @@ data_not_attempted_employment<- as.numeric(
         demo_workstatus,
         demo_hours,
         demo_occupation, 
-        income
+        sources_income
       )
     )
   ) == 5
@@ -78,19 +81,19 @@ if(!(is.na(data_not_attempted_employment))){
 }else{completeness_employment<-NA}
 
 if(!(is.na(data_complete_employment))){
-  if(data_complete_employment==1 & income==1){
+  if(data_complete_employment==1 & sources_income==1){
     completeness_employment <- "complete"} 
-  else if(data_complete_employment==1 & income == 0){
+  else if(data_complete_employment==1 & sources_income == 0){
     completeness_employment <- "partially complete"} 
-  else if(data_complete_employment==0 & income ==1){
+  else if(data_complete_employment==0 & sources_income ==1){
     completeness_employment <- "partially complete"}
   else{}
 }else{completeness_employment<-NA}
 
-  if(data_not_attempted_employment==0 & data_complete_employment==0 & income == 0){
+  if(data_not_attempted_employment==0 & data_complete_employment==0 & sources_income == 0){
     completeness_employment <- "partially completed"}else{}
 
-scores <- data.frame(income, data_not_attempted_employment, data_complete_employment,  completeness_employment)
+scores <- data.frame(sources_income, data_not_attempted_employment, data_complete_employment,  completeness_employment)
 
 return(scores)
 }
